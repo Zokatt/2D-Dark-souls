@@ -23,6 +23,7 @@ namespace _2D_Dark_souls
             base.Initialize();
             // HEY! - Nikolaj
             //Ello - Hoffe
+            // hei - Tai
         }
 
         protected override void LoadContent()
