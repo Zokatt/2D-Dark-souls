@@ -10,7 +10,9 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
+        private List<GameObject> gameObjectList;
         private List <Camera> Camera;
+
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -19,6 +21,10 @@ namespace _2D_Dark_souls
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+
+            _graphics.PreferredBackBufferWidth = screenBounds.Width;
+            _graphics.PreferredBackBufferHeight = screenBounds.Height;
         }
 
         protected override void Initialize()
@@ -26,6 +32,7 @@ namespace _2D_Dark_souls
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            gameObjectList.Add(new Player(new Vector2(0,0)));
             Camera.Add(new Camera());
 
             
