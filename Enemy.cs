@@ -21,6 +21,11 @@ namespace _2D_Dark_souls
             this.sprite = sprite;
         }
 
+        public void AiMovement()
+        {
+
+        }
+
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>("Jimmy");
@@ -39,5 +44,6 @@ namespace _2D_Dark_souls
             base.Draw(spriteBatch);
             color = Color.Black;
         }
+
     }
 }
