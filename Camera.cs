@@ -34,16 +34,15 @@ namespace _2D_Dark_souls
             return Mouse.GetState().Position.ToVector2() + Position - GameWorld.screenBounds.Size.ToVector2() * 0.5f;
         }
 
-        public Camera(Player player = null) 
+        public Camera(Player player) 
         {
             Player = player;
         }
 
         
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime,Player player)
         {
-            if (Player != null)
                 Position = new Vector2(Player.Collision.Center.X, Position.Y);
         }
     }

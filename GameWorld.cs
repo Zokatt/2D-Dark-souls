@@ -10,6 +10,7 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
+        private Player mainPlayer;
         private List<GameObject> gameObjectList;
         private List <Camera> Camera;
 
@@ -32,8 +33,9 @@ namespace _2D_Dark_souls
             // TODO: Add your initialization logic here
             gameObjectList = new List<GameObject>();
             Camera = new List<Camera>();
+            mainPlayer = new Player(new Vector2(0,0));
             gameObjectList.Add(new Player(new Vector2(0, 0)));
-            Camera.Add(new Camera());
+            Camera.Add(new Camera(mainPlayer));
 
             base.Initialize();
 
@@ -71,7 +73,7 @@ namespace _2D_Dark_souls
 
             foreach (var item in Camera)
             {
-                item.Update(gameTime);
+                item.Update(gameTime,mainPlayer);
             }
             base.Update(gameTime);
         }
