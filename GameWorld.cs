@@ -22,6 +22,7 @@ namespace _2D_Dark_souls
 
             base.Initialize();
             // HEY! - Nikolaj
+            // Hey  - Tai!
         }
 
         protected override void LoadContent()
