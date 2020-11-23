@@ -8,3 +8,6 @@ namespace _2D_Dark_souls
 {
 }
 }
+// HEY! - Nikolaj
+//Ello - Hoffe
+// hei - Tai
