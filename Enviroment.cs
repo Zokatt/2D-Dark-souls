@@ -6,18 +6,21 @@ using System.Text;
 
 namespace _2D_Dark_souls
 {
-    internal class Enviroment : GameObject
+    class Enviroment : GameObject
     {
         public override void LoadContent(ContentManager contentManager)
         {
+            throw new NotImplementedException();
         }
 
         public override void OnCollision(GameObject other)
         {
+            throw new NotImplementedException();
         }
 
         public override void Update(GameTime gametime)
         {
+            throw new NotImplementedException();
         }
     }
 }

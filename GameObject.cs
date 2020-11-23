@@ -7,7 +7,6 @@ using System.Text;
 
 namespace _2D_Dark_souls
 {
-    //Ello
     public abstract class GameObject
     {
         protected Texture2D sprite;
