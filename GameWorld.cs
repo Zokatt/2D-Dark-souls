@@ -15,6 +15,8 @@ namespace _2D_Dark_souls
         private List<GameObject> gameObjectList;
         private List <Camera> Camera;
 
+        private List<GameObject> enviroment;
+
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -54,6 +56,7 @@ namespace _2D_Dark_souls
             {
                 item.LoadContent(this.Content);
             }
+            
 
             mainPlayer.LoadContent(this.Content);
 
@@ -73,7 +76,16 @@ namespace _2D_Dark_souls
             {
                 item.Update(gameTime);
             }
-
+            //_____________________________________________________________________________________________________________________________
+            foreach (GameObject go in gameObjectList)
+            {
+                go.Update(gameTime);
+                foreach(Enviroment other in enviroment)
+                {
+                    go.CheckCollision(other);
+                }
+            }
+            //_____________________________________________________________________________________________________________________________
             MainCamera.Update(gameTime);
 
             base.Update(gameTime);
