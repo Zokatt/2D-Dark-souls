@@ -8,7 +8,7 @@ using System.Text;
 
 namespace _2D_Dark_souls
 {
-    internal class Player : GameObject
+    public class Player : GameObject
     {
         private int hp;
         private int speed;
