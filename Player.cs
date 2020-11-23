@@ -31,11 +31,11 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.Up))
             {
-                position.Y++;
+                position.Y--;
             }
             else if (state.IsKeyDown(Keys.Down))
             {
-                position.Y--;
+                position.Y++;
             }
             else if (state.IsKeyDown(Keys.Left))
             {
