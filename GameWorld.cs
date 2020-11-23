@@ -30,10 +30,13 @@ namespace _2D_Dark_souls
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameObjectList = new List<GameObject>();
+            Camera = new List<Camera>();
+            gameObjectList.Add(new Player(new Vector2(0, 0)));
+            Camera.Add(new Camera());
 
             base.Initialize();
-            gameObjectList.Add(new Player(new Vector2(0,0)));
-            Camera.Add(new Camera());
+
 
             
         }
@@ -43,6 +46,11 @@ namespace _2D_Dark_souls
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
+
+            foreach (var item in gameObjectList)
+            {
+                item.LoadContent(this.Content);
+            }
 
             // TODO: use this.Content to load your game content here
 
@@ -56,6 +64,10 @@ namespace _2D_Dark_souls
 
             // TODO: Add your update logic here
 
+            foreach (var item in gameObjectList)
+            {
+                item.Update(gameTime);
+            }
 
             foreach (var item in Camera)
             {
@@ -82,7 +94,16 @@ namespace _2D_Dark_souls
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            _spriteBatch.Begin();
+
+            foreach (var item in gameObjectList)
+            {
+                item.Draw(this._spriteBatch);
+            }
+
             // TODO: Add your drawing code here
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

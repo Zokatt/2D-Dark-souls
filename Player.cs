@@ -23,6 +23,7 @@ namespace _2D_Dark_souls
         public Player(Vector2 position)
         {
             position = this.position;
+            
         }
 
         private void HandleInput()
@@ -31,11 +32,11 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.Up))
             {
-                position.Y++;
+                position.Y--;
             }
             else if (state.IsKeyDown(Keys.Down))
             {
-                position.Y--;
+                position.Y++;
             }
             else if (state.IsKeyDown(Keys.Left))
             {
@@ -74,7 +75,7 @@ namespace _2D_Dark_souls
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            color = Color.Gray;
+            color = Color.White;
         }
     }
 }
