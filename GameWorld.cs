@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace _2D_Dark_souls
 {
@@ -9,6 +10,7 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
+        private List <Camera> Camera;
 
         public GameWorld()
         {
@@ -22,6 +24,9 @@ namespace _2D_Dark_souls
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            Camera.Add(new Camera());
+
+            
         }
 
         protected override void LoadContent()
@@ -42,6 +47,11 @@ namespace _2D_Dark_souls
 
             // TODO: Add your update logic here
 
+
+            foreach (var item in Camera)
+            {
+                item.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
