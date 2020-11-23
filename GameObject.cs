@@ -4,7 +4,8 @@ using System.Text;
 
 namespace _2D_Dark_souls
 {
-    class GameObject
+    public abstract class GameObject
 {
+        
 }
 }
