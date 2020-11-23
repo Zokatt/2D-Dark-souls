@@ -10,23 +10,20 @@ namespace _2D_Dark_souls
 {
     internal class Player : GameObject
     {
+        private int hp;
+        private int speed;
+        private Vector2 gravity;
+        private Vector2 velocity;
+        private Texture2D[] animation;
+        public bool isDodging;
+        public bool isGrounded;
+        private int dodgeTimer;
+        private int dmg;
+
         public Player(Vector2 position, Texture2D sprite)
         {
             position = this.position;
             sprite = this.sprite;
-        }
-
-        public override void LoadContent(ContentManager contentManager)
-        {
-        }
-
-        public override void OnCollision(GameObject other)
-        {
-        }
-
-        public override void Update(GameTime gametime)
-        {
-            HandleInput();
         }
 
         private void HandleInput()
@@ -49,6 +46,29 @@ namespace _2D_Dark_souls
             {
                 position.X++;
             }
+        }
+
+        public void PlayerAttack()
+        {
+            //Attack!!
+        }
+
+        public void Dodge()
+        {
+            //Do a dodge
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+        }
+
+        public override void Update(GameTime gametime)
+        {
+            HandleInput();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
