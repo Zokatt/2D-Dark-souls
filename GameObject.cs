@@ -24,8 +24,8 @@ namespace _2D_Dark_souls
                 return new Rectangle(
                        (int)position.X,
                        (int)position.Y,
-                       (int)sprite.Width,
-                       (int)sprite.Height
+                       (int)this.sprite.Width,
+                       (int)this.sprite.Height
                    );
             }
         }

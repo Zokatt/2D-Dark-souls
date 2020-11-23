@@ -41,7 +41,7 @@ namespace _2D_Dark_souls
 
         
 
-        public void Update(GameTime gameTime,Player player)
+        public void Update(GameTime gameTime)
         {
                 Position = new Vector2(Player.Collision.Center.X, Position.Y);
         }

@@ -11,6 +11,7 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
         private Player mainPlayer;
+        public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List <Camera> Camera;
 
@@ -34,8 +35,8 @@ namespace _2D_Dark_souls
             gameObjectList = new List<GameObject>();
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0,0));
-            gameObjectList.Add(new Player(new Vector2(0, 0)));
-            Camera.Add(new Camera(mainPlayer));
+            MainCamera = new Camera(mainPlayer);
+            
 
             base.Initialize();
 
@@ -54,6 +55,8 @@ namespace _2D_Dark_souls
                 item.LoadContent(this.Content);
             }
 
+            mainPlayer.LoadContent(this.Content);
+
             // TODO: use this.Content to load your game content here
 
             // Johnny
@@ -71,10 +74,8 @@ namespace _2D_Dark_souls
                 item.Update(gameTime);
             }
 
-            foreach (var item in Camera)
-            {
-                item.Update(gameTime,mainPlayer);
-            }
+            MainCamera.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -96,12 +97,14 @@ namespace _2D_Dark_souls
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
 
             foreach (var item in gameObjectList)
             {
                 item.Draw(this._spriteBatch);
             }
+
+            mainPlayer.Draw(this._spriteBatch);
 
             // TODO: Add your drawing code here
 
