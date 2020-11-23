@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace _2D_Dark_souls
 {
-    public class Game1 : Game
+    public class GameWorld : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -21,6 +21,7 @@ namespace _2D_Dark_souls
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            // HEY!
         }
 
         protected override void LoadContent()
