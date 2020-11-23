@@ -28,7 +28,7 @@ namespace _2D_Dark_souls
 
         public override void LoadContent(ContentManager contentManager)
         {
-            sprite = contentManager.Load<Texture2D>("Jimmy");
+            sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
         }
 
         public override void OnCollision(GameObject other)
