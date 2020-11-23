@@ -23,12 +23,17 @@ namespace _2D_Dark_souls
 
         public Player(Vector2 position)
         {
+            //_____________________________________________________________________________________________________________________________
+            speed = 900;
+            velocity = Vector2.Zero;
+            //_____________________________________________________________________________________________________________________________
             position = this.position;
             
         }
 
         private void HandleInput()
         {
+            velocity = Vector2.Zero;        //_______________________________________________________________________________________________
             KeyboardState state = Keyboard.GetState();
 
             if (state.IsKeyDown(Keys.Up))
@@ -41,7 +46,7 @@ namespace _2D_Dark_souls
             }
             else if (state.IsKeyDown(Keys.Left))
             {
-                position.X--;
+                velocity += new Vector2(-1, 0);         //__________________________________________________________________________________
             }
             else if (state.IsKeyDown(Keys.Right))
             {
@@ -73,6 +78,20 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>("Jimmy");
+            //_____________________________________________________________________________________________________________________________
+            sprites = new Texture2D[3];
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.Left))
+            {
+                for (int i = 0; i < sprites.Length; i++)
+                {
+                    sprites[i] = contentManager.Load<Texture2D>((i + 1) + "JimmyMoveLeft");
+                }
+            }
+            sprite = sprites[0];
+            //_____________________________________________________________________________________________________________________________
+
         }
 
         public override void OnCollision(GameObject other)
@@ -83,6 +102,9 @@ namespace _2D_Dark_souls
         {
             HandleInput();
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+            Move(gametime);
+            Animate(gametime);
 
         }
 
