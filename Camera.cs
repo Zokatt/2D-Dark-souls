@@ -11,7 +11,8 @@ namespace _2D_Dark_souls
         public float Zoom { get; set; } = 0.75f;
         public float Rotation { get; set; } = 0f;
 
-        public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
+        
+
 
         public Matrix TransformMatrix
         {
@@ -21,7 +22,7 @@ namespace _2D_Dark_souls
                     Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
                     Matrix.CreateRotationZ(Rotation) *
                     Matrix.CreateScale(Zoom) *
-                    Matrix.CreateTranslation(new Vector3(screenBounds.Width * 0.5f, screenBounds.Height * 0.5f, 0));
+                    Matrix.CreateTranslation(new Vector3(GameWorld.screenBounds.Width * 0.5f, GameWorld.screenBounds.Height * 0.5f, 0));
             }
         }
 
@@ -30,7 +31,7 @@ namespace _2D_Dark_souls
 
         public Vector2 GetMousePositionGlobal()
         {
-            return Mouse.GetState().Position.ToVector2() + Position - screenBounds.Size.ToVector2() * 0.5f;
+            return Mouse.GetState().Position.ToVector2() + Position - GameWorld.screenBounds.Size.ToVector2() * 0.5f;
         }
 
         public Camera(Player player = null) 

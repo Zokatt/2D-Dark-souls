@@ -12,6 +12,8 @@ namespace _2D_Dark_souls
         private Texture2D collisionTexture;
         private List <Camera> Camera;
 
+        public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
+
         public GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
