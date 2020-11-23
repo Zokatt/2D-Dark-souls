@@ -17,7 +17,8 @@ namespace _2D_Dark_souls
         private Texture2D[] animation;
         public bool isDodging;
         public bool isGrounded;
-        private int dodgeTimer;
+        private bool buttonPress = false;
+        private float dodgeTimer;
         private int dmg;
 
         public Player(Vector2 position)
@@ -55,7 +56,18 @@ namespace _2D_Dark_souls
 
         public void Dodge()
         {
-            //Do a dodge
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.F) && dodgeTimer == 2 && buttonPress == false)
+            {
+                isDodging = true;
+                dodgeTimer = 0;
+                buttonPress = true;
+            }
+            if (state.IsKeyUp(Keys.F)) //you can also press dodge again if you let go of the button
+            {
+                buttonPress = false;
+            }
         }
 
         public override void LoadContent(ContentManager contentManager)
@@ -70,6 +82,8 @@ namespace _2D_Dark_souls
         public override void Update(GameTime gametime)
         {
             HandleInput();
+            dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)

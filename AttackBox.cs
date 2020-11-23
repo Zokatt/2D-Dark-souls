@@ -14,6 +14,7 @@ namespace _2D_Dark_souls
 
         public override void OnCollision(GameObject other)
         {
+
         }
 
         public override void Update(GameTime gametime)
