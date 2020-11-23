@@ -21,7 +21,7 @@ namespace _2D_Dark_souls
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            // HEY!
+            // HEY! - Nikolaj
         }
 
         protected override void LoadContent()
