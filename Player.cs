@@ -20,10 +20,9 @@ namespace _2D_Dark_souls
         private int dodgeTimer;
         private int dmg;
 
-        public Player(Vector2 position, Texture2D sprite)
+        public Player(Vector2 position)
         {
             position = this.position;
-            sprite = this.sprite;
         }
 
         private void HandleInput()
@@ -60,6 +59,7 @@ namespace _2D_Dark_souls
 
         public override void LoadContent(ContentManager contentManager)
         {
+            sprite = contentManager.Load<Texture2D>("Jimmy");
         }
 
         public override void OnCollision(GameObject other)
