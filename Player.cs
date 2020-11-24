@@ -24,6 +24,7 @@ namespace _2D_Dark_souls
         public Player(Vector2 position)
         {
             //_____________________________________________________________________________________________________________________________
+            fps = 5;
             speed = 900;
             velocity = Vector2.Zero;
             //_____________________________________________________________________________________________________________________________
@@ -104,7 +105,7 @@ namespace _2D_Dark_souls
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
 
             Move(gametime);
-            Animate(gametime);
+            
 
         }
 

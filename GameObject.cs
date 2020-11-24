@@ -68,19 +68,6 @@ namespace _2D_Dark_souls
             position += ((velocity * speed) * deltaTime);
         }
 
-        protected void Animate(GameTime gametime)
-        {
-            timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-
-            currentIndex = (int)(timeElapsed * fps);
-            sprite = sprites[currentIndex];
-
-            if (currentIndex >= sprites.Length - 1)
-            {
-                timeElapsed = 0;
-                currentIndex = 0;
-            }
-        }
 
 
     }
