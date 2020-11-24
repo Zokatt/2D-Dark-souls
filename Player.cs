@@ -90,12 +90,9 @@ namespace _2D_Dark_souls
             
             for (int i = 0; i<sprites.Length; i++)
             {
-                sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
+                sprites[i] = contentManager.Load<Texture2D>(i + "JimmyMoveLeft");
             }
-            if (idle == true )
-            {
-                sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
-            }
+            
 
         }
 
@@ -134,5 +131,8 @@ namespace _2D_Dark_souls
             base.Draw(spriteBatch);
             color = Color.White;
         }
+
+
+
     }
 }
