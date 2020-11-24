@@ -73,7 +73,10 @@ namespace _2D_Dark_souls
                 timeElapsed = 0;
                 currentIndex = 0;
             }
+            else if (idle == true)
+            {
 
+            }
         }
     }
 }

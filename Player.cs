@@ -24,7 +24,7 @@ namespace _2D_Dark_souls
 
         public Player(Vector2 position)
         {
-            fps = 4;
+            fps = 5;
             position = this.position;
             
         }
