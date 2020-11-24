@@ -20,6 +20,7 @@ namespace _2D_Dark_souls
         private bool buttonPress = false;
         private float dodgeTimer;
         private int dmg;
+        private bool idle;
 
         public Player(Vector2 position)
         {
@@ -28,7 +29,7 @@ namespace _2D_Dark_souls
             
         }
 
-        private void HandleInput()
+        private void HandleInput(GameTime gametime)
         {
             KeyboardState state = Keyboard.GetState();
 
@@ -41,14 +42,22 @@ namespace _2D_Dark_souls
             else if (state.IsKeyDown(Keys.Left))
             {
                 position.X--;
+                Animation(gametime);
+                idle = false;
             }
             else if (state.IsKeyDown(Keys.Right))
             {
                 position.X++;
+                Animation(gametime);
+                idle = false;
             }
             else if (state.IsKeyUp(Keys.Up))
             {
                 buttonPress = true;
+            }
+            if (state.IsKeyUp(Keys.Left) || state.IsKeyUp(Keys.Right))
+            {
+                idle = true;
             }
         }
 
@@ -75,13 +84,18 @@ namespace _2D_Dark_souls
 
         public override void LoadContent(ContentManager contentManager)
         {
-            //sprite = contentManager.Load<Texture2D>("Jimmy");
+            KeyboardState state = Keyboard.GetState();
+            sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             sprites = new Texture2D[3];
-            for(int i = 0; i<sprites.Length; i++)
+            
+            for (int i = 0; i<sprites.Length; i++)
             {
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
-            sprite = sprites[0];
+            if (idle == true )
+            {
+                sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            }
 
         }
 
@@ -98,9 +112,9 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            HandleInput();
+            HandleInput(gametime);
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            Animation(gametime);
+            
             
 
             if (isGrounded == false)

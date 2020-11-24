@@ -65,9 +65,9 @@ namespace _2D_Dark_souls
             //Calculate the current index
             currentIndex = (int)(timeElapsed * fps);
 
-            sprite = sprites[currentIndex];
+            sprite = sprites[currentIndex + 1];
             //Checks if we need to restart the animation
-            if (currentIndex >= sprites.Length - 1)
+            if (currentIndex >= sprites.Length)
             {
                 //Resets the animation
                 timeElapsed = 0;
