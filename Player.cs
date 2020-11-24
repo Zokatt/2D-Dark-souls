@@ -31,14 +31,11 @@ namespace _2D_Dark_souls
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Up))
+            if (state.IsKeyDown(Keys.Up)&& buttonPress == true)
             {
+                buttonPress = false;
                 isGrounded = false;
                 this.position.Y-=50;
-            }
-            else if (state.IsKeyDown(Keys.Down))
-            {
-                position.Y++;
             }
             else if (state.IsKeyDown(Keys.Left))
             {
@@ -47,6 +44,10 @@ namespace _2D_Dark_souls
             else if (state.IsKeyDown(Keys.Right))
             {
                 position.X++;
+            }
+            else if (state.IsKeyUp(Keys.Up))
+            {
+                buttonPress = true;
             }
         }
 
@@ -80,6 +81,7 @@ namespace _2D_Dark_souls
         {
             if (other is Enviroment)
             {
+                buttonPress = true;
                 isGrounded = true;
             }
             
