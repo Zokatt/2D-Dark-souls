@@ -13,12 +13,14 @@ namespace _2D_Dark_souls
         private int hp;
         private int speed;
         private Vector2 gravity = new Vector2(0, 0);
-        private Vector2 velocity;
+        private Vector2 velocity = new Vector2(0,0);
         private Texture2D[] animation;
         public bool isDodging;
         public bool isGrounded = false;
         private bool buttonPress = false;
+        private bool isJumping = false;
         private float dodgeTimer;
+        private float jumpTimer;
         private int dmg;
 
         public Player(Vector2 position)
@@ -33,17 +35,18 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.Up)&& buttonPress == true)
             {
+                isJumping = true;
                 buttonPress = false;
                 isGrounded = false;
-                this.position.Y-=50;
+                
             }
             else if (state.IsKeyDown(Keys.Left))
             {
-                position.X--;
+                position.X-=4;
             }
             else if (state.IsKeyDown(Keys.Right))
             {
-                position.X++;
+                position.X+=4;
             }
             else if (state.IsKeyUp(Keys.Up))
             {
@@ -93,16 +96,29 @@ namespace _2D_Dark_souls
             HandleInput();
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
 
+            if (isJumping == true)
+            {
+                jumpTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                if (jumpTimer<=0.3f)
+                {
+                        this.position.Y -= 9;
+                }
+                else if (jumpTimer>=0.3f)
+                {
+                    jumpTimer = 0;
+                    isJumping = false;
+                }
+            }
             
 
-            if (isGrounded == false)
+            if (isGrounded == false && isJumping == false)
             {
-                gravity.Y += 0.2f;
+                gravity.Y += 0.5f;
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)
             {
-                gravity.Y = 0;
+                gravity.Y = 0.5f;
             }
 
         }
