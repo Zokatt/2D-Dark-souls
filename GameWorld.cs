@@ -36,7 +36,11 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0,0));
             MainCamera = new Camera(mainPlayer);
-            
+            for (int i = 0; i < 10; i++)
+            {
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2((130 * i - 130), 200)));
+            }
+           
 
             base.Initialize();
 
@@ -67,13 +71,15 @@ namespace _2D_Dark_souls
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
+            
             // TODO: Add your update logic here
 
             foreach (var item in gameObjectList)
             {
                 item.Update(gameTime);
             }
-
+            mainPlayer.Update(gameTime);
             MainCamera.Update(gameTime);
 
             base.Update(gameTime);
