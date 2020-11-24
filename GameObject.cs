@@ -17,7 +17,7 @@ namespace _2D_Dark_souls
         protected SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        public Rectangle Collision
+        public virtual Rectangle Collision
         {
             get
             {
@@ -47,8 +47,6 @@ namespace _2D_Dark_souls
         }
 
         public abstract void Update(GameTime gametime);
-
-        
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {

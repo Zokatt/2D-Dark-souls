@@ -10,11 +10,15 @@ namespace _2D_Dark_souls
     internal class Enviroment : GameObject
     {
         private string chosenSprite;
-        public Enviroment(string sprite, Vector2 position)
+        private int _spriteWidth;
+
+        public Enviroment(string sprite, Vector2 position, int stretch)
         {
+            this._spriteWidth = stretch;
             this.chosenSprite = sprite;
             this.position = position;
         }
+
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>(chosenSprite);
@@ -26,6 +30,26 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
+        }
+
+        public override Rectangle Collision
+        {
+            get
+            {
+                return new Rectangle(
+                       (int)position.X,
+                       (int)position.Y,
+                       (int)this._spriteWidth,
+                       (int)this.sprite.Height
+                   );
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite,
+                new Rectangle((int)position.X, (int)position.Y, _spriteWidth, sprite.Height),
+                new Rectangle(1, 1, sprite.Width, sprite.Height), color);
         }
     }
 }
