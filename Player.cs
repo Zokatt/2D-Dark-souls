@@ -38,7 +38,7 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.Up))
             {
-                position.Y--;
+                this.position.Y--;
             }
             else if (state.IsKeyDown(Keys.Down))
             {
@@ -69,7 +69,7 @@ namespace _2D_Dark_souls
                 dodgeTimer = 0;
                 buttonPress = true;
             }
-            if (state.IsKeyUp(Keys.F)) //you can also press dodge again if you let go of the button
+            if (state.IsKeyUp(Keys.F)) //you can only press dodge again if you let go of the button
             {
                 buttonPress = false;
             }

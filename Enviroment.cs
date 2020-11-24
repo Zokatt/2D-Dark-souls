@@ -9,24 +9,19 @@ namespace _2D_Dark_souls
 {
     internal class Enviroment : GameObject
     {
-        public Vector2 Size { get; set; }
-        
-        public override Rectangle Collision
+        private string chosenSprite;
+        public Enviroment(string sprite, Vector2 position)
         {
-            get { return new Rectangle(position.ToPoint(), (Size).ToPoint()); }
+            this.chosenSprite = sprite;
+            this.position = position;
         }
-
         public override void LoadContent(ContentManager contentManager)
         {
-            contentManager.Load<Texture2D>("StoneGround");
+            sprite = contentManager.Load<Texture2D>(chosenSprite);
         }
 
         public override void OnCollision(GameObject other)
         {
-            if(other is Enviroment)
-            {
-                color = Color.Yellow;
-            }
         }
 
         public override void Update(GameTime gametime)
