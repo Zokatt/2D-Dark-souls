@@ -23,6 +23,7 @@ namespace _2D_Dark_souls
 
         public Player(Vector2 position)
         {
+            fps = 4;
             position = this.position;
             
         }
@@ -74,7 +75,14 @@ namespace _2D_Dark_souls
 
         public override void LoadContent(ContentManager contentManager)
         {
-            sprite = contentManager.Load<Texture2D>("Jimmy");
+            //sprite = contentManager.Load<Texture2D>("Jimmy");
+            sprites = new Texture2D[3];
+            for(int i = 0; i<sprites.Length; i++)
+            {
+                sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
+            }
+            sprite = sprites[0];
+
         }
 
         public override void OnCollision(GameObject other)
@@ -92,7 +100,7 @@ namespace _2D_Dark_souls
         {
             HandleInput();
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-
+            Animation(gametime);
             
 
             if (isGrounded == false)
