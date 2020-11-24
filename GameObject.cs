@@ -48,9 +48,11 @@ namespace _2D_Dark_souls
 
         public abstract void Update(GameTime gametime);
 
+        
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 0.2f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
     }
 }

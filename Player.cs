@@ -12,11 +12,11 @@ namespace _2D_Dark_souls
     {
         private int hp;
         private int speed;
-        private Vector2 gravity;
+        private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity;
         private Texture2D[] animation;
         public bool isDodging;
-        public bool isGrounded;
+        public bool isGrounded = false;
         private bool buttonPress = false;
         private float dodgeTimer;
         private int dmg;
@@ -33,7 +33,8 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.Up))
             {
-                this.position.Y--;
+                isGrounded = false;
+                this.position.Y-=50;
             }
             else if (state.IsKeyDown(Keys.Down))
             {
@@ -77,12 +78,30 @@ namespace _2D_Dark_souls
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Enviroment)
+            {
+                isGrounded = true;
+            }
+            
+            
         }
 
         public override void Update(GameTime gametime)
         {
             HandleInput();
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+
+            
+
+            if (isGrounded == false)
+            {
+                gravity.Y += 0.1f;
+                this.position.Y += gravity.Y;
+            }
+            else if (isGrounded == true)
+            {
+                gravity.Y = 0;
+            }
 
         }
 

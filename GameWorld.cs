@@ -80,6 +80,10 @@ namespace _2D_Dark_souls
                 item.Update(gameTime);
             }
             mainPlayer.Update(gameTime);
+            foreach (var item in gameObjectList)
+            {
+                mainPlayer.CheckCollision(item);
+            }
             MainCamera.Update(gameTime);
 
             base.Update(gameTime);
@@ -108,8 +112,10 @@ namespace _2D_Dark_souls
             foreach (var item in gameObjectList)
             {
                 item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
             }
 
+            DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
 
             // TODO: Add your drawing code here
