@@ -95,7 +95,7 @@ namespace _2D_Dark_souls
 
             if (isGrounded == false)
             {
-                gravity.Y += 0.1f;
+                gravity.Y += 0.2f;
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)
