@@ -92,7 +92,7 @@ namespace _2D_Dark_souls
         {
 
             spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale), 
-                new Rectangle(1,1, sprite.Width, sprite.Height), Color.Black);
+                new Rectangle(1,1, sprite.Width, sprite.Height), Color.Red);
             
             
         }

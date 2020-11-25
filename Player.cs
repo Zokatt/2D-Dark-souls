@@ -66,14 +66,21 @@ namespace _2D_Dark_souls
                 Animation(gametime);
                 idle = false;
             }
-            if (state.IsKeyUp(Keys.Up))
+
+            if (state.IsKeyUp(Keys.Left))
             {
                 buttonPress = true;
                 sprite = spriteIdle;
             }
+            if (state.IsKeyUp(Keys.Right))
+            {
+                buttonPress = true;
+                sprite = spriteIdle;
+            }
+
             if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
             {
-                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400,1));
+                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 250,1));
                 canAttack = false;
                 noHoldDown = false;
                 deleteTimer = 0;

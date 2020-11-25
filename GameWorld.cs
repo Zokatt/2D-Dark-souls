@@ -35,7 +35,10 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1, 200), 5000));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(0, 200), 500));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(500, 200), 500));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
 
             enemyJim = new Enemy(new Vector2(400, -100), 300);
             base.Initialize();

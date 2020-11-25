@@ -18,7 +18,6 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
 
         protected float fps;
-
         private float timeElapsed;
         private int currentIndex;
 
@@ -58,6 +57,8 @@ namespace _2D_Dark_souls
             spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
+
+
         protected void Animation(GameTime gametime)
         {
             //Adds time that has passed since last update
@@ -74,5 +75,6 @@ namespace _2D_Dark_souls
                 currentIndex = 0;
             }
         }
+        
     }
 }
