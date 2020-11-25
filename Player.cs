@@ -118,16 +118,9 @@ namespace _2D_Dark_souls
 
             for (int i = 0; i < sprites.Length; i++)
             {
-<<<<<<< HEAD
-                sprites[i] = contentManager.Load<Texture2D>(i + "JimmyMoveLeft");
-            }
-            
-
-=======
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
->>>>>>> main
         }
 
         public override void OnCollision(GameObject other)
@@ -220,15 +213,11 @@ namespace _2D_Dark_souls
             base.Draw(spriteBatch);
             color = Color.White;
         }
-<<<<<<< HEAD
 
-
-
-=======
         public void DestroyItem(AttackBox item)
         {
             dAttack.Add(item);
         }
->>>>>>> main
+
     }
 }
