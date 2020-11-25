@@ -8,7 +8,7 @@ using System.Text;
 
 namespace _2D_Dark_souls
 {
-    internal class Enemy : GameObject
+    public class Enemy : GameObject
     {
         private int hp;
         private Vector2 offset;
@@ -22,12 +22,14 @@ namespace _2D_Dark_souls
         private Rectangle rectangle;
         private int scale;
         private bool enemyRotate;
+        private GameWorld gameWorld;
 
         // Giver en position og scalering af enemy
-        public Enemy(Vector2 position, int scale)
+        public Enemy(Vector2 position, int scale, int hp)
         {
             this.position = position;
             this.scale = scale;
+            this.hp = hp;
             
         }
 
@@ -66,13 +68,17 @@ namespace _2D_Dark_souls
         {
 
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
-            
 
+            gameWorld = new GameWorld();
 
         }
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Player)
+            {
+                color = Color.White;
+            }
 
         }
 
@@ -80,8 +86,12 @@ namespace _2D_Dark_souls
         {
 
             AiMovement();
+            
 
+            if (hp <= 0)
+            {
 
+            }
 
 
         }
@@ -92,7 +102,7 @@ namespace _2D_Dark_souls
         {
 
             spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale), 
-                new Rectangle(1,1, sprite.Width, sprite.Height), Color.Black);
+                new Rectangle(1,1, sprite.Width, sprite.Height), color);
             
             
         }
