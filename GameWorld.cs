@@ -86,11 +86,11 @@ namespace _2D_Dark_souls
 
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.D))
-            {
-                gameObjectList.Add(new AttackBox(attackSprite, new Vector2(mainPlayer.Collision.X + 300, mainPlayer.Collision.Y), 400));
+            //if (state.IsKeyDown(Keys.D))
+            //{
+            //    gameObjectList.Add(new AttackBox(attackSprite, new Vector2(mainPlayer.Collision.X + 300, mainPlayer.Collision.Y), 400));
                
-            }
+            //}
 
 
         }
@@ -120,20 +120,16 @@ namespace _2D_Dark_souls
                 item.Draw(this._spriteBatch);
                 DrawCollisionBox(item);
             }
+            
+
+            DrawCollisionBox(mainPlayer);
+            mainPlayer.Draw(this._spriteBatch);
             foreach (var item in mainPlayer.Attacks)
             {
                 item.Draw(this._spriteBatch);
                 DrawCollisionBox(item);
             }
 
-            DrawCollisionBox(mainPlayer);
-            mainPlayer.Draw(this._spriteBatch);
-            //foreach (var item in mainPlayer.Attacks)
-            //{
-            //    item.Draw(this._spriteBatch);
-            //    DrawCollisionBox(item);
-            //}
-            
 
             // TODO: Add your drawing code here
 

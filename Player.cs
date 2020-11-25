@@ -153,12 +153,7 @@ namespace _2D_Dark_souls
         {
             base.Draw(spriteBatch);
 
-            foreach (var item in Attacks)
-            {
-                item.Draw(this._spriteBatch);
-                DrawCollisionBox(item);
-            }
-
+           
           
             color = Color.White;
         }

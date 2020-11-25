@@ -14,8 +14,8 @@ namespace _2D_Dark_souls
 
         public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch)
         {
-            this._spriteWidth = stretch;
-            this.sprite = chosenSprite;
+            _spriteWidth = stretch;
+            sprite = chosenSprite;
             this.position = position;
         }
 
