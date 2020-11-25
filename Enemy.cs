@@ -23,6 +23,7 @@ namespace _2D_Dark_souls
         private int scale;
         private bool enemyRotate;
 
+        // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale)
         {
             this.position = position;
@@ -31,7 +32,7 @@ namespace _2D_Dark_souls
         }
 
 
-
+        // Enemy's bevægelseshastighed
         public void AiMovement()
         {
             if (enemyRotate == true)
