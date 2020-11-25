@@ -18,6 +18,12 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
 
         public virtual Rectangle Collision
+        protected float fps;
+
+        private float timeElapsed;
+        private int currentIndex;
+
+        public Rectangle Collision
         {
             get
             {
@@ -51,6 +57,23 @@ namespace _2D_Dark_souls
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        }
+
+        protected void Animation(GameTime gametime)
+        {
+            //Adds time that has passed since last update
+            timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+            //Calculate the current index
+            currentIndex = (int)(timeElapsed * fps + 1);
+
+            sprite = sprites[currentIndex];
+            //Checks if we need to restart the animation
+            if (currentIndex >= sprites.Length - 1)
+            {
+                //Resets the animation
+                timeElapsed = 0;
+                currentIndex = 0;
+            }
         }
     }
 }
