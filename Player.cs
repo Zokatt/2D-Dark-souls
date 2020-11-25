@@ -12,6 +12,8 @@ namespace _2D_Dark_souls
     {
         private int hp;
         private int speed;
+        private Texture2D collisionTexture;
+        private Texture2D attackSprite;
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0,0);
         private Texture2D[] animation;
@@ -22,6 +24,8 @@ namespace _2D_Dark_souls
         private float dodgeTimer;
         private float jumpTimer;
         private int dmg;
+        public List<GameObject> Attacks;
+        private Rectangle hitbox;
 
         public Player(Vector2 position)
         {
@@ -52,11 +56,15 @@ namespace _2D_Dark_souls
             {
                 buttonPress = true;
             }
+            else if (state.IsKeyDown(Keys.D))
+            {
+                PlayerAttack();
+            }
         }
 
         public void PlayerAttack()
         {
-            //Attack!!
+            hitbox = new Rectangle((int)position.X, (int)position.Y,50,50);
         }
 
         public void Dodge()
@@ -78,6 +86,9 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>("Jimmy");
+            collisionTexture = contentManager.Load<Texture2D>("Pixel");
+            attackSprite = contentManager.Load<Texture2D>("StoneGround");
+            Attacks = new List<GameObject>();
         }
 
         public override void OnCollision(GameObject other)
@@ -89,6 +100,20 @@ namespace _2D_Dark_souls
             }
             
             
+        }
+
+        public void DrawCollisionBox(GameObject go)
+        {
+            //Der laves en streg med tykkelsen 1 for hver side af Collision.
+            Rectangle topLine = new Rectangle(go.Collision.X, go.Collision.Y, go.Collision.Width, 1);
+            Rectangle bottomLine = new Rectangle(go.Collision.X, go.Collision.Y + go.Collision.Height, go.Collision.Width, 1);
+            Rectangle rightLine = new Rectangle(go.Collision.X + go.Collision.Width, go.Collision.Y, 1, go.Collision.Height);
+            Rectangle leftLine = new Rectangle(go.Collision.X, go.Collision.Y, 1, go.Collision.Height);
+            //Der tegnes en streg med tykkelsen 1 for hver side af Collision med collsionTexture med farven rød.
+            _spriteBatch.Draw(collisionTexture, topLine, Color.Red);
+            _spriteBatch.Draw(collisionTexture, bottomLine, Color.Red);
+            _spriteBatch.Draw(collisionTexture, rightLine, Color.Red);
+            _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
         public override void Update(GameTime gametime)
@@ -126,6 +151,10 @@ namespace _2D_Dark_souls
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+
+
+            
+          
             color = Color.White;
         }
     }

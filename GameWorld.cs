@@ -78,7 +78,7 @@ namespace _2D_Dark_souls
             base.Update(gameTime);
         }
 
-        private void DrawCollisionBox(GameObject go)
+        public void DrawCollisionBox(GameObject go)
         {
             //Der laves en streg med tykkelsen 1 for hver side af Collision.
             Rectangle topLine = new Rectangle(go.Collision.X, go.Collision.Y, go.Collision.Width, 1);
@@ -103,9 +103,15 @@ namespace _2D_Dark_souls
                 item.Draw(this._spriteBatch);
                 DrawCollisionBox(item);
             }
+            foreach (var item in mainPlayer.Attacks)
+            {
+                item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
+            }
 
             DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
+            
 
             // TODO: Add your drawing code here
 
@@ -113,5 +119,7 @@ namespace _2D_Dark_souls
 
             base.Draw(gameTime);
         }
+
+        
     }
 }
