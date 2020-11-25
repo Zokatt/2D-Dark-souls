@@ -28,6 +28,7 @@ namespace _2D_Dark_souls
 
             _graphics.PreferredBackBufferWidth = screenBounds.Width;
             _graphics.PreferredBackBufferHeight = screenBounds.Height;
+            
         }
 
         protected override void Initialize()
@@ -116,7 +117,7 @@ namespace _2D_Dark_souls
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkSlateGray);
 
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
 
