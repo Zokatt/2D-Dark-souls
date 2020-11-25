@@ -7,7 +7,7 @@ using System.Text;
 
 namespace _2D_Dark_souls
 {
-    internal class AttackBox : GameObject
+    public class AttackBox : GameObject
     {
         //private string chosenSprite;
         private int _spriteWidth;

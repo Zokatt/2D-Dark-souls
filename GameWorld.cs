@@ -10,10 +10,14 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
+        private Texture2D attackSprite;
         private Player mainPlayer;
         public Camera MainCamera;
-        private List<GameObject> gameObjectList;
+        public List<GameObject> gameObjectList;
         private List<Camera> Camera;
+        private int btmpressTimer;
+        private bool btmpress = true;
+        public List<AttackBox> atboxes;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -44,6 +48,7 @@ namespace _2D_Dark_souls
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
+            attackSprite = Content.Load<Texture2D>("PlayerAttackBox");
 
             foreach (var item in gameObjectList)
             {
@@ -51,6 +56,8 @@ namespace _2D_Dark_souls
             }
 
             mainPlayer.LoadContent(this.Content);
+
+            
 
             // TODO: use this.Content to load your game content here
 
@@ -74,8 +81,18 @@ namespace _2D_Dark_souls
                 mainPlayer.CheckCollision(item);
             }
             MainCamera.Update(gameTime);
-
             base.Update(gameTime);
+
+
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.D))
+            {
+                gameObjectList.Add(new AttackBox(attackSprite, new Vector2(mainPlayer.Collision.X + 300, mainPlayer.Collision.Y), 400));
+               
+            }
+
+
         }
 
         public void DrawCollisionBox(GameObject go)
@@ -111,6 +128,11 @@ namespace _2D_Dark_souls
 
             DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
+            //foreach (var item in mainPlayer.Attacks)
+            //{
+            //    item.Draw(this._spriteBatch);
+            //    DrawCollisionBox(item);
+            //}
             
 
             // TODO: Add your drawing code here

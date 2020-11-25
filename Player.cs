@@ -24,13 +24,12 @@ namespace _2D_Dark_souls
         private float dodgeTimer;
         private float jumpTimer;
         private int dmg;
-        public List<GameObject> Attacks;
-        private Rectangle hitbox;
+        public List<AttackBox> Attacks;
 
         public Player(Vector2 position)
         {
             position = this.position;
-            
+            Attacks = new List<AttackBox>();
         }
 
         private void HandleInput()
@@ -44,27 +43,27 @@ namespace _2D_Dark_souls
                 isGrounded = false;
                 
             }
-            else if (state.IsKeyDown(Keys.Left))
+            if (state.IsKeyDown(Keys.Left))
             {
                 position.X-=4;
             }
-            else if (state.IsKeyDown(Keys.Right))
+            if (state.IsKeyDown(Keys.Right))
             {
                 position.X+=4;
             }
-            else if (state.IsKeyUp(Keys.Up))
+            if (state.IsKeyUp(Keys.Up))
             {
                 buttonPress = true;
             }
-            else if (state.IsKeyDown(Keys.D))
+            if (state.IsKeyDown(Keys.D))
             {
-                PlayerAttack();
+                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400));
             }
         }
 
         public void PlayerAttack()
         {
-            hitbox = new Rectangle((int)position.X, (int)position.Y,50,50);
+           Attacks.Add(new AttackBox(attackSprite,new Vector2(0,0),1));
         }
 
         public void Dodge()
@@ -87,8 +86,10 @@ namespace _2D_Dark_souls
         {
             sprite = contentManager.Load<Texture2D>("Jimmy");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
-            attackSprite = contentManager.Load<Texture2D>("StoneGround");
-            Attacks = new List<GameObject>();
+            attackSprite = contentManager.Load<Texture2D>("PlayerAttackBox");
+
+            
+
         }
 
         public override void OnCollision(GameObject other)
@@ -152,8 +153,12 @@ namespace _2D_Dark_souls
         {
             base.Draw(spriteBatch);
 
+            foreach (var item in Attacks)
+            {
+                item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
+            }
 
-            
           
             color = Color.White;
         }
