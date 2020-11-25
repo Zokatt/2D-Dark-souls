@@ -83,7 +83,7 @@ namespace _2D_Dark_souls
 
             if (other is AttackBox)
             {
-                hp -= attackBox.damage;
+                attackBox.damage += hp;
             }
 
         }

@@ -15,7 +15,7 @@ namespace _2D_Dark_souls
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
         public List<Enemy> enemies;
-        private SpriteFont Score;
+        private SpriteFont EnemyTakesDmg;
         public Enemy enemyHP;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
@@ -39,6 +39,7 @@ namespace _2D_Dark_souls
             MainCamera = new Camera(mainPlayer);
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1, 200), 5000));
 
+            //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
             enemies.Add(new Enemy(new Vector2(400, -100), 300, 3));
             base.Initialize();
@@ -62,7 +63,7 @@ namespace _2D_Dark_souls
                 item.LoadContent(this.Content);
             }
 
-            Score = Content.Load<SpriteFont>("Score");
+            EnemyTakesDmg = Content.Load<SpriteFont>("Score");
             // TODO: use this.Content to load your game content here
 
             // Johnny
@@ -137,7 +138,7 @@ namespace _2D_Dark_souls
                 item.Draw(this._spriteBatch);
             }
 
-            _spriteBatch.DrawString(Score, "Enemy HP: " + enemies[0].hp, new Vector2(0, 20), Color.Black);
+            _spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(0, 20), Color.Black);
 
             // TODO: Add your drawing code here
 
