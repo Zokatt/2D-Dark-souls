@@ -48,11 +48,11 @@ namespace _2D_Dark_souls
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Up) && buttonPress == true)
+            if (state.IsKeyDown(Keys.Up) && isGrounded == true && isJumping == false)
             {
                 isJumping = true;
-                buttonPress = false;
                 isGrounded = false;
+                jumpTimer = 0;
             }
             if (state.IsKeyDown(Keys.Right))
             {
@@ -62,7 +62,7 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                position.X -= 4;
+                position.X -= 4;    
                 Animation(gametime);
                 idle = false;
             }
@@ -172,8 +172,8 @@ namespace _2D_Dark_souls
                 }
                 else if (jumpTimer >= 0.3f)
                 {
-                    jumpTimer = 0;
                     isJumping = false;
+                    jumpTimer = 0;
                 }
             }
 
