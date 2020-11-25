@@ -20,8 +20,8 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D enemyJimSprite;
         private Rectangle rectangle;
-        private int enemyXMovement;
         private int scale;
+        private bool enemyRotate;
 
         public Enemy(Vector2 position, int scale)
         {
@@ -34,7 +34,22 @@ namespace _2D_Dark_souls
 
         public void AiMovement()
         {
-            position.X -= 5;
+            if (enemyRotate == true)
+            {
+                if (position.X == 0)
+                {
+                    enemyRotate = false;
+                }
+                position.X -= 5;
+            }
+            if (enemyRotate == false)
+            {
+                if (position.X >= 1000)
+                {
+                    enemyRotate = true;
+                }
+                position.X += 5;
+            }
         }
 
         public override Rectangle Collision
