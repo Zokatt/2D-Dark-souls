@@ -73,7 +73,7 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
             {
-                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400,1));
+                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400,1, 2));
                 canAttack = false;
                 noHoldDown = false;
                 deleteTimer = 0;
@@ -121,6 +121,8 @@ namespace _2D_Dark_souls
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            
+            
         }
 
         public override void OnCollision(GameObject other)
@@ -130,6 +132,7 @@ namespace _2D_Dark_souls
                 buttonPress = true;
                 isGrounded = true;
             }
+
         }
 
         public void DrawCollisionBox(GameObject go)
