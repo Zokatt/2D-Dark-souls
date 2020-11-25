@@ -78,7 +78,7 @@ namespace _2D_Dark_souls
             if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
             {
 
-                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400,1, 2));
+                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300,1, 2));
 
                 canAttack = false;
                 noHoldDown = false;
