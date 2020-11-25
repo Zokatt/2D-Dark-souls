@@ -14,7 +14,9 @@ namespace _2D_Dark_souls
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
-        private Enemy enemyJim;
+        public List<Enemy> enemies;
+        private SpriteFont EnemyTakesDmg;
+        public Enemy enemyHP;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -40,7 +42,9 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
 
-            enemyJim = new Enemy(new Vector2(400, -100), 300);
+            //Tilføjet en liste med enemies
+            enemies = new List<Enemy>();
+            enemies.Add(new Enemy(new Vector2(400, -100), 300, 3));
             base.Initialize();
         }
 
@@ -56,7 +60,13 @@ namespace _2D_Dark_souls
             }
 
             mainPlayer.LoadContent(this.Content);
-            enemyJim.LoadContent(this.Content);
+
+            foreach (var item in enemies)
+            {
+                item.LoadContent(this.Content);
+            }
+
+            EnemyTakesDmg = Content.Load<SpriteFont>("Score");
             // TODO: use this.Content to load your game content here
 
             // Johnny
@@ -80,7 +90,12 @@ namespace _2D_Dark_souls
             }
             MainCamera.Update(gameTime);
 
-            enemyJim.Update(gameTime);
+            foreach (var item in enemies)
+            {
+                item.Update(gameTime);
+            }
+            
+
 
             base.Update(gameTime);
         }
@@ -120,10 +135,13 @@ namespace _2D_Dark_souls
                 DrawCollisionBox(item);
             }
 
-            DrawCollisionBox(enemyJim);
-            enemyJim.Draw(this._spriteBatch);
+            foreach (var item in enemies)
+            {
+                DrawCollisionBox(item);
+                item.Draw(this._spriteBatch);
+            }
 
-
+            _spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
 
             // TODO: Add your drawing code here
 

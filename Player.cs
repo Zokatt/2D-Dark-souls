@@ -44,11 +44,6 @@ namespace _2D_Dark_souls
             dAttack = new List<AttackBox>();
         }
 
-        //public Texture2D IdleSprite
-        //{
-        //    get { return sprite; }
-        //    set { sprite = spriteIdle; }
-        //}
 
         private void HandleInput(GameTime gametime)
         {
@@ -79,23 +74,12 @@ namespace _2D_Dark_souls
                 //idle = false;
             }
 
-            //else if (state.IsKeyUp(Keys.Right))
-            //{
-            //    //buttonPress = true;
-            //    sprite = IdleSprite;
-            //    //sprite = spriteIdle;
-            //}
-            //else if (state.IsKeyUp(Keys.Left))
-            //{
-            //    //buttonPress = true;
-            //    //sprite = spriteIdle;
-            //    sprite = IdleSprite;
-            //}
-
 
             if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
             {
-                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 250,1));
+
+                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400,1, 2));
+
                 canAttack = false;
                 noHoldDown = false;
                 deleteTimer = 0;
@@ -143,6 +127,8 @@ namespace _2D_Dark_souls
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            
+            
         }
 
         public override void OnCollision(GameObject other)
@@ -152,6 +138,7 @@ namespace _2D_Dark_souls
                 buttonPress = true;
                 isGrounded = true;
             }
+
         }
 
         public void DrawCollisionBox(GameObject go)
@@ -236,23 +223,6 @@ namespace _2D_Dark_souls
             color = Color.White;
         }
         
-
-        //protected void Idle(GameTime gametime)
-        //{
-        //    //Adds time that has passed since last update
-        //    timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
-        //    //Calculate the current index
-        //    currentIndex = (int)(timeElapsed * fps + 1);
-
-        //    sprite = sprites[currentIndex];
-        //    //Checks if we need to restart the animation
-        //    if (currentIndex >= sprites.Length - 1)
-        //    {
-        //        //Resets the animation
-        //        timeElapsed = 0;
-        //        currentIndex = 0;
-        //    }
-        //}
 
         public void DestroyItem(AttackBox item)
         {
