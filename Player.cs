@@ -25,6 +25,9 @@ namespace _2D_Dark_souls
         private float jumpTimer;
         private int dmg;
         public List<AttackBox> Attacks;
+        private bool canAttack;
+        private float attactTimer;
+        private bool noHoldDown;
 
         public Player(Vector2 position)
         {
@@ -55,9 +58,16 @@ namespace _2D_Dark_souls
             {
                 buttonPress = true;
             }
-            if (state.IsKeyDown(Keys.D))
+            if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
                 Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400));
+                canAttack = false;
+                noHoldDown = false;
+                attactTimer = 0;
+            }
+            else if (state.IsKeyUp(Keys.D))
+            {
+                noHoldDown = true;
             }
         }
 
@@ -121,6 +131,7 @@ namespace _2D_Dark_souls
         {
             HandleInput();
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            attactTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
 
             if (isJumping == true)
             {
@@ -135,8 +146,6 @@ namespace _2D_Dark_souls
                     isJumping = false;
                 }
             }
-            
-
             if (isGrounded == false && isJumping == false)
             {
                 gravity.Y += 0.5f;
@@ -146,6 +155,12 @@ namespace _2D_Dark_souls
             {
                 gravity.Y = 0.5f;
             }
+
+            if (attactTimer>= 1 )
+            {
+                canAttack = true;
+            }
+
 
         }
 

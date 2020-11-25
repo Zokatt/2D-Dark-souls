@@ -84,13 +84,7 @@ namespace _2D_Dark_souls
             base.Update(gameTime);
 
 
-            KeyboardState state = Keyboard.GetState();
-
-            //if (state.IsKeyDown(Keys.D))
-            //{
-            //    gameObjectList.Add(new AttackBox(attackSprite, new Vector2(mainPlayer.Collision.X + 300, mainPlayer.Collision.Y), 400));
-               
-            //}
+           
 
 
         }
