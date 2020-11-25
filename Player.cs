@@ -27,15 +27,21 @@ namespace _2D_Dark_souls
         private bool idle;
         private Texture2D spriteIdle;
         public List<AttackBox> Attacks;
+        public List<AttackBox> nAttacks;
+        public List<AttackBox> dAttack;
         private bool canAttack;
         private float attackTimer;
         private bool noHoldDown;
+        private bool deleteWhen;
+        private float deleteTimer;
 
         public Player(Vector2 position)
         {
             fps = 4;
             position = this.position;
             Attacks = new List<AttackBox>();
+            nAttacks = new List<AttackBox>();
+            dAttack = new List<AttackBox>();
         }
 
         private void HandleInput(GameTime gametime)
@@ -70,6 +76,8 @@ namespace _2D_Dark_souls
                 Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 300, Collision.Y), 400,1));
                 canAttack = false;
                 noHoldDown = false;
+                deleteTimer = 0;
+                deleteWhen = true;
                 attackTimer = 0;
             }
             else if (state.IsKeyUp(Keys.D))
@@ -143,7 +151,18 @@ namespace _2D_Dark_souls
             HandleInput(gametime);
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             attackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-
+            if (deleteWhen == true)
+            {
+                deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            }
+            if (deleteTimer>=0.1f) //how fast should the attack destroy itself
+            {
+                foreach (var item in Attacks)
+                {
+                    DestroyItem(item);
+                }
+                deleteWhen = false;
+            }
             if (isJumping == true)
             {
                 jumpTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
@@ -173,12 +192,30 @@ namespace _2D_Dark_souls
             {
                 canAttack = true;
             }
+            
+
+           
+                //Attacks.AddRange(nAttacks);
+                if (dAttack.Count > 0)
+                {
+                    foreach (var item in dAttack)
+                    {
+                        Attacks.Remove(item);
+                    }
+                    dAttack.Clear();
+                }
+            
+            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             color = Color.White;
+        }
+        public void DestroyItem(AttackBox item)
+        {
+            dAttack.Add(item);
         }
     }
 }
