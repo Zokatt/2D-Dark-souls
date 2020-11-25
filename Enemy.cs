@@ -20,8 +20,6 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D enemyJimSprite;
         private Rectangle rectangle;
-        private int x;
-        private int y;
         private int scale;
 
         // Giver en position og scalering af enemy
