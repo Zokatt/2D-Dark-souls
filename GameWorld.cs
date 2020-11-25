@@ -14,7 +14,7 @@ namespace _2D_Dark_souls
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
-        private List<Enemy> enemies;
+        public List<Enemy> enemies;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -37,6 +37,7 @@ namespace _2D_Dark_souls
             MainCamera = new Camera(mainPlayer);
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1, 200), 5000));
 
+            enemies = new List<Enemy>();
             enemies.Add(new Enemy(new Vector2(400, -100), 300, 3));
             base.Initialize();
         }
@@ -130,7 +131,7 @@ namespace _2D_Dark_souls
             foreach (var item in enemies)
             {
                 DrawCollisionBox(item);
-                item.Draw(this._spriteBatch
+                item.Draw(this._spriteBatch);
             }
 
 

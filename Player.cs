@@ -31,6 +31,7 @@ namespace _2D_Dark_souls
         private float attackTimer;
         private bool noHoldDown;
         
+        
 
         public Player(Vector2 position)
         {
@@ -114,6 +115,8 @@ namespace _2D_Dark_souls
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            
+            
         }
 
         public override void OnCollision(GameObject other)
@@ -122,11 +125,6 @@ namespace _2D_Dark_souls
             {
                 buttonPress = true;
                 isGrounded = true;
-            }
-            
-            if (other is Enemy)
-            {
-                hp -= 1;
             }
 
         }

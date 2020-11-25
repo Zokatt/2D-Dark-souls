@@ -10,7 +10,7 @@ namespace _2D_Dark_souls
 {
     public class Enemy : GameObject
     {
-        private int hp;
+        public int hp;
         private Vector2 offset;
         private int speed;
         private int attackTimer;
@@ -23,6 +23,7 @@ namespace _2D_Dark_souls
         private int scale;
         private bool enemyRotate;
         private GameWorld gameWorld;
+        private AttackBox attackBox;
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
@@ -80,6 +81,11 @@ namespace _2D_Dark_souls
                 color = Color.White;
             }
 
+            if (other is AttackBox)
+            {
+                hp -= attackBox.damage;
+            }
+
         }
 
         public override void Update(GameTime gametime)
@@ -90,7 +96,7 @@ namespace _2D_Dark_souls
 
             if (hp <= 0)
             {
-
+                gameWorld.enemies.Remove(this);
             }
 
 
