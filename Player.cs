@@ -14,6 +14,7 @@ namespace _2D_Dark_souls
         private int speed;
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
+        private Texture2D spriteIdle;
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
@@ -25,7 +26,6 @@ namespace _2D_Dark_souls
         private float jumpTimer;
         private int dmg;
         private bool idle;
-        private Texture2D spriteIdle;
         public List<AttackBox> Attacks;
         public List<AttackBox> nAttacks;
         public List<AttackBox> dAttack;
@@ -44,6 +44,12 @@ namespace _2D_Dark_souls
             dAttack = new List<AttackBox>();
         }
 
+        //public Texture2D IdleSprite
+        //{
+        //    get { return sprite; }
+        //    set { sprite = spriteIdle; }
+        //}
+
         private void HandleInput(GameTime gametime)
         {
             KeyboardState state = Keyboard.GetState();
@@ -54,29 +60,38 @@ namespace _2D_Dark_souls
                 buttonPress = false;
                 isGrounded = false;
             }
+
+            if (state.IsKeyUp(Keys.Up))
+            {
+                buttonPress = true;
+                sprite = spriteIdle;
+            }
             if (state.IsKeyDown(Keys.Right))
             {
                 position.X += 4;
                 Animation(gametime);
-                idle = false;
+                //idle = false;
             }
             if (state.IsKeyDown(Keys.Left))
             {
                 position.X -= 4;
                 Animation(gametime);
-                idle = false;
+                //idle = false;
             }
 
-            if (state.IsKeyUp(Keys.Left))
-            {
-                buttonPress = true;
-                sprite = spriteIdle;
-            }
-            if (state.IsKeyUp(Keys.Right))
-            {
-                buttonPress = true;
-                sprite = spriteIdle;
-            }
+            //else if (state.IsKeyUp(Keys.Right))
+            //{
+            //    //buttonPress = true;
+            //    sprite = IdleSprite;
+            //    //sprite = spriteIdle;
+            //}
+            //else if (state.IsKeyUp(Keys.Left))
+            //{
+            //    //buttonPress = true;
+            //    //sprite = spriteIdle;
+            //    sprite = IdleSprite;
+            //}
+
 
             if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
             {
@@ -220,6 +235,24 @@ namespace _2D_Dark_souls
             base.Draw(spriteBatch);
             color = Color.White;
         }
+        
+
+        //protected void Idle(GameTime gametime)
+        //{
+        //    //Adds time that has passed since last update
+        //    timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+        //    //Calculate the current index
+        //    currentIndex = (int)(timeElapsed * fps + 1);
+
+        //    sprite = sprites[currentIndex];
+        //    //Checks if we need to restart the animation
+        //    if (currentIndex >= sprites.Length - 1)
+        //    {
+        //        //Resets the animation
+        //        timeElapsed = 0;
+        //        currentIndex = 0;
+        //    }
+        //}
 
         public void DestroyItem(AttackBox item)
         {
