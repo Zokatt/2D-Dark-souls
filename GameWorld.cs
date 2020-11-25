@@ -14,6 +14,7 @@ namespace _2D_Dark_souls
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
+        private Enemy enemyJim;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -36,6 +37,7 @@ namespace _2D_Dark_souls
             MainCamera = new Camera(mainPlayer);
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1, 200), 5000));
 
+            enemyJim = new Enemy(new Vector2(400, 0), 1000);
             base.Initialize();
         }
 
@@ -51,7 +53,7 @@ namespace _2D_Dark_souls
             }
 
             mainPlayer.LoadContent(this.Content);
-
+            enemyJim.LoadContent(this.Content);
             // TODO: use this.Content to load your game content here
 
             // Johnny
@@ -74,6 +76,8 @@ namespace _2D_Dark_souls
                 mainPlayer.CheckCollision(item);
             }
             MainCamera.Update(gameTime);
+
+            enemyJim.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -106,6 +110,10 @@ namespace _2D_Dark_souls
 
             DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
+
+            DrawCollisionBox(enemyJim);
+            enemyJim.Draw(this._spriteBatch);
+
 
             // TODO: Add your drawing code here
 

@@ -21,22 +21,28 @@ namespace _2D_Dark_souls
         private Texture2D enemyJimSprite;
         private Rectangle rectangle;
         private int enemyXMovement;
-        private Vector2 position;
+        private int scale;
 
-        public Enemy(Vector2 position, Texture2D sprite)
+        public Enemy(Vector2 position, int scale)
         {
             this.position = position;
-            this.sprite = sprite;
+            this.scale = scale;
+            
         }
 
 
 
         public void AiMovement()
         {
-            KeyboardState state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.E))
+            position.X -= 5;
+        }
+
+        public override Rectangle Collision
+        {
+            get
             {
-                position.Y -= 10;
+                return new Rectangle(
+                    (int)position.X, (int)position.Y, scale, scale);
             }
         }
 
@@ -44,13 +50,14 @@ namespace _2D_Dark_souls
         {
 
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
-
+            
 
 
         }
 
         public override void OnCollision(GameObject other)
         {
+
         }
 
         public override void Update(GameTime gametime)
@@ -67,8 +74,10 @@ namespace _2D_Dark_souls
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            base.Draw(spriteBatch);
-            color = Color.Black;
+            spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale), 
+                new Rectangle(1,1, sprite.Width, sprite.Height), Color.Black);
+            
+            
         }
 
     }
