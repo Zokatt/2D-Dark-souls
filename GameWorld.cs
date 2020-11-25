@@ -138,7 +138,7 @@ namespace _2D_Dark_souls
                 item.Draw(this._spriteBatch);
             }
 
-            _spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(0, 20), Color.Black);
+            _spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
 
             // TODO: Add your drawing code here
 
