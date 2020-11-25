@@ -113,7 +113,7 @@ namespace _2D_Dark_souls
             KeyboardState state = Keyboard.GetState();
             sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
-            attackSprite = contentManager.Load<Texture2D>("PlayerAttackBox");
+            attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             sprites = new Texture2D[3];
 
             for (int i = 0; i < sprites.Length; i++)
