@@ -111,8 +111,15 @@ namespace _2D_Dark_souls
             DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
 
+            foreach (var item in mainPlayer.Attacks)
+            {
+                item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
+            }
+
             DrawCollisionBox(enemyJim);
             enemyJim.Draw(this._spriteBatch);
+
 
 
             // TODO: Add your drawing code here

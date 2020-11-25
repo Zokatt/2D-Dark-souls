@@ -11,12 +11,14 @@ namespace _2D_Dark_souls
     {
         //private string chosenSprite;
         private int _spriteWidth;
+        private int ID; //use this to determine who spawned this, 1 for player, 2 for enemy
 
-        public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch)
+        public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch,int idNumber)
         {
             _spriteWidth = stretch;
             sprite = chosenSprite;
             this.position = position;
+            this.ID = idNumber;
         }
 
         public override void LoadContent(ContentManager contentManager)
