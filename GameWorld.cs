@@ -37,7 +37,7 @@ namespace _2D_Dark_souls
             MainCamera = new Camera(mainPlayer);
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1, 200), 5000));
 
-            enemyJim = new Enemy(new Vector2(400, 0), 300);
+            enemyJim = new Enemy(new Vector2(400, -100), 300);
             base.Initialize();
         }
 

@@ -20,9 +20,11 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D enemyJimSprite;
         private Rectangle rectangle;
-        private int enemyXMovement;
+        private int x;
+        private int y;
         private int scale;
 
+        // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale)
         {
             this.position = position;
@@ -31,7 +33,7 @@ namespace _2D_Dark_souls
         }
 
 
-
+        // Enemy's bevægelseshastighed
         public void AiMovement()
         {
             position.X -= 5;
@@ -64,6 +66,7 @@ namespace _2D_Dark_souls
         {
 
             AiMovement();
+
 
 
 
