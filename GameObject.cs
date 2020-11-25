@@ -17,13 +17,12 @@ namespace _2D_Dark_souls
         protected SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
 
-        public virtual Rectangle Collision
         protected float fps;
 
         private float timeElapsed;
         private int currentIndex;
 
-        public Rectangle Collision
+        public virtual Rectangle Collision
         {
             get
             {
