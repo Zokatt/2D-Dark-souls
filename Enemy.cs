@@ -36,7 +36,7 @@ namespace _2D_Dark_souls
         // Enemy's bevægelseshastighed
         public void AiMovement()
         {
-            position.X -= 5;
+            
         }
 
         public override Rectangle Collision
