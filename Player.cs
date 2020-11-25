@@ -12,6 +12,8 @@ namespace _2D_Dark_souls
     {
         private int hp;
         private int speed;
+        private Texture2D collisionTexture;
+        private Texture2D attackSprite;
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
@@ -24,11 +26,16 @@ namespace _2D_Dark_souls
         private int dmg;
         private bool idle;
         private Texture2D spriteIdle;
+        public List<AttackBox> Attacks;
+        private bool canAttack;
+        private float attackTimer;
+        private bool noHoldDown;
 
         public Player(Vector2 position)
         {
             fps = 4;
             position = this.position;
+            Attacks = new List<AttackBox>();
         }
 
         private void HandleInput(GameTime gametime)
@@ -41,23 +48,28 @@ namespace _2D_Dark_souls
                 buttonPress = false;
                 isGrounded = false;
             }
-            else if (state.IsKeyDown(Keys.Right))
+            if (state.IsKeyDown(Keys.Right))
             {
                 position.X += 4;
                 Animation(gametime);
                 idle = false;
             }
-            else if (state.IsKeyDown(Keys.Left))
+            if (state.IsKeyDown(Keys.Left))
             {
                 position.X -= 4;
                 Animation(gametime);
                 idle = false;
             }
-            else if (state.IsKeyUp(Keys.Up))
+            if (state.IsKeyUp(Keys.Up))
             {
                 buttonPress = true;
                 sprite = spriteIdle;
             }
+            if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
+            {
+                
+            }
+
         }
 
         public void PlayerAttack()
