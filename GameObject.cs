@@ -52,7 +52,6 @@ namespace _2D_Dark_souls
 
         public abstract void Update(GameTime gametime);
 
-
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
@@ -63,17 +62,16 @@ namespace _2D_Dark_souls
             //Adds time that has passed since last update
             timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
             //Calculate the current index
-            currentIndex = (int)(timeElapsed * fps);
+            currentIndex = (int)(timeElapsed * fps + 1);
 
-            sprite = sprites[currentIndex + 1];
+            sprite = sprites[currentIndex];
             //Checks if we need to restart the animation
-            if (currentIndex >= sprites.Length)
+            if (currentIndex >= sprites.Length - 1)
             {
                 //Resets the animation
                 timeElapsed = 0;
                 currentIndex = 0;
             }
-
         }
     }
 }

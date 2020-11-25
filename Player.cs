@@ -21,23 +21,23 @@ namespace _2D_Dark_souls
         private float dodgeTimer;
         private int dmg;
         private bool idle;
+        private Texture2D spriteIdle;
 
         public Player(Vector2 position)
         {
             fps = 4;
             position = this.position;
-            
         }
 
         private void HandleInput(GameTime gametime)
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Up)&& buttonPress == true)
+            if (state.IsKeyDown(Keys.Up) && buttonPress == true)
             {
                 buttonPress = false;
                 isGrounded = false;
-                this.position.Y-=50;
+                this.position.Y -= 50;
             }
             else if (state.IsKeyDown(Keys.Left))
             {
@@ -54,10 +54,7 @@ namespace _2D_Dark_souls
             else if (state.IsKeyUp(Keys.Up))
             {
                 buttonPress = true;
-            }
-            if (state.IsKeyUp(Keys.Left) || state.IsKeyUp(Keys.Right))
-            {
-                idle = true;
+                sprite = spriteIdle;
             }
         }
 
@@ -87,16 +84,12 @@ namespace _2D_Dark_souls
             KeyboardState state = Keyboard.GetState();
             sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             sprites = new Texture2D[3];
-            
-            for (int i = 0; i<sprites.Length; i++)
+
+            for (int i = 0; i < sprites.Length; i++)
             {
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
-            if (idle == true )
-            {
-                sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
-            }
-
+            spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
         }
 
         public override void OnCollision(GameObject other)
@@ -106,16 +99,12 @@ namespace _2D_Dark_souls
                 buttonPress = true;
                 isGrounded = true;
             }
-            
-            
         }
 
         public override void Update(GameTime gametime)
         {
             HandleInput(gametime);
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            
-            
 
             if (isGrounded == false)
             {
@@ -126,7 +115,6 @@ namespace _2D_Dark_souls
             {
                 gravity.Y = 0;
             }
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)
