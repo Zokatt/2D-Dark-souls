@@ -13,8 +13,8 @@ namespace _2D_Dark_souls
         private Player mainPlayer;
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
-        private List <Camera> Camera;
-
+        private List<Camera> Camera;
+        private Enemy enemyJim;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -23,7 +23,6 @@ namespace _2D_Dark_souls
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
 
             _graphics.PreferredBackBufferWidth = screenBounds.Width;
             _graphics.PreferredBackBufferHeight = screenBounds.Height;
@@ -34,18 +33,12 @@ namespace _2D_Dark_souls
             // TODO: Add your initialization logic here
             gameObjectList = new List<GameObject>();
             Camera = new List<Camera>();
-            mainPlayer = new Player(new Vector2(0,0));
+            mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
-            for (int i = 0; i < 10; i++)
-            {
-                gameObjectList.Add(new Enviroment("StoneGround", new Vector2((130 * i - 130), 200)));
-            }
-           
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1, 200), 5000));
 
+            enemyJim = new Enemy(new Vector2(400, -100), 300);
             base.Initialize();
-
-
-            
         }
 
         protected override void LoadContent()
@@ -60,7 +53,7 @@ namespace _2D_Dark_souls
             }
 
             mainPlayer.LoadContent(this.Content);
-
+            enemyJim.LoadContent(this.Content);
             // TODO: use this.Content to load your game content here
 
             // Johnny
@@ -71,8 +64,6 @@ namespace _2D_Dark_souls
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
-            
             // TODO: Add your update logic here
 
             foreach (var item in gameObjectList)
@@ -85,6 +76,8 @@ namespace _2D_Dark_souls
                 mainPlayer.CheckCollision(item);
             }
             MainCamera.Update(gameTime);
+
+            enemyJim.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -117,6 +110,17 @@ namespace _2D_Dark_souls
 
             DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
+
+            foreach (var item in mainPlayer.Attacks)
+            {
+                item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
+            }
+
+            DrawCollisionBox(enemyJim);
+            enemyJim.Draw(this._spriteBatch);
+
+
 
             // TODO: Add your drawing code here
 

@@ -18,10 +18,11 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
 
         protected float fps;
+
         private float timeElapsed;
         private int currentIndex;
 
-        public Rectangle Collision
+        public virtual Rectangle Collision
         {
             get
             {
@@ -52,7 +53,6 @@ namespace _2D_Dark_souls
 
         public abstract void Update(GameTime gametime);
 
-
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
@@ -73,10 +73,13 @@ namespace _2D_Dark_souls
                 timeElapsed = 0;
                 currentIndex = 0;
             }
+<<<<<<< HEAD
             else if (idle == true)
             {
 
             }
+=======
+>>>>>>> main
         }
     }
 }
