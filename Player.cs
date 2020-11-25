@@ -41,24 +41,15 @@ namespace _2D_Dark_souls
                 buttonPress = false;
                 isGrounded = false;
             }
-            else if (state.IsKeyDown(Keys.Left))
-            {
-                position.X -= 4;
-            }
             else if (state.IsKeyDown(Keys.Right))
             {
                 position.X += 4;
-                this.position.Y -= 50;
-            }
-            else if (state.IsKeyDown(Keys.Left))
-            {
-                position.X--;
                 Animation(gametime);
                 idle = false;
             }
-            else if (state.IsKeyDown(Keys.Right))
+            else if (state.IsKeyDown(Keys.Left))
             {
-                position.X++;
+                position.X -= 4;
                 Animation(gametime);
                 idle = false;
             }
