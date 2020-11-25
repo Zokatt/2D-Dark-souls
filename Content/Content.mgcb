@@ -85,6 +85,18 @@
 /processorParam:TextureFormat=Color
 /build:Pixel.png
 
+#begin PlayerAttackBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayerAttackBox.png
+
 #begin StoneGround.png
 /importer:TextureImporter
 /processor:TextureProcessor
