@@ -16,7 +16,7 @@ namespace _2D_Dark_souls
         private List<Camera> Camera;
         public List<Enemy> enemies;
         private SpriteFont EnemyTakesDmg;
-        public Enemy enemyHP;
+        public Enemy enemySprite;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -90,6 +90,7 @@ namespace _2D_Dark_souls
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
+                
             }
             
 

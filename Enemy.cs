@@ -83,12 +83,7 @@ namespace _2D_Dark_souls
 
             if (other is AttackBox)
             {
-<<<<<<< Updated upstream
-                attackBox.damage += hp;
-                
-=======
                 attackBox.damage -= hp;
->>>>>>> Stashed changes
             }
 
         }
