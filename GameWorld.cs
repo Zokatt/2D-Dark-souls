@@ -14,9 +14,10 @@ namespace _2D_Dark_souls
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
-        public List<Enemy> enemies;
+        public List<GameObject> enemies;
         private SpriteFont EnemyTakesDmg;
         public Enemy enemyHP;
+        public static List<GameObject> deleteObjects;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -28,7 +29,6 @@ namespace _2D_Dark_souls
 
             _graphics.PreferredBackBufferWidth = screenBounds.Width;
             _graphics.PreferredBackBufferHeight = screenBounds.Height;
-            
         }
 
         protected override void Initialize()
@@ -43,8 +43,9 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
 
+            deleteObjects = new List<GameObject>();
             //Tilføjet en liste med enemies
-            enemies = new List<Enemy>();
+            enemies = new List<GameObject>();
             enemies.Add(new Enemy(new Vector2(400, -100), 300, 3));
             base.Initialize();
         }
@@ -84,19 +85,30 @@ namespace _2D_Dark_souls
             {
                 item.Update(gameTime);
             }
+
             mainPlayer.Update(gameTime);
+
             foreach (var item in gameObjectList)
             {
                 mainPlayer.CheckCollision(item);
             }
+
             MainCamera.Update(gameTime);
 
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
+                foreach (var attackitem in mainPlayer.attacks)
+                {
+                    item.CheckCollision(attackitem);
+                }
             }
-            
 
+            foreach (GameObject go in deleteObjects)
+            {
+                enemies.Remove(go);
+            }
+            deleteObjects.Clear();
 
             base.Update(gameTime);
         }
@@ -115,6 +127,11 @@ namespace _2D_Dark_souls
             _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
+        public static void Destroy(GameObject go)
+        {
+            deleteObjects.Add(go);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
@@ -130,7 +147,7 @@ namespace _2D_Dark_souls
             DrawCollisionBox(mainPlayer);
             mainPlayer.Draw(this._spriteBatch);
 
-            foreach (var item in mainPlayer.Attacks)
+            foreach (var item in mainPlayer.attacks)
             {
                 item.Draw(this._spriteBatch);
                 DrawCollisionBox(item);
@@ -142,7 +159,7 @@ namespace _2D_Dark_souls
                 item.Draw(this._spriteBatch);
             }
 
-            _spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
+            //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0]., new Vector2(800, -500), Color.Black);
 
             // TODO: Add your drawing code here
 

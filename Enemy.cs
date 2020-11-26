@@ -31,9 +31,7 @@ namespace _2D_Dark_souls
             this.position = position;
             this.scale = scale;
             this.hp = hp;
-            
         }
-
 
         // Enemy's bevægelseshastighed
         public void AiMovement()
@@ -67,11 +65,8 @@ namespace _2D_Dark_souls
 
         public override void LoadContent(ContentManager contentManager)
         {
-
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
-
             gameWorld = new GameWorld();
-
         }
 
         public override void OnCollision(GameObject other)
@@ -83,37 +78,25 @@ namespace _2D_Dark_souls
 
             if (other is AttackBox)
             {
-                attackBox.damage += hp;
+                hp -= 3;
             }
 
+            if (hp <= 0)
+            {
+                GameWorld.Destroy(this);
+            }
         }
 
         public override void Update(GameTime gametime)
         {
-
             AiMovement();
-            
-
-            if (hp <= 0)
-            {
-                gameWorld.enemies.Remove(this);
-            }
-
-
         }
-
-
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
 
-            spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale), 
-
-                new Rectangle(1,1, sprite.Width, sprite.Height), color);
-
-            
-            
+                new Rectangle(1, 1, sprite.Width, sprite.Height), color);
         }
-
     }
 }

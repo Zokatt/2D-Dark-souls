@@ -26,7 +26,7 @@ namespace _2D_Dark_souls
         private float jumpTimer;
         private int dmg;
         private bool idle;
-        public List<AttackBox> Attacks;
+        public List<AttackBox> attacks;
         public List<AttackBox> nAttacks;
         public List<AttackBox> dAttack;
         private bool canAttack;
@@ -39,11 +39,10 @@ namespace _2D_Dark_souls
         {
             fps = 5;
             position = this.position;
-            Attacks = new List<AttackBox>();
+            attacks = new List<AttackBox>();
             nAttacks = new List<AttackBox>();
             dAttack = new List<AttackBox>();
         }
-
 
         private void HandleInput(GameTime gametime)
         {
@@ -74,11 +73,9 @@ namespace _2D_Dark_souls
                 //idle = false;
             }
 
-
-            if (state.IsKeyDown(Keys.D)&&canAttack == true && noHoldDown == true)
+            if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
-
-                Attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300,1, 2));
+                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, 2));
 
                 canAttack = false;
                 noHoldDown = false;
@@ -90,7 +87,6 @@ namespace _2D_Dark_souls
             {
                 noHoldDown = true;
             }
-
         }
 
         public void PlayerAttack()
@@ -127,8 +123,6 @@ namespace _2D_Dark_souls
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
-            
-            
         }
 
         public override void OnCollision(GameObject other)
@@ -138,7 +132,6 @@ namespace _2D_Dark_souls
                 buttonPress = true;
                 isGrounded = true;
             }
-
         }
 
         public void DrawCollisionBox(GameObject go)
@@ -164,9 +157,9 @@ namespace _2D_Dark_souls
             {
                 deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             }
-            if (deleteTimer>=0.1f) //how fast should the attack destroy itself
+            if (deleteTimer >= 0.1f) //how fast should the attack destroy itself
             {
-                foreach (var item in Attacks)
+                foreach (var item in attacks)
                 {
                     DestroyItem(item);
                 }
@@ -197,24 +190,20 @@ namespace _2D_Dark_souls
                 gravity.Y = 0.5f;
             }
 
-            if (attackTimer>=1)
+            if (attackTimer >= 1)
             {
                 canAttack = true;
             }
-            
 
-           
-                //Attacks.AddRange(nAttacks);
-                if (dAttack.Count > 0)
+            //Attacks.AddRange(nAttacks);
+            if (dAttack.Count > 0)
+            {
+                foreach (var item in dAttack)
                 {
-                    foreach (var item in dAttack)
-                    {
-                        Attacks.Remove(item);
-                    }
-                    dAttack.Clear();
+                    attacks.Remove(item);
                 }
-            
-            
+                dAttack.Clear();
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -222,12 +211,10 @@ namespace _2D_Dark_souls
             base.Draw(spriteBatch);
             color = Color.White;
         }
-        
 
         public void DestroyItem(AttackBox item)
         {
             dAttack.Add(item);
         }
-
     }
 }
