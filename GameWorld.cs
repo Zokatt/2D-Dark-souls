@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System;
 
 namespace _2D_Dark_souls
 {
@@ -14,10 +15,9 @@ namespace _2D_Dark_souls
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
-        public List<GameObject> enemies;
+        public List<Enemy> enemies;
         private SpriteFont EnemyTakesDmg;
-        public Enemy enemyHP;
-        public static List<GameObject> deleteObjects;
+        public static List<Enemy> deleteObjects;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
@@ -43,9 +43,9 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
 
-            deleteObjects = new List<GameObject>();
+            deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
-            enemies = new List<GameObject>();
+            enemies = new List<Enemy>();
             enemies.Add(new Enemy(new Vector2(400, -100), 300, 3));
             base.Initialize();
         }
@@ -104,7 +104,7 @@ namespace _2D_Dark_souls
                 }
             }
 
-            foreach (GameObject go in deleteObjects)
+            foreach (Enemy go in deleteObjects)
             {
                 enemies.Remove(go);
             }
@@ -127,7 +127,7 @@ namespace _2D_Dark_souls
             _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
-        public static void Destroy(GameObject go)
+        public static void Destroy(Enemy go)
         {
             deleteObjects.Add(go);
         }
@@ -159,7 +159,7 @@ namespace _2D_Dark_souls
                 item.Draw(this._spriteBatch);
             }
 
-            //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0]., new Vector2(800, -500), Color.Black);
+            //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
 
             // TODO: Add your drawing code here
 

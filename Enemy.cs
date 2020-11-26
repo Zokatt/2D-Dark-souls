@@ -78,7 +78,7 @@ namespace _2D_Dark_souls
 
             if (other is AttackBox)
             {
-                hp -= 3;
+                hp -= Player.dmg;
             }
 
             if (hp <= 0)

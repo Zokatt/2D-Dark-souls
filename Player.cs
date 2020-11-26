@@ -24,7 +24,7 @@ namespace _2D_Dark_souls
         private bool isJumping = false;
         private float dodgeTimer;
         private float jumpTimer;
-        private int dmg;
+        public static int dmg = 2;
         private bool idle;
         public List<AttackBox> attacks;
         public List<AttackBox> nAttacks;
@@ -75,7 +75,7 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
-                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, 2));
+                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, dmg));
 
                 canAttack = false;
                 noHoldDown = false;
