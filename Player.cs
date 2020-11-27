@@ -187,7 +187,10 @@ namespace _2D_Dark_souls
             }
             if (isGrounded == false && isJumping == false || exitCollision == true)
             {
-                gravity.Y += 0.1f;
+                if (gravity.Y <=30)
+                {
+                    gravity.Y += 0.15f;
+                }
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)
