@@ -76,8 +76,11 @@ namespace _2D_Dark_souls
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
                 isJumping = false;
-                buttonPress = false;
+            }
+            if (state.IsKeyUp(Keys.Up))
+            {
                 sprite = spriteIdle;
+                buttonPress = false;
             }
             if (state.IsKeyDown(Keys.Right))
             {
@@ -184,7 +187,7 @@ namespace _2D_Dark_souls
             }
             if (isGrounded == false && isJumping == false || exitCollision == true)
             {
-                gravity.Y += 0.15f;
+                gravity.Y += 0.1f;
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)

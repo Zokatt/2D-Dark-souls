@@ -50,7 +50,7 @@ namespace _2D_Dark_souls
                 exitCollision = false;
                 OnCollision(other);
             }
-            else if (!Collision.Intersects(other.Collision))
+            if (!Collision.Intersects(other.Collision))
             {
                 exitCollision = true;
             }
