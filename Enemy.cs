@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,8 +23,8 @@ namespace _2D_Dark_souls
         private Rectangle rectangle;
         private int scale;
         private bool enemyRotate;
-        private GameWorld gameWorld;
         private AttackBox attackBox;
+        private SoundEffect hitEffect;
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
@@ -66,7 +67,7 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
-            gameWorld = new GameWorld();
+            hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
         }
 
         public override void OnCollision(GameObject other)
@@ -78,6 +79,7 @@ namespace _2D_Dark_souls
 
             if (other is AttackBox)
             {
+                hitEffect.Play();
                 hp -= Player.dmg;
             }
 

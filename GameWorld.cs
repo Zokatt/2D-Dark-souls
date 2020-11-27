@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
+using Microsoft.Xna.Framework.Audio;
 
 namespace _2D_Dark_souls
 {
@@ -18,6 +19,8 @@ namespace _2D_Dark_souls
         public List<Enemy> enemies;
         private SpriteFont EnemyTakesDmg;
         public static List<Enemy> deleteObjects;
+        public static SoundEffect attackSound;
+        public static SoundEffect playerGotHit;
 
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -33,6 +34,7 @@ namespace _2D_Dark_souls
         private float attackTimer;
         private bool noHoldDown;
         private bool deleteWhen;
+        public SoundEffect attackSound;
         private float deleteTimer;
 
         public Player(Vector2 position)
@@ -42,6 +44,21 @@ namespace _2D_Dark_souls
             attacks = new List<AttackBox>();
             nAttacks = new List<AttackBox>();
             dAttack = new List<AttackBox>();
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {
+            KeyboardState state = Keyboard.GetState();
+            sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            collisionTexture = contentManager.Load<Texture2D>("Pixel");
+            attackSprite = contentManager.Load<Texture2D>("AttackEffects");
+            sprites = new Texture2D[3];
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
+            }
+            spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
         }
 
         private void HandleInput(GameTime gametime)
@@ -75,8 +92,9 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
-                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, dmg));
+                attackSound.Play();
 
+                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, dmg));
                 canAttack = false;
                 noHoldDown = false;
                 deleteTimer = 0;
@@ -108,21 +126,6 @@ namespace _2D_Dark_souls
             {
                 buttonPress = false;
             }
-        }
-
-        public override void LoadContent(ContentManager contentManager)
-        {
-            KeyboardState state = Keyboard.GetState();
-            sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
-            collisionTexture = contentManager.Load<Texture2D>("Pixel");
-            attackSprite = contentManager.Load<Texture2D>("AttackEffects");
-            sprites = new Texture2D[3];
-
-            for (int i = 0; i < sprites.Length; i++)
-            {
-                sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
-            }
-            spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
         }
 
         public override void OnCollision(GameObject other)
