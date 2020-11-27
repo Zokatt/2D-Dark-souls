@@ -36,6 +36,7 @@ namespace _2D_Dark_souls
         private bool deleteWhen;
         public SoundEffect attackSound;
         private float deleteTimer;
+        private bool walkOff;
 
         public Player(Vector2 position)
         {
@@ -65,16 +66,17 @@ namespace _2D_Dark_souls
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Up) && buttonPress == true)
+            if (state.IsKeyDown(Keys.Up) && isGrounded == true && isJumping == false && buttonPress == false)
             {
                 isJumping = true;
-                buttonPress = false;
                 isGrounded = false;
-            }
-
-            if (state.IsKeyUp(Keys.Up))
-            {
                 buttonPress = true;
+                gravity.Y = 0;
+            }
+            if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
+            {
+                isJumping = false;
+                buttonPress = false;
                 sprite = spriteIdle;
             }
             if (state.IsKeyDown(Keys.Right))
@@ -132,8 +134,10 @@ namespace _2D_Dark_souls
         {
             if (other is Enviroment)
             {
-                buttonPress = true;
                 isGrounded = true;
+                isJumping = false;
+                walkOff = false;
+                this.position.Y = other.Collision.Top - sprite.Height;
             }
         }
 
@@ -170,27 +174,22 @@ namespace _2D_Dark_souls
             }
             if (isJumping == true)
             {
+                this.position.Y -= 9;
                 jumpTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (jumpTimer <= 0.3f)
-                {
-                    this.position.Y -= 9;
-                }
-                else if (jumpTimer >= 0.3f)
-                {
-                    jumpTimer = 0;
-                    isJumping = false;
-                }
+
             }
-
-            if (isGrounded == false && isJumping == false)
-
+            if (isJumping == false)
             {
-                gravity.Y += 0.5f;
+                jumpTimer = 0;
+            }
+            if (isGrounded == false && isJumping == false || exitCollision == true)
+            {
+                gravity.Y += 0.15f;
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)
             {
-                gravity.Y = 0.5f;
+                gravity.Y = 0;
             }
 
             if (attackTimer >= 1)
