@@ -16,6 +16,7 @@ namespace _2D_Dark_souls
         protected Color color = Color.White;
         protected SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
+        protected bool exitCollision;
 
         protected float fps;
 
@@ -47,7 +48,12 @@ namespace _2D_Dark_souls
             if (Collision.Intersects(other.Collision))
             {
                 //Gøre funktion OnCollison med den anden.
+                exitCollision = false;
                 OnCollision(other);
+            }
+            if (!Collision.Intersects(other.Collision))
+            {
+                exitCollision = true;
             }
         }
 
