@@ -14,7 +14,7 @@ namespace _2D_Dark_souls
         private Vector2 offset;
         private int speed;
         private int attackTimer;
-        private int dmg;
+        private int dmg = 2;
         private SpriteFont enemyKilled;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -24,6 +24,17 @@ namespace _2D_Dark_souls
         private bool enemyRotate;
         private GameWorld gameWorld;
         private AttackBox attackBox;
+        private int detectPlayerInRangePlus = 200;
+        private int detectPlayerInRangeMinus = -200;
+        private List<GameObject> gameObjectList;
+        private bool canAttack;
+        private bool noHoldDown;
+        private bool deleteWhen;
+        private float deleteTimer;
+        private Texture2D attackSprite;
+        public List<AttackBox> attacks;
+
+        private Player mainPlayer;
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
@@ -66,6 +77,7 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
+            attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             gameWorld = new GameWorld();
         }
 
@@ -90,6 +102,21 @@ namespace _2D_Dark_souls
         public override void Update(GameTime gametime)
         {
             AiMovement();
+            gameObjectList = new List<GameObject>();
+            mainPlayer = new Player(new Vector2(0, 0));
+
+
+            if (mainPlayer.Collision.X -200 <= position.X)
+            {
+                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X - 180, Collision.Y), 300, 1, dmg));
+
+                canAttack = false;
+                noHoldDown = false;
+                deleteTimer = 0;
+                deleteWhen = true;
+                attackTimer = 0;
+            }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
