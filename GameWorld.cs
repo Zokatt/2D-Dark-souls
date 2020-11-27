@@ -42,6 +42,8 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(500, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1250, -200), 250));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(2150, 100), 500));
 
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
