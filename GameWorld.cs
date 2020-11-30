@@ -42,6 +42,7 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
+            //First level
             for (int i = 1; i < 10; i++)
             {
                 gameObjectList.Add(new Enviroment("StoneGround", new Vector2(-100, 285 + 85 * -i), 100));
@@ -50,26 +51,46 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(0, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(500, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
 
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1250, -200), 250));    //Floating ground
+
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
+            //Second level
             for (int i = 1; i < 8; i++)
             {
-                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1800 + (150 * i), 170 + 85 * -i), 150));
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1800 + (150 * i), 170 + 90 * -i), 150));
             }
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3000, -535), 350));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3350, -535), 350));
+
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3450, -900), 350));    //Floating ground
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4100, -900), 350));    //Floating ground
+
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3700, -535), 350));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4050, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4400, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4750, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5100, -535), 350));
+            //Third level
+            for (int i = 1; i < 8; i++)
+            {
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5300 + (150 * i), -535 +  90* -i), 150));
+            }
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, -1235), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, -1235), 400));
 
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4700, 750), 85));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5100, 750), 85));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6100, 900), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, 900), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, 900), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7000, -1600), 350));   //Floating ground
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7750, -1600), 175));   //Floating ground
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8450, -1600), 350));   //Floating ground
+
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7300, -1235), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7700, -1235), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8100, -1235), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8500, -1235), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8900, -1235), 550));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(9450, -1235), 550));
 
 
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1250, -200), 250));
 
 
             deleteObjects = new List<Enemy>();
