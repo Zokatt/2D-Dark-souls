@@ -86,21 +86,21 @@ namespace _2D_Dark_souls
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
 
-
             sprites = new Texture2D[1];
 
             sprites[0] = contentManager.Load<Texture2D>("AttackEffects");
 
             GameWorld = new GameWorld();
 
-
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
         }
 
         public override void OnCollision(GameObject other)
         {
-
-
+            if (other is Player)
+            {
+                color = Color.Pink;
+            }
             if (other is AttackBox)
             {
                 hitEffect.Play();
@@ -111,7 +111,6 @@ namespace _2D_Dark_souls
             {
                 GameWorld.Destroy(this);
             }
-
         }
 
         public void SetPlayer(int playerX)
@@ -122,22 +121,13 @@ namespace _2D_Dark_souls
         public override void Update(GameTime gametime)
         {
             AiMovement();
-            
 
-            
-            
-                
+            enemyAndPlayerDistance = playerPositionX - position.X;
 
-                enemyAndPlayerDistance = playerPositionX - position.X;
-
-                if (enemyAndPlayerDistance <= 200 && enemyAndPlayerDistance >= -200)
-                {
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 50, position.Y), 300, 1, dmg));
-
-                }
-            
-
-
+            if (enemyAndPlayerDistance <= 200 && enemyAndPlayerDistance >= -200)
+            {
+                attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 50, position.Y), 300, 1, dmg));
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -152,7 +142,6 @@ namespace _2D_Dark_souls
             foreach (var item in attacks)
             {
                 item.Draw(spriteBatch);
-                
             }
         }
 
