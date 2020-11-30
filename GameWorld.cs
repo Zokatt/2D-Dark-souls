@@ -12,7 +12,7 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
-        public Player mainPlayer;
+        private Player mainPlayer;
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
@@ -22,7 +22,6 @@ namespace _2D_Dark_souls
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
 
-        private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
         public GameWorld()
@@ -104,7 +103,6 @@ namespace _2D_Dark_souls
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
-                item.SetPlayer(mainPlayer.Collision.X);
                 foreach (var attackitem in mainPlayer.attacks)
                 {
                     item.CheckCollision(attackitem);
@@ -160,16 +158,10 @@ namespace _2D_Dark_souls
                 DrawCollisionBox(item);
             }
 
-            foreach (Enemy item in enemies)
+            foreach (var item in enemies)
             {
                 DrawCollisionBox(item);
                 item.Draw(this._spriteBatch);
-                drawBoxes = item.GetList();
-                foreach (AttackBox boxes in drawBoxes)
-                {
-                    boxes.Draw(this._spriteBatch);
-                    DrawCollisionBox(boxes);
-                }
             }
 
             //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
@@ -179,10 +171,6 @@ namespace _2D_Dark_souls
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-        public Player GetPlayer()
-        {
-            return (mainPlayer);
         }
     }
 }
