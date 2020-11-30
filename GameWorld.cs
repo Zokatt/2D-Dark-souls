@@ -12,7 +12,7 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
-        private Player mainPlayer;
+        public Player mainPlayer;
         public Camera MainCamera;
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
@@ -22,6 +22,7 @@ namespace _2D_Dark_souls
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
 
+        private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
         public GameWorld()
@@ -41,12 +42,35 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
+            for (int i = 1; i < 10; i++)
+            {
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(-100, 285 + 85 * -i), 100));
+            }
+
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(0, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(500, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
+
+            for (int i = 1; i < 8; i++)
+            {
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1800 + (150 * i), 170 + 85 * -i), 150));
+            }
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3000, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3350, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3700, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4050, -535), 350));
+
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4700, 750), 85));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5000, 750), 85));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6100, 900), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, 900), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, 900), 400));
+
+
+
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1250, -200), 250));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(2150, 100), 500));
+
 
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
@@ -103,6 +127,7 @@ namespace _2D_Dark_souls
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
+                item.SetPlayer(mainPlayer.Collision.X);
                 foreach (var attackitem in mainPlayer.attacks)
                 {
                     item.CheckCollision(attackitem);
@@ -160,10 +185,16 @@ namespace _2D_Dark_souls
                 DrawCollisionBox(item);
             }
 
-            foreach (var item in enemies)
+            foreach (Enemy item in enemies)
             {
                 DrawCollisionBox(item);
                 item.Draw(this._spriteBatch);
+                drawBoxes = item.GetList();
+                foreach (AttackBox boxes in drawBoxes)
+                {
+                    boxes.Draw(this._spriteBatch);
+                    DrawCollisionBox(boxes);
+                }
             }
 
             //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
@@ -173,6 +204,10 @@ namespace _2D_Dark_souls
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        public Player GetPlayer()
+        {
+            return (mainPlayer);
         }
     }
 }

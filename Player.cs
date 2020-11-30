@@ -16,6 +16,7 @@ namespace _2D_Dark_souls
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
         private Texture2D spriteIdle;
+        private Texture2D spriteJump;
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
@@ -40,6 +41,7 @@ namespace _2D_Dark_souls
         public Texture2D currentHealth;
         private float timer = 0.0f;
         private float cooldownTime = 5;
+        private bool walkOff;
 
         public Player(Vector2 position)
         {
@@ -69,6 +71,8 @@ namespace _2D_Dark_souls
             }
             currentHealth = health[4];
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            spriteJump = contentManager.Load<Texture2D>("JimmyJump");
+
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
         }
 
@@ -76,17 +80,22 @@ namespace _2D_Dark_souls
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Up) && buttonPress == true)
+            if (state.IsKeyDown(Keys.Up) && isGrounded == true && isJumping == false && buttonPress == false)
             {
                 isJumping = true;
-                buttonPress = false;
                 isGrounded = false;
+                buttonPress = true;
+                gravity.Y = 0;
+                sprite = spriteJump;
             }
-
+            if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
+            {
+                isJumping = false;
+            }
             if (state.IsKeyUp(Keys.Up))
             {
-                buttonPress = true;
                 sprite = spriteIdle;
+                buttonPress = false;
             }
             if (state.IsKeyDown(Keys.Right))
             {
@@ -147,8 +156,10 @@ namespace _2D_Dark_souls
             }
             else if (other is Enviroment)
             {
-                buttonPress = true;
                 isGrounded = true;
+                isJumping = false;
+                walkOff = false;
+                this.position.Y = other.Collision.Top - sprite.Height;
             }
         }
 
@@ -187,27 +198,24 @@ namespace _2D_Dark_souls
             }
             if (isJumping == true)
             {
+                this.position.Y -= 9;
                 jumpTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (jumpTimer <= 0.3f)
-                {
-                    this.position.Y -= 9;
-                }
-                else if (jumpTimer >= 0.3f)
-                {
-                    jumpTimer = 0;
-                    isJumping = false;
-                }
             }
-
-            if (isGrounded == false && isJumping == false)
-
+            if (isJumping == false)
             {
-                gravity.Y += 0.5f;
+                jumpTimer = 0;
+            }
+            if (isGrounded == false && isJumping == false || exitCollision == true)
+            {
+                if (gravity.Y <= 30)
+                {
+                    gravity.Y += 0.15f;
+                }
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)
             {
-                gravity.Y = 0.5f;
+                gravity.Y = 0;
             }
 
             if (attackTimer >= 1)

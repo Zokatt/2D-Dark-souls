@@ -15,7 +15,7 @@ namespace _2D_Dark_souls
         private Vector2 offset;
         private int speed;
         private int attackTimer;
-        private int dmg;
+        private int dmg = 2;
         private SpriteFont enemyKilled;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -23,8 +23,23 @@ namespace _2D_Dark_souls
         private Rectangle rectangle;
         private int scale;
         private bool enemyRotate;
+        private GameWorld GameWorld;
         private AttackBox attackBox;
+        private int detectPlayerInRangePlus = 200;
+        private int detectPlayerInRangeMinus = -200;
+        private List<GameObject> gameObjectList;
+        private bool canAttack;
+        private bool noHoldDown;
+        private bool deleteWhen;
+        private float deleteTimer;
+        private Texture2D attackSprite;
+        public List<AttackBox> attacks;
+        private Texture2D collisionTexture;
+        private float enemyAndPlayerDistance;
+        private float playerPositionX;
         private SoundEffect hitEffect;
+
+        private Player mainPlayer;
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
@@ -32,6 +47,7 @@ namespace _2D_Dark_souls
             this.position = position;
             this.scale = scale;
             this.hp = hp;
+            attacks = new List<AttackBox>();
         }
 
         // Enemy's bevægelseshastighed
@@ -67,6 +83,15 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
+            attackSprite = contentManager.Load<Texture2D>("AttackEffects");
+            collisionTexture = contentManager.Load<Texture2D>("Pixel");
+
+            sprites = new Texture2D[1];
+
+            sprites[0] = contentManager.Load<Texture2D>("AttackEffects");
+
+            GameWorld = new GameWorld();
+
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
         }
 
@@ -88,9 +113,21 @@ namespace _2D_Dark_souls
             }
         }
 
+        public void SetPlayer(int playerX)
+        {
+            this.playerPositionX = playerX;
+        }
+
         public override void Update(GameTime gametime)
         {
             AiMovement();
+
+            enemyAndPlayerDistance = playerPositionX - position.X;
+
+            if (enemyAndPlayerDistance <= 200 && enemyAndPlayerDistance >= -200)
+            {
+                attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 50, position.Y), 300, 1, dmg));
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -98,6 +135,19 @@ namespace _2D_Dark_souls
             spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
 
                 new Rectangle(1, 1, sprite.Width, sprite.Height), color);
+
+            //spriteBatch.Draw(attackSprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
+            //  new Rectangle(1, 1, sprite.Width, sprite.Height), color);
+
+            foreach (var item in attacks)
+            {
+                item.Draw(spriteBatch);
+            }
+        }
+
+        public List<AttackBox> GetList()
+        {
+            return attacks;
         }
     }
 }
