@@ -19,6 +19,7 @@ namespace _2D_Dark_souls
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
+        protected Texture2D[] sprites2;
         public bool isDodging;
         public bool isGrounded = false;
         private bool buttonPress = false;
@@ -37,10 +38,11 @@ namespace _2D_Dark_souls
         public SoundEffect attackSound;
         private float deleteTimer;
         private bool walkOff;
+        private int direction = 2;
 
         public Player(Vector2 position)
         {
-            fps = 5;
+            fps = 2;
             position = this.position;
             attacks = new List<AttackBox>();
             nAttacks = new List<AttackBox>();
@@ -54,9 +56,14 @@ namespace _2D_Dark_souls
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             sprites = new Texture2D[3];
+            sprites2 = new Texture2D[3];
             for (int i = 0; i < sprites.Length; i++)
             {
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
+            }
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveRight");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
@@ -85,13 +92,15 @@ namespace _2D_Dark_souls
             if (state.IsKeyDown(Keys.Right))
             {
                 position.X += 4;
-                Animation(gametime);
+                direction = 2;
+                Animation(gametime,sprites2);
                 //idle = false;
             }
             if (state.IsKeyDown(Keys.Left))
             {
                 position.X -= 4;
-                Animation(gametime);
+                direction = 1;
+                Animation(gametime,sprites);
                 //idle = false;
             }
 
@@ -99,7 +108,14 @@ namespace _2D_Dark_souls
             {
                 attackSound.Play();
 
-                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, dmg));
+                if (direction == 2)
+                {
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Right + 25, Collision.Y), 300, 1, dmg));
+                }
+                else if (direction == 1)
+                {
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Left - 300, Collision.Y), 300, 1, dmg));
+                }
                 canAttack = false;
                 noHoldDown = false;
                 deleteTimer = 0;
@@ -141,6 +157,11 @@ namespace _2D_Dark_souls
                 isJumping = false;
                 walkOff = false;
                 this.position.Y = other.Collision.Top - sprite.Height;
+                
+            }
+            if (other is Enemy)
+            {
+                this.position.X += 1000;
             }
         }
 
@@ -187,13 +208,17 @@ namespace _2D_Dark_souls
             }
             if (isGrounded == false && isJumping == false || exitCollision == true)
             {
-                if (gravity.Y <=30)
+                if (gravity.Y <=50)
                 {
                     gravity.Y += 0.15f;
                 }
                 this.position.Y += gravity.Y;
             }
             else if (isGrounded == true)
+            {
+                gravity.Y = 0;
+            }
+            else if (exitCollision == true && gravity.Y !=0)
             {
                 gravity.Y = 0;
             }
