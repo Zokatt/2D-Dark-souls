@@ -22,7 +22,7 @@ namespace _2D_Dark_souls
         private Rectangle rectangle;
         private int scale;
         private bool enemyRotate;
-        private GameWorld gameWorld;
+        private GameWorld GameWorld;
         private AttackBox attackBox;
         private int detectPlayerInRangePlus = 200;
         private int detectPlayerInRangeMinus = -200;
@@ -33,6 +33,9 @@ namespace _2D_Dark_souls
         private float deleteTimer;
         private Texture2D attackSprite;
         public List<AttackBox> attacks;
+        private Texture2D collisionTexture;
+        private float enemyAndPlayerDistance;
+        private float playerPositionX;
 
         private Player mainPlayer;
 
@@ -42,6 +45,7 @@ namespace _2D_Dark_souls
             this.position = position;
             this.scale = scale;
             this.hp = hp;
+            attacks = new List<AttackBox>();
         }
 
         // Enemy's bevægelseshastighed
@@ -78,15 +82,21 @@ namespace _2D_Dark_souls
         {
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
-            gameWorld = new GameWorld();
+            collisionTexture = contentManager.Load<Texture2D>("Pixel");
+
+
+            sprites = new Texture2D[1];
+
+            sprites[0] = contentManager.Load<Texture2D>("AttackEffects");
+
+            GameWorld = new GameWorld();
+
+
         }
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player)
-            {
-                color = Color.White;
-            }
+
 
             if (other is AttackBox)
             {
@@ -97,25 +107,32 @@ namespace _2D_Dark_souls
             {
                 GameWorld.Destroy(this);
             }
+
+        }
+
+        public void SetPlayer(int playerX)
+        {
+            this.playerPositionX = playerX;
         }
 
         public override void Update(GameTime gametime)
         {
             AiMovement();
-            gameObjectList = new List<GameObject>();
-            mainPlayer = new Player(new Vector2(0, 0));
+            
 
+            
+            
+                
 
-            if (mainPlayer.Collision.X -200 <= position.X)
-            {
-                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X - 180, Collision.Y), 300, 1, dmg));
+                enemyAndPlayerDistance = playerPositionX - position.X;
 
-                canAttack = false;
-                noHoldDown = false;
-                deleteTimer = 0;
-                deleteWhen = true;
-                attackTimer = 0;
-            }
+                if (enemyAndPlayerDistance <= 200 && enemyAndPlayerDistance >= -200)
+                {
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 50, position.Y), 300, 1, dmg));
+
+                }
+            
+
 
         }
 
@@ -124,6 +141,20 @@ namespace _2D_Dark_souls
             spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
 
                 new Rectangle(1, 1, sprite.Width, sprite.Height), color);
+
+            //spriteBatch.Draw(attackSprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
+            //  new Rectangle(1, 1, sprite.Width, sprite.Height), color);
+
+            foreach (var item in attacks)
+            {
+                item.Draw(spriteBatch);
+                
+            }
+        }
+
+        public List<AttackBox> GetList()
+        {
+            return attacks;
         }
     }
 }
