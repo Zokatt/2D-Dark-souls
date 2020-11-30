@@ -11,6 +11,8 @@ namespace _2D_Dark_souls
     {
         private string chosenSprite;
         private int _spriteWidth;
+        
+
 
         public Enviroment(string sprite, Vector2 position, int stretch)
         {

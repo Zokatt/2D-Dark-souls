@@ -93,6 +93,7 @@ namespace _2D_Dark_souls
 
             mainPlayer.Update(gameTime);
 
+
             foreach (var item in gameObjectList)
             {
                 mainPlayer.CheckCollision(item);
@@ -172,5 +173,6 @@ namespace _2D_Dark_souls
 
             base.Draw(gameTime);
         }
+
     }
 }

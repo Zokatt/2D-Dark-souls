@@ -17,11 +17,13 @@ namespace _2D_Dark_souls
         protected SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
         protected bool exitCollision;
-
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
-
+        public Vector2 pos
+        {
+            get { return this.position; }
+        }
         public virtual Rectangle Collision
         {
             get

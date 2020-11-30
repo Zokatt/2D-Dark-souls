@@ -151,18 +151,30 @@ namespace _2D_Dark_souls
 
         public override void OnCollision(GameObject other)
         {
+           
             if (other is Enviroment)
             {
                 isGrounded = true;
                 isJumping = false;
                 walkOff = false;
-                this.position.Y = other.Collision.Top - sprite.Height;
+                //if (other.Collision.Left == Collision.Right)
+                //{
+                //    this.position.X = other.Collision.Left - sprite.Width;
+                //}
+                if (other.pos.X >= position.X && other.Collision.Location.X != position.X)
+                {
+                    this.position.X = other.Collision.Left - sprite.Width;
+                }
+                else if (other.pos.Y >= position.Y)
+                {
+                    this.position.Y = other.Collision.Top - sprite.Height;
+                }
                 
+                
+
             }
-            if (other is Enemy)
-            {
-                this.position.X += 1000;
-            }
+            
+            
         }
 
         public void DrawCollisionBox(GameObject go)
@@ -237,6 +249,7 @@ namespace _2D_Dark_souls
                 }
                 dAttack.Clear();
             }
+            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -249,5 +262,7 @@ namespace _2D_Dark_souls
         {
             dAttack.Add(item);
         }
+
+       
     }
 }
