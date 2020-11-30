@@ -16,6 +16,7 @@ namespace _2D_Dark_souls
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
         private Texture2D spriteIdle;
+        private Texture2D spriteJump;
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
@@ -59,7 +60,11 @@ namespace _2D_Dark_souls
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            spriteJump = contentManager.Load<Texture2D>("JimmyJump");
+
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
+            
+
         }
 
         private void HandleInput(GameTime gametime)
@@ -72,6 +77,8 @@ namespace _2D_Dark_souls
                 isGrounded = false;
                 buttonPress = true;
                 gravity.Y = 0;
+                sprite = spriteJump;
+
             }
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
