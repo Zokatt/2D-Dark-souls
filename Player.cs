@@ -100,7 +100,7 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                position.X += 15;
+                position.X += 10;
                 Animation(gametime);
                 if (state.IsKeyDown(Keys.Up))
                 {
@@ -110,7 +110,7 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                position.X -= 7;
+                position.X -= 10;
                 Animation(gametime);
                 if (state.IsKeyDown(Keys.Up))
                 {
