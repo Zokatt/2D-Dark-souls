@@ -83,6 +83,7 @@ namespace _2D_Dark_souls
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
                 isJumping = false;
+                
             }
             if (state.IsKeyUp(Keys.Up))
             {
@@ -91,15 +92,23 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                position.X += 4;
+                position.X += 7;
                 Animation(gametime);
-                //idle = false;
+                if (state.IsKeyDown(Keys.Up))
+                {
+                    sprite = spriteJump;
+                }
+                
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                position.X -= 4;
+                position.X -= 7;
                 Animation(gametime);
-                //idle = false;
+                if (state.IsKeyDown(Keys.Up))
+                {
+                    sprite = spriteJump;
+                }
+                
             }
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)

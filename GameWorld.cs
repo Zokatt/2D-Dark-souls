@@ -62,7 +62,7 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4050, -535), 350));
 
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4700, 750), 85));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5000, 750), 85));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5100, 750), 85));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6100, 900), 400));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, 900), 400));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, 900), 400));
