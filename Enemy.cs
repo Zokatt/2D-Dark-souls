@@ -74,9 +74,8 @@ namespace _2D_Dark_souls
         {
             if (other is Player)
             {
-                color = Color.White;
+                color = Color.Pink;
             }
-
             if (other is AttackBox)
             {
                 hitEffect.Play();

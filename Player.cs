@@ -11,7 +11,7 @@ namespace _2D_Dark_souls
 {
     public class Player : GameObject
     {
-        private int hp;
+        public int hp;
         private int speed;
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
@@ -36,9 +36,14 @@ namespace _2D_Dark_souls
         private bool deleteWhen;
         public SoundEffect attackSound;
         private float deleteTimer;
+        public Texture2D[] health;
+        public Texture2D currentHealth;
+        private float timer = 0.0f;
+        private float cooldownTime = 5;
 
         public Player(Vector2 position)
         {
+            hp = 4;
             fps = 5;
             position = this.position;
             attacks = new List<AttackBox>();
@@ -49,6 +54,7 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             KeyboardState state = Keyboard.GetState();
+            health = new Texture2D[5];
             sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
@@ -57,6 +63,11 @@ namespace _2D_Dark_souls
             {
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
+            for (int i = 0; i < health.Length; i++)
+            {
+                health[i] = contentManager.Load<Texture2D>(i + "Health");
+            }
+            currentHealth = health[4];
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
         }
@@ -93,7 +104,6 @@ namespace _2D_Dark_souls
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
                 attackSound.Play();
-
                 attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, dmg));
                 canAttack = false;
                 noHoldDown = false;
@@ -130,7 +140,12 @@ namespace _2D_Dark_souls
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enviroment)
+            if (other is Enemy && timer > cooldownTime)
+            {
+                Health(1);
+                timer = 0;
+            }
+            else if (other is Enviroment)
             {
                 buttonPress = true;
                 isGrounded = true;
@@ -153,6 +168,8 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
+            if (timer < cooldownTime + 1)
+                timer += (float)gametime.ElapsedGameTime.TotalSeconds;
             HandleInput(gametime);
             dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             attackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
@@ -209,10 +226,26 @@ namespace _2D_Dark_souls
             }
         }
 
+        public void Health(int enemydmg)
+        {
+            hp -= enemydmg;
+            if (hp == 4)
+                currentHealth = health[4];
+            else if (hp == 3)
+                currentHealth = health[3];
+            else if (hp == 2)
+                currentHealth = health[2];
+            else if (hp == 1)
+                currentHealth = health[1];
+            else if (hp <= 0)
+                currentHealth = health[0];
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             color = Color.White;
+            spriteBatch.Draw(currentHealth, new Vector2(800, -500), null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
         public void DestroyItem(AttackBox item)
