@@ -42,12 +42,35 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
+            for (int i = 1; i < 10; i++)
+            {
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(-100, 285 + 85 * -i), 100));
+            }
+
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(0, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(500, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
+
+            for (int i = 1; i < 8; i++)
+            {
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1800 + (150 * i), 170 + 85 * -i), 150));
+            }
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3000, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3350, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3700, -535), 350));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4050, -535), 350));
+
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4700, 750), 85));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5000, 750), 85));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6100, 900), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, 900), 400));
+            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, 900), 400));
+
+
+
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1250, -200), 250));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(2150, 100), 500));
+
 
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
