@@ -91,14 +91,14 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                position.X += 4;
+                position.X += 10;
                 direction = 2;
                 Animation(gametime,sprites2);
                 //idle = false;
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                position.X -= 4;
+                position.X -= 10;
                 direction = 1;
                 Animation(gametime,sprites);
                 //idle = false;
