@@ -11,7 +11,12 @@ namespace _2D_Dark_souls
     {
         //private string chosenSprite;
         private int _spriteWidth;
-        private int ID; //use this to determine who spawned this, 1 for player, 2 for enemy
+        public static int ID; //use this to determine who spawned this, 1 for player, 2 for enemy
+        public int setID
+        {
+            get { return ID; }
+            set { ID = value; }
+        }
         public int damage;
 
         public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch,int idNumber, int damage)
@@ -19,7 +24,7 @@ namespace _2D_Dark_souls
             _spriteWidth = stretch;
             sprite = chosenSprite;
             this.position = position;
-            this.ID = idNumber;
+            this.setID = idNumber;
             this.damage = damage;
         }
 

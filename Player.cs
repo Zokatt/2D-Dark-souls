@@ -41,7 +41,7 @@ namespace _2D_Dark_souls
         public Texture2D[] health;
         public Texture2D currentHealth;
         private float timer = 0.0f;
-        private float cooldownTime = 5;
+        private float cooldownTime = 2;
         private bool walkOff;
         private int direction = 2;
 
@@ -172,10 +172,15 @@ namespace _2D_Dark_souls
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy && timer > cooldownTime)
+            if (other is AttackBox && AttackBox.ID == 2 && timer > cooldownTime)
             {
                 Health(1);
                 timer = 0;
+            }
+            if (other is Enemy && timer > cooldownTime)
+            {
+                //Health(1);
+                //timer = 0;
             }
             else if (other is Enviroment)
             {

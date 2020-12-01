@@ -17,6 +17,7 @@ namespace _2D_Dark_souls
         private List<GameObject> gameObjectList;
         private List<Camera> Camera;
         public List<Enemy> enemies;
+        private List<AttackBox> enemyAttacks;
         private SpriteFont EnemyTakesDmg;
         public static List<Enemy> deleteObjects;
         public static SoundEffect attackSound;
@@ -126,6 +127,8 @@ namespace _2D_Dark_souls
 
         protected override void Update(GameTime gameTime)
         {
+
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -142,7 +145,7 @@ namespace _2D_Dark_souls
             {
                 mainPlayer.CheckCollision(item);
             }
-
+            
             MainCamera.Update(gameTime);
 
             foreach (var item in enemies)
@@ -155,8 +158,12 @@ namespace _2D_Dark_souls
                 }
                 item.CheckCollision(mainPlayer);
                 mainPlayer.CheckCollision(item);
+                enemyAttacks = item.GetList();
+                foreach (var attacks in enemyAttacks)
+                {
+                    mainPlayer.CheckCollision(attacks);
+                }
             }
-
             foreach (Enemy go in deleteObjects)
             {
                 enemies.Remove(go);
