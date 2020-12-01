@@ -69,14 +69,15 @@ namespace _2D_Dark_souls
 
 
 
-        protected void Animation(GameTime gametime)
+        protected void Animation(GameTime gametime, Texture2D[] chosenSprites)
         {
             //Adds time that has passed since last update
             timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
             //Calculate the current index
             currentIndex = (int)(timeElapsed * fps + 1);
 
-            sprite = sprites[currentIndex];
+            sprite = chosenSprites[currentIndex];
+
             //Checks if we need to restart the animation
             if (currentIndex >= sprites.Length - 1)
             {
@@ -85,6 +86,6 @@ namespace _2D_Dark_souls
                 currentIndex = 0;
             }
         }
-        
+
     }
 }
