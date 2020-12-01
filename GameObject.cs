@@ -21,6 +21,10 @@ namespace _2D_Dark_souls
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
+        public Vector2 pos
+        {
+            get { return this.position; }
+        }
 
         public virtual Rectangle Collision
         {
