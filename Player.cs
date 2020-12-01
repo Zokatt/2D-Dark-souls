@@ -182,7 +182,7 @@ namespace _2D_Dark_souls
             {
                 isGrounded = true;
                 isJumping = false;
-                walkOff = false; 
+                walkOff = false;
                 if (position.X > other.Collision.Left && position.X < other.Collision.Right && position.Y > other.Collision.Top)
                 {
 
@@ -270,6 +270,10 @@ namespace _2D_Dark_souls
                     attacks.Remove(item);
                 }
                 dAttack.Clear();
+            }
+            if (jumpTimer > 1f)
+            {
+                isJumping = false;
             }
         }
 
