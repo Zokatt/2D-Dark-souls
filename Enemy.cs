@@ -169,14 +169,16 @@ namespace _2D_Dark_souls
                 if (cAnimation == 4)
                 {
                     Attacking = false;
-                    position.X -= 5;
+                    
                     if (Left == true)
                     {
+                        position.X -= 5;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
 
                     }
                     else if (Left == false)
                     {
+                        position.X += 5;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + +200, position.Y + 100), 200, 2, dmg));
 
                     }
