@@ -157,15 +157,11 @@ namespace _2D_Dark_souls
                 isGrounded = true;
                 isJumping = false;
                 walkOff = false;
-                //if (other.pos.X >= position.X  && other.Collision.Location.X != position.X)
-                //{
-                //    this.position.X = other.Collision.Left - sprite.Width;
-                //}
                 if (position.X > other.Collision.Left && position.X < other.Collision.Right && position.Y > other.Collision.Top)
                 {
 
                 }
-                else if (position.X+(sprite.Width/3) <= other.pos.X && position.Y + (sprite.Height/2) >= other.pos.Y)
+                else if (position.X + (sprite.Width / 3) <= other.pos.X && position.Y + (sprite.Height / 2) >= other.pos.Y)
                 {
                     this.position.X = other.Collision.Left - sprite.Width;
                 }
@@ -177,8 +173,8 @@ namespace _2D_Dark_souls
                 {
                     this.position.Y = other.Collision.Top - sprite.Height;
                 }
-                
-                
+
+
 
             }
             
