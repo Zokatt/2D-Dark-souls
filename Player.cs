@@ -131,11 +131,11 @@ namespace _2D_Dark_souls
                 attackSound.Play(); 
                 if (direction == 2)
                 {
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Right + 25, Collision.Y), 300, 1, dmg));
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Right-100, Collision.Y), 200, 1, dmg));
                 }
                 else if (direction == 1)
                 {
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Left - 300, Collision.Y), 300, 1, dmg));
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Left - 100, Collision.Y), 200, 1, dmg));
                 }
                 canAttack = false;
                 noHoldDown = false;

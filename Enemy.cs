@@ -28,7 +28,7 @@ namespace _2D_Dark_souls
         private int detectPlayerInRangePlus = 200;
         private int detectPlayerInRangeMinus = -200;
         private List<GameObject> gameObjectList;
-        private bool canAttack;
+        private bool Attacking;
         private bool noHoldDown;
         private bool deleteWhen;
         private float deleteTimer;
@@ -131,7 +131,7 @@ namespace _2D_Dark_souls
 
             if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
             {
-
+                Attacking = true;
                 if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0)
                 {
                     Left = true;
@@ -141,14 +141,20 @@ namespace _2D_Dark_souls
                     Left = false;
                 }
 
+
+            }
+
+            if (Attacking == true)
+            {
+
                 AiMovement();
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (animationTimer > 0.5f && cAnimation <3)
+                if (animationTimer > 0.4f && cAnimation < 3)
                 {
                     cAnimation += 1;
                     animationTimer = 0;
                 }
-                else if (animationTimer >0.1f && cAnimation >= 3)
+                else if (animationTimer > 0.1f && cAnimation >= 3)
                 {
                     cAnimation += 1;
                     animationTimer = 0;
@@ -162,6 +168,7 @@ namespace _2D_Dark_souls
 
                 if (cAnimation == 4)
                 {
+                    Attacking = false;
                     position.X -= 5;
                     if (Left == true)
                     {
@@ -174,16 +181,15 @@ namespace _2D_Dark_souls
 
                     }
                 }
-                
+
             }
             else
             {
                 sprite = idle;
             }
-
-
-
         }
+
+        
 
         public override void Draw(SpriteBatch spriteBatch)
         {
