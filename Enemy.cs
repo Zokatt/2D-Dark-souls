@@ -154,17 +154,20 @@ namespace _2D_Dark_souls
                     cAnimation += 1;
                     animationTimer = 0;
                 }
-                else if (animationTimer > 0.1f && cAnimation >= 3)
+                else if (animationTimer > 0.2f && cAnimation >= 3)
                 {
                     cAnimation += 1;
                     animationTimer = 0;
                 }
 
-                if (cAnimation >= HammerAttack.Length)
+                if (cAnimation > HammerAttack.Length)
                 {
                     cAnimation = 0;
                 }
-                sprite = HammerAttack[cAnimation];
+                if (cAnimation <HammerAttack.Length)
+                {
+                    sprite = HammerAttack[cAnimation];
+                }
 
                 if (cAnimation == 4)
                 {
