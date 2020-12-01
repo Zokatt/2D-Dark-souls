@@ -191,7 +191,7 @@ namespace _2D_Dark_souls
                 {
                     this.position.X = other.Collision.Left - sprite.Width;
                 }
-                else if (position.X + (sprite.Width / 2) >= other.pos.X && position.Y + (sprite.Height / 2) >= other.pos.Y)
+                else if (position.X + (sprite.Width / 2) >= other.pos.X && other.pos.Y - (sprite.Height/2) < position.Y)
                 {
                     this.position.X = other.Collision.Right;
                 }
