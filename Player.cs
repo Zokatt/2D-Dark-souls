@@ -20,6 +20,7 @@ namespace _2D_Dark_souls
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
+        private Texture2D[] sprites2;
         public bool isDodging;
         public bool isGrounded = false;
         private bool buttonPress = false;
@@ -42,6 +43,7 @@ namespace _2D_Dark_souls
         private float timer = 0.0f;
         private float cooldownTime = 5;
         private bool walkOff;
+        private int direction = 2;
 
         public Player(Vector2 position)
         {
@@ -61,6 +63,7 @@ namespace _2D_Dark_souls
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             sprites = new Texture2D[3];
+            sprites2 = new Texture2D[3];
             for (int i = 0; i < sprites.Length; i++)
             {
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
@@ -68,6 +71,10 @@ namespace _2D_Dark_souls
             for (int i = 0; i < health.Length; i++)
             {
                 health[i] = contentManager.Load<Texture2D>(i + "Health");
+            }
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveRight");
             }
             currentHealth = health[4];
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
@@ -101,28 +108,36 @@ namespace _2D_Dark_souls
             if (state.IsKeyDown(Keys.Right))
             {
                 position.X += 10;
-                Animation(gametime);
+                Animation(gametime,sprites2);
                 if (state.IsKeyDown(Keys.Up))
                 {
                     sprite = spriteJump;
                 }
-                
+                direction = 2;
             }
             if (state.IsKeyDown(Keys.Left))
             {
                 position.X -= 10;
-                Animation(gametime);
+                Animation(gametime,sprites);
                 if (state.IsKeyDown(Keys.Up))
                 {
                     sprite = spriteJump;
                 }
+                direction = 1;
                 
             }
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
-                attackSound.Play();
-                attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.X + 180, Collision.Y), 300, 1, dmg));
+                attackSound.Play(); 
+                if (direction == 2)
+                {
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Right + 25, Collision.Y), 300, 1, dmg));
+                }
+                else if (direction == 1)
+                {
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Left - 300, Collision.Y), 300, 1, dmg));
+                }
                 canAttack = false;
                 noHoldDown = false;
                 deleteTimer = 0;
@@ -167,8 +182,23 @@ namespace _2D_Dark_souls
             {
                 isGrounded = true;
                 isJumping = false;
-                walkOff = false;
-                this.position.Y = other.Collision.Top - sprite.Height;
+                walkOff = false; 
+                if (position.X > other.Collision.Left && position.X < other.Collision.Right && position.Y > other.Collision.Top)
+                {
+
+                }
+                else if (position.X + (sprite.Width / 3) <= other.pos.X && position.Y + (sprite.Height / 2) >= other.pos.Y)
+                {
+                    this.position.X = other.Collision.Left - sprite.Width;
+                }
+                else if (position.X + (sprite.Width / 2) >= other.pos.X && position.Y + (sprite.Height / 2) >= other.pos.Y)
+                {
+                    this.position.X = other.Collision.Right;
+                }
+                else if (other.pos.Y >= position.Y)
+                {
+                    this.position.Y = other.Collision.Top - sprite.Height;
+                }
             }
         }
 
