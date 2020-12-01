@@ -97,7 +97,7 @@ namespace _2D_Dark_souls
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
-            enemies.Add(new Enemy(new Vector2(800, -100), 300, 3));
+            enemies.Add(new Enemy(new Vector2(1000, -100), 300, 3));
             base.Initialize();
         }
 

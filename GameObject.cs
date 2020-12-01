@@ -74,7 +74,7 @@ namespace _2D_Dark_souls
             //Adds time that has passed since last update
             timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
             //Calculate the current index
-            currentIndex = (int)(timeElapsed * fps + 1);
+            currentIndex = (int)(timeElapsed * fps);
 
             sprite = chosenSprites[currentIndex];
 

@@ -38,37 +38,36 @@ namespace _2D_Dark_souls
         private float enemyAndPlayerDistance;
         private float playerPositionX;
         private SoundEffect hitEffect;
-
+        private Texture2D[] HammerAttack;
+        private float animationTimer;
+        private int cAnimation;
+        private Texture2D idle;
         private Player mainPlayer;
+        private bool Left; //left is true, right is false
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
         {
             this.position = position;
             this.scale = scale;
-            this.hp = hp;
+            this.hp = 100;
+            this.sprite = idle;
             attacks = new List<AttackBox>();
         }
 
         // Enemy's bevægelseshastighed
         public void AiMovement()
         {
-            if (enemyRotate == true)
+            if (Left == true)
             {
-                if (position.X == 0)
-                {
-                    enemyRotate = false;
-                }
-                position.X -= 5;
+                position.X -= 2;
             }
-            if (enemyRotate == false)
+            if (Left == false)
             {
-                if (position.X >= 1000)
-                {
-                    enemyRotate = true;
-                }
-                position.X += 5;
+                position.X += 2;
             }
+                
+            
         }
 
         public override Rectangle Collision
@@ -82,7 +81,7 @@ namespace _2D_Dark_souls
 
         public override void LoadContent(ContentManager contentManager)
         {
-            sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
+            idle = contentManager.Load<Texture2D>("EnemyGhostJimV2");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
 
@@ -93,6 +92,12 @@ namespace _2D_Dark_souls
             GameWorld = new GameWorld();
 
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
+
+            HammerAttack = new Texture2D[5];
+            for (int i = 0; i < HammerAttack.Length; i++)
+            {
+                HammerAttack[i] = contentManager.Load<Texture2D>(i  + "HammerAttackJim");
+            }
         }
 
         public override void OnCollision(GameObject other)
@@ -120,14 +125,64 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            AiMovement();
+           
 
-            enemyAndPlayerDistance = playerPositionX - position.X;
+            enemyAndPlayerDistance = position.X - playerPositionX;
 
-            if (enemyAndPlayerDistance <= 200 && enemyAndPlayerDistance >= -200)
+            if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
             {
-                attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 50, position.Y), 300, 2, dmg));
+
+                if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0)
+                {
+                    Left = true;
+                }
+                else if (enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
+                {
+                    Left = false;
+                }
+
+                AiMovement();
+                animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                if (animationTimer > 0.5f && cAnimation <3)
+                {
+                    cAnimation += 1;
+                    animationTimer = 0;
+                }
+                else if (animationTimer >0.1f && cAnimation >= 3)
+                {
+                    cAnimation += 1;
+                    animationTimer = 0;
+                }
+
+                if (cAnimation >= HammerAttack.Length)
+                {
+                    cAnimation = 0;
+                }
+                sprite = HammerAttack[cAnimation];
+
+                if (cAnimation == 4)
+                {
+                    position.X -= 5;
+                    if (Left == true)
+                    {
+                        attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
+
+                    }
+                    else if (Left == false)
+                    {
+                        attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + +200, position.Y + 100), 200, 2, dmg));
+
+                    }
+                }
+                
             }
+            else
+            {
+                sprite = idle;
+            }
+
+
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
