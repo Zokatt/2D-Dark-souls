@@ -43,6 +43,7 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
+
             //First level________________________________________________________________________________________________________
             for (int i = 1; i < 10; i++)
             {

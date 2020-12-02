@@ -11,27 +11,28 @@ namespace _2D_Dark_souls
 {
     public class Enemy : GameObject
     {
-        public int hp;
-        private Vector2 offset;
-        private int speed;
-        private int attackTimer;
-        private int dmg = 2;
-        private SpriteFont enemyKilled;
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private Texture2D enemyJimSprite;
-        private Rectangle rectangle;
-        private int scale;
-        private bool enemyRotate;
+        //private Vector2 offset;
+        //private int speed;
+        //private int attackTimer;
+        //private SpriteFont enemyKilled;
+        //private GraphicsDeviceManager _graphics;
+        //private SpriteBatch _spriteBatch;
+        //private Texture2D enemyJimSprite;
+        //private Rectangle rectangle;
+        //private bool enemyRotate;
+        //private AttackBox attackBox;
+        //private int detectPlayerInRangePlus = 200;
+        //private int detectPlayerInRangeMinus = -200;
+        //private List<GameObject> gameObjectList;
+        //private bool noHoldDown;
+        //private bool deleteWhen;
+        //private float deleteTimer;
+        //private Player mainPlayer;
         private GameWorld GameWorld;
-        private AttackBox attackBox;
-        private int detectPlayerInRangePlus = 200;
-        private int detectPlayerInRangeMinus = -200;
-        private List<GameObject> gameObjectList;
+        public int hp;
+        private int scale;
+        private int dmg = 2;
         private bool Attacking;
-        private bool noHoldDown;
-        private bool deleteWhen;
-        private float deleteTimer;
         private Texture2D attackSprite;
         public static List<AttackBox> attacks;
         private Texture2D collisionTexture;
@@ -42,7 +43,7 @@ namespace _2D_Dark_souls
         private float animationTimer;
         private int cAnimation;
         private Texture2D idle;
-        private Player mainPlayer;
+        
         private bool Left; //left is true, right is false
 
         // Giver en position og scalering af enemy
