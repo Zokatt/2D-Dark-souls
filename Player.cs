@@ -27,7 +27,7 @@ namespace _2D_Dark_souls
         private bool isJumping = false;
         private float dodgeTimer;
         private float jumpTimer;
-        public static int dmg = 2;
+        public static int dmg = 10;
         private bool idle;
         public List<AttackBox> attacks;
         public List<AttackBox> nAttacks;
@@ -196,7 +196,7 @@ namespace _2D_Dark_souls
                 {
                     this.position.X = other.Collision.Right;
                 }
-                else if (other.pos.Y  >= position.Y)
+                else if (other.pos.Y >= position.Y)
                 {
                     position.Y = other.Collision.Top - Collision.Height;
                 }

@@ -205,18 +205,6 @@
 /processorParam:TextureFormat=Color
 /build:4HammerAttackJim.png
 
-#begin 4HammerAttackJim.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:4HammerAttackJim.png
-
 #begin 4Health.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -252,6 +240,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:EnemyGhostJimV2.png
+
+#begin HpBar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:HpBar.png
 
 #begin JimmyJump.png
 /importer:TextureImporter

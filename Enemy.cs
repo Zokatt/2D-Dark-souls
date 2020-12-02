@@ -30,7 +30,7 @@ namespace _2D_Dark_souls
         //private Player mainPlayer;
         private GameWorld GameWorld;
 
-        public int hp;
+        public float lastHP;
         private int scale;
         private int dmg = 2;
         private bool Attacking;
@@ -45,22 +45,26 @@ namespace _2D_Dark_souls
         private int cAnimation;
         private Texture2D idle;
         private SpriteFont enemyTakesDmg;
+        private Texture2D hpBar;
         private float timer;
         private float cooldownTime = 1;
-        private int currentHP;
-        private Vector2 offset = new Vector2(-100, -100);
-        private float takenDmgTimer;
+        private float currentHP;
+        private Vector2 offset = new Vector2(-90, -100);
+        private double takenDmgTimer;
         private bool takenDmg = false;
-
+        private float maxHp;
         private bool Left; //left is true, right is false
+        private float healthPercentage;
+        private float visibleWidth;
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
         {
             this.position = position;
             this.scale = scale;
-            this.hp = 5;
-            currentHP = this.hp;
+            this.lastHP = 100;
+            currentHP = this.lastHP;
+            maxHp = this.lastHP;
             this.sprite = idle;
             attacks = new List<AttackBox>();
         }
@@ -94,6 +98,7 @@ namespace _2D_Dark_souls
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             enemyTakesDmg = contentManager.Load<SpriteFont>("Score");
             sprites = new Texture2D[1];
+            hpBar = contentManager.Load<Texture2D>("HpBar");
 
             sprites[0] = contentManager.Load<Texture2D>("AttackEffects");
 
@@ -116,11 +121,11 @@ namespace _2D_Dark_souls
             if (other is AttackBox && timer > cooldownTime)
             {
                 hitEffect.Play();
-                hp -= Player.dmg;
+                currentHP -= Player.dmg;
                 timer = 0;
             }
 
-            if (hp <= 0)
+            if (lastHP <= 0)
             {
                 GameWorld.Destroy(this);
             }
@@ -141,17 +146,16 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            if (hp != currentHP)
+            if (currentHP != lastHP)
             {
-                takenDmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                takenDmgTimer = gametime.TotalGameTime.TotalSeconds;
                 takenDmg = true;
+                lastHP = currentHP;
             }
 
-            if (takenDmgTimer >= 1)
+            if (takenDmg && gametime.TotalGameTime.TotalSeconds > takenDmgTimer + 2)
             {
                 takenDmg = false;
-                currentHP = hp;
-                takenDmgTimer = 0;
             }
 
             if (timer < cooldownTime + 1)
@@ -231,12 +235,30 @@ namespace _2D_Dark_souls
 
             if (takenDmg == true)
             {
-                spriteBatch.DrawString(enemyTakesDmg, Player.dmg.ToString(), position + offset, Color.White);
+                spriteBatch.DrawString(enemyTakesDmg, Player.dmg.ToString() + "aids", position + offset, Color.White);
             }
-            else if (takenDmg == false)
+            else
             {
                 spriteBatch.DrawString(enemyTakesDmg, "", position + offset, Color.White);
             }
+
+            Rectangle healthRectangle = new Rectangle((int)position.X,
+                                         (int)position.Y,
+                                         hpBar.Width,
+                                         hpBar.Height);
+
+            spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
+
+            healthPercentage = ((float)currentHP / (float)maxHp);
+
+            visibleWidth = (float)hpBar.Width * (float)healthPercentage;
+
+            healthRectangle = new Rectangle((int)position.X,
+                                           (int)position.Y,
+                                           (int)(visibleWidth),
+                                           hpBar.Height);
+
+            spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
 
             //spriteBatch.Draw(attackSprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
             //  new Rectangle(1, 1, sprite.Width, sprite.Height), color);
