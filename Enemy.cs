@@ -117,6 +117,14 @@ namespace _2D_Dark_souls
             {
                 GameWorld.Destroy(this);
             }
+            if (other is Enviroment)
+            {
+                if (other.pos.Y > position.Y)
+                {
+                    position.Y = other.Collision.Top - Collision.Height;
+                }
+                velocity.Y = 0;
+            }
         }
 
         public void SetPlayer(int playerX)
@@ -126,8 +134,11 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-           
-
+            if (exitCollision == true)
+            {
+                this.velocity.Y += 0.1f;
+            }
+            this.position.Y += velocity.Y;
             enemyAndPlayerDistance = position.X - playerPositionX;
 
             if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)

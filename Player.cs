@@ -196,9 +196,9 @@ namespace _2D_Dark_souls
                 {
                     this.position.X = other.Collision.Right;
                 }
-                else if (other.pos.Y >= position.Y)
+                else if (other.pos.Y  >= position.Y)
                 {
-                    this.position.Y = other.Collision.Top - sprite.Height;
+                    position.Y = other.Collision.Top - Collision.Height;
                 }
             }
         }
