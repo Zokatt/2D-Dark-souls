@@ -86,6 +86,7 @@ namespace _2D_Dark_souls
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
 
+
             sprites = new Texture2D[1];
 
             sprites[0] = contentManager.Load<Texture2D>("AttackEffects");
