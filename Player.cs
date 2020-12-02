@@ -97,7 +97,6 @@ namespace _2D_Dark_souls
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
                 isJumping = false;
-                
             }
             if (state.IsKeyUp(Keys.Up))
             {
@@ -112,7 +111,10 @@ namespace _2D_Dark_souls
                 {
                     sprite = spriteJump;
                 }
+<<<<<<< Updated upstream
                 direction = 2;
+=======
+>>>>>>> Stashed changes
             }
             if (state.IsKeyDown(Keys.Left))
             {
@@ -122,8 +124,11 @@ namespace _2D_Dark_souls
                 {
                     sprite = spriteJump;
                 }
+<<<<<<< Updated upstream
                 direction = 1;
                 
+=======
+>>>>>>> Stashed changes
             }
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
@@ -300,7 +305,7 @@ namespace _2D_Dark_souls
         {
             base.Draw(spriteBatch);
             color = Color.White;
-            spriteBatch.Draw(currentHealth, new Vector2(800, -500), null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            spriteBatch.Draw(currentHealth, new Vector2(position.X - 800, position.Y - 400), null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
         public void DestroyItem(AttackBox item)
