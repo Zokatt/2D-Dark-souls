@@ -111,10 +111,7 @@ namespace _2D_Dark_souls
                 {
                     sprite = spriteJump;
                 }
-<<<<<<< Updated upstream
                 direction = 2;
-=======
->>>>>>> Stashed changes
             }
             if (state.IsKeyDown(Keys.Left))
             {
@@ -124,19 +121,15 @@ namespace _2D_Dark_souls
                 {
                     sprite = spriteJump;
                 }
-<<<<<<< Updated upstream
                 direction = 1;
-                
-=======
->>>>>>> Stashed changes
             }
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {
-                attackSound.Play(); 
+                attackSound.Play();
                 if (direction == 2)
                 {
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Right-100, Collision.Y), 200, 1, dmg));
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(Collision.Right - 100, Collision.Y), 200, 1, dmg));
                 }
                 else if (direction == 1)
                 {
@@ -194,13 +187,12 @@ namespace _2D_Dark_souls
                 walkOff = false;
                 if (position.X > other.Collision.Left && position.X < other.Collision.Right && position.Y > other.Collision.Top)
                 {
-
                 }
                 else if (position.X + (sprite.Width / 3) <= other.pos.X && position.Y + (sprite.Height / 2) >= other.pos.Y)
                 {
                     this.position.X = other.Collision.Left - sprite.Width;
                 }
-                else if (position.X + (sprite.Width / 2) >= other.pos.X && other.pos.Y - (sprite.Height/2) < position.Y)
+                else if (position.X + (sprite.Width / 2) >= other.pos.X && other.pos.Y - (sprite.Height / 2) < position.Y)
                 {
                     this.position.X = other.Collision.Right;
                 }
