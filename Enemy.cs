@@ -29,6 +29,7 @@ namespace _2D_Dark_souls
         //private float deleteTimer;
         //private Player mainPlayer;
         private GameWorld GameWorld;
+
         public int hp;
         private int scale;
         private int dmg = 2;
@@ -43,7 +44,14 @@ namespace _2D_Dark_souls
         private float animationTimer;
         private int cAnimation;
         private Texture2D idle;
-        
+        private SpriteFont enemyTakesDmg;
+        private float timer;
+        private float cooldownTime = 1;
+        private int currentHP;
+        private Vector2 offset = new Vector2(-100, -100);
+        private float takenDmgTimer;
+        private bool takenDmg = false;
+
         private bool Left; //left is true, right is false
 
         // Giver en position og scalering af enemy
@@ -51,7 +59,8 @@ namespace _2D_Dark_souls
         {
             this.position = position;
             this.scale = scale;
-            this.hp = 100;
+            this.hp = 5;
+            currentHP = this.hp;
             this.sprite = idle;
             attacks = new List<AttackBox>();
         }
@@ -67,8 +76,6 @@ namespace _2D_Dark_souls
             {
                 position.X += 2;
             }
-                
-            
         }
 
         public override Rectangle Collision
@@ -85,7 +92,7 @@ namespace _2D_Dark_souls
             idle = contentManager.Load<Texture2D>("EnemyGhostJimV2");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
-
+            enemyTakesDmg = contentManager.Load<SpriteFont>("Score");
             sprites = new Texture2D[1];
 
             sprites[0] = contentManager.Load<Texture2D>("AttackEffects");
@@ -97,7 +104,7 @@ namespace _2D_Dark_souls
             HammerAttack = new Texture2D[5];
             for (int i = 0; i < HammerAttack.Length; i++)
             {
-                HammerAttack[i] = contentManager.Load<Texture2D>(i  + "HammerAttackJim");
+                HammerAttack[i] = contentManager.Load<Texture2D>(i + "HammerAttackJim");
             }
         }
 
@@ -105,12 +112,12 @@ namespace _2D_Dark_souls
         {
             if (other is Player)
             {
-                color = Color.Pink;
             }
-            if (other is AttackBox)
+            if (other is AttackBox && timer > cooldownTime)
             {
                 hitEffect.Play();
                 hp -= Player.dmg;
+                timer = 0;
             }
 
             if (hp <= 0)
@@ -126,7 +133,21 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-           
+            if (hp != currentHP)
+            {
+                takenDmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                takenDmg = true;
+            }
+
+            if (takenDmgTimer >= 1)
+            {
+                takenDmg = false;
+                currentHP = hp;
+                takenDmgTimer = 0;
+            }
+
+            if (timer < cooldownTime + 1)
+                timer += (float)gametime.ElapsedGameTime.TotalSeconds;
 
             enemyAndPlayerDistance = position.X - playerPositionX;
 
@@ -141,13 +162,10 @@ namespace _2D_Dark_souls
                 {
                     Left = false;
                 }
-
-
             }
 
             if (Attacking == true)
             {
-
                 AiMovement();
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                 if (animationTimer > 0.4f && cAnimation < 3)
@@ -165,7 +183,7 @@ namespace _2D_Dark_souls
                 {
                     cAnimation = 0;
                 }
-                if (cAnimation <HammerAttack.Length)
+                if (cAnimation < HammerAttack.Length)
                 {
                     sprite = HammerAttack[cAnimation];
                 }
@@ -173,21 +191,18 @@ namespace _2D_Dark_souls
                 if (cAnimation == 4)
                 {
                     Attacking = false;
-                    
+
                     if (Left == true)
                     {
                         position.X -= 5;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
-
                     }
                     else if (Left == false)
                     {
                         position.X += 5;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + +200, position.Y + 100), 200, 2, dmg));
-
                     }
                 }
-
             }
             else
             {
@@ -195,13 +210,20 @@ namespace _2D_Dark_souls
             }
         }
 
-        
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
 
                 new Rectangle(1, 1, sprite.Width, sprite.Height), color);
+
+            if (takenDmg == true)
+            {
+                spriteBatch.DrawString(enemyTakesDmg, Player.dmg.ToString(), position + offset, Color.White);
+            }
+            else if (takenDmg == false)
+            {
+                spriteBatch.DrawString(enemyTakesDmg, "", position + offset, Color.White);
+            }
 
             //spriteBatch.Draw(attackSprite, new Rectangle((int)position.X, (int)position.Y, scale, scale),
             //  new Rectangle(1, 1, sprite.Width, sprite.Height), color);

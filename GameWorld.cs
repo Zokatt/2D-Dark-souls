@@ -76,7 +76,7 @@ namespace _2D_Dark_souls
             //Third level________________________________________________________________________________________________________
             for (int i = 1; i < 8; i++)
             {
-                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5300 + (150 * i), -535 +  90* -i), 150));
+                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5300 + (150 * i), -535 + 90 * -i), 150));
             }
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, -1235), 400));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, -1235), 400));
@@ -91,9 +91,6 @@ namespace _2D_Dark_souls
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8500, -1235), 400));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8900, -1235), 550));
             gameObjectList.Add(new Enviroment("StoneGround", new Vector2(9450, -1235), 550));
-
-
-
 
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
@@ -129,8 +126,6 @@ namespace _2D_Dark_souls
 
         protected override void Update(GameTime gameTime)
         {
-
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -147,7 +142,7 @@ namespace _2D_Dark_souls
             {
                 mainPlayer.CheckCollision(item);
             }
-            
+
             MainCamera.Update(gameTime);
 
             foreach (var item in enemies)
@@ -235,6 +230,7 @@ namespace _2D_Dark_souls
 
             base.Draw(gameTime);
         }
+
         public Player GetPlayer()
         {
             return (mainPlayer);
