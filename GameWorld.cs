@@ -95,7 +95,7 @@ namespace _2D_Dark_souls
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
-            enemies.Add(new Enemy(new Vector2(1000, -100), 300, 3));
+            enemies.Add(new Enemy(new Vector2(1000, -110), 300, 3));
             enemies.Add(new Enemy(new Vector2(3000, -800), 300, 3));
             base.Initialize();
         }
@@ -131,20 +131,18 @@ namespace _2D_Dark_souls
 
             // TODO: Add your update logic here
 
+            mainPlayer.Update(gameTime);
             foreach (var item in gameObjectList)
             {
                 item.Update(gameTime);
-            }
-
-            mainPlayer.Update(gameTime);
-
-            foreach (var item in gameObjectList)
-            {
                 mainPlayer.CheckCollision(item);
+                foreach (var enemy in enemies)
+                {
+                    enemy.CheckCollision(item);
+                }
             }
 
             MainCamera.Update(gameTime);
-
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
