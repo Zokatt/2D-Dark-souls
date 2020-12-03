@@ -98,7 +98,7 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             idle = contentManager.Load<Texture2D>("EnemyGhostJimV2");
-            attackSprite = contentManager.Load<Texture2D>("AttackEffects");
+            attackSprite = contentManager.Load<Texture2D>("EnemyAttackEffect");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             enemyTakesDmg = contentManager.Load<SpriteFont>("Score");
             sprites = new Texture2D[1];
@@ -188,11 +188,11 @@ namespace _2D_Dark_souls
             {
 
                 AiMovement();
-                if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0)
+                if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 && Attacking == false)
                 {
                     Left = true;
                 }
-                else if (enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
+                else if (enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0 && Attacking == false)
                 {
                     Left = false;
                 }
@@ -230,15 +230,15 @@ namespace _2D_Dark_souls
                 {
                     deleteTimer = 0;
                     deleteWhen = true;
-                    if (Left == true && attacks.Count <=2)
+                    if (Left == true && attacks.Count <=1)
                     {
                         position.X -= 5;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
                     }
-                    else if (Left == false && attacks.Count <=2)
+                    else if (Left == false && attacks.Count <=1)
                     {
                         position.X += 5;
-                        attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + +200, position.Y + 100), 200, 2, dmg));
+                        attacks.Add(new AttackBox(attackSprite, new Vector2(position.X +300, position.Y + 100), 200, 2, dmg));
                     }
                 }
             }

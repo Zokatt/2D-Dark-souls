@@ -141,6 +141,12 @@ namespace _2D_Dark_souls
                 deleteWhen = true;
                 attackTimer = 0;
             }
+            if (state.IsKeyDown(Keys.E) && isDodging == false)
+            {
+                noHoldDown = false;
+                isDodging = true;
+                
+            }
             else if (state.IsKeyUp(Keys.D))
             {
                 noHoldDown = true;
@@ -172,7 +178,11 @@ namespace _2D_Dark_souls
         {
             if (other is AttackBox && AttackBox.ID == 2 && timer > cooldownTime)
             {
-                Health(1);
+                
+                if (isDodging == false)
+                {
+                    Health(1);
+                }
                 timer = 0;
             }
             if (other is Enemy && timer > cooldownTime)
@@ -220,9 +230,27 @@ namespace _2D_Dark_souls
         public override void Update(GameTime gametime)
         {
             if (timer < cooldownTime + 1)
+            {
                 timer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            }
+            if (isDodging == true)
+            {
+                if (direction == 1)
+                {
+                    position.X -= 10;
+                }
+                else if (direction == 2)
+                {
+                    position.X += 10;
+                }
+                dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                if (dodgeTimer >=0.3)
+                {
+                    dodgeTimer = 0;
+                    isDodging = false;
+                }
+            }
             HandleInput(gametime);
-            dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             attackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             if (deleteWhen == true)
             {
