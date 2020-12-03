@@ -50,7 +50,7 @@ namespace _2D_Dark_souls
         private float timer;
         private float cooldownTime = 1;
         private float currentHP;
-        private Vector2 offset = new Vector2(-90, -100);
+        private Vector2 offset = new Vector2(-60, -50);
         private double takenDmgTimer;
         private bool takenDmg = false;
         private float maxHp;
@@ -268,7 +268,7 @@ namespace _2D_Dark_souls
 
             if (takenDmg == true)
             {
-                spriteBatch.DrawString(enemyTakesDmg, Player.dmg.ToString() + "aids", position + offset, Color.White);
+                spriteBatch.DrawString(enemyTakesDmg, Player.dmg.ToString() + "", position + offset, Color.White);
             }
             else
             {
@@ -276,20 +276,20 @@ namespace _2D_Dark_souls
             }
 
             Rectangle healthRectangle = new Rectangle((int)position.X,
-                                         (int)position.Y,
-                                         hpBar.Width,
-                                         hpBar.Height);
+                                         (int)position.Y-50,
+                                         Collision.Width,
+                                         hpBar.Height/2);
 
             spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
 
             healthPercentage = ((float)currentHP / (float)maxHp);
 
-            visibleWidth = (float)hpBar.Width * (float)healthPercentage;
+            visibleWidth = (float)(Collision.Width*2) * (float)healthPercentage;
 
             healthRectangle = new Rectangle((int)position.X,
-                                           (int)position.Y,
-                                           (int)(visibleWidth),
-                                           hpBar.Height);
+                                           (int)position.Y-50,
+                                           (int)(visibleWidth/2),
+                                           hpBar.Height/2);
 
             spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
 
