@@ -72,11 +72,11 @@ namespace _2D_Dark_souls
         // Enemy's bevægelseshastighed
         public void AiMovement()
         {
-            if (Left == true)
+            if (Left == true && Attacking == false)
             {
                 position.X -= 2;
             }
-            if (Left == false)
+            if (Left == false && Attacking == false)
             {
                 position.X += 2;
             }
@@ -170,7 +170,8 @@ namespace _2D_Dark_souls
 
             if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
             {
-                Attacking = true;
+
+                AiMovement();
                 if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0)
                 {
                     Left = true;
@@ -180,10 +181,13 @@ namespace _2D_Dark_souls
                     Left = false;
                 }
             }
+            if (enemyAndPlayerDistance <=250 && enemyAndPlayerDistance >=0 || enemyAndPlayerDistance >= -250 && enemyAndPlayerDistance <=0)
+            {
+                Attacking = true;
+            }
 
             if (Attacking == true)
             {
-                AiMovement();
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                 if (animationTimer > 0.4f && cAnimation < 3)
                 {
@@ -198,6 +202,7 @@ namespace _2D_Dark_souls
 
                 if (cAnimation > HammerAttack.Length)
                 {
+                    Attacking = false;
                     cAnimation = 0;
                 }
                 if (cAnimation < HammerAttack.Length)
@@ -207,7 +212,6 @@ namespace _2D_Dark_souls
 
                 if (cAnimation == 4)
                 {
-                    Attacking = false;
 
                     if (Left == true)
                     {
