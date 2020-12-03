@@ -210,7 +210,7 @@ namespace _2D_Dark_souls
                     cAnimation += 1;
                     animationTimer = 0;
                 }
-                else if (animationTimer > 0.2f && cAnimation >= 3)
+                else if (animationTimer > 0.15f && cAnimation >= 3)
                 {
                     cAnimation += 1;
                     animationTimer = 0;
