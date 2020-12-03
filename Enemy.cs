@@ -38,6 +38,9 @@ namespace _2D_Dark_souls
         private float enemyAndPlayerDistance;
         private float playerPositionX;
         private SoundEffect hitEffect;
+        private float currentHealth;
+        private Texture2D enemyHealthBarOutlineGreed;
+        private Texture2D enemyHealthBarGreedV2;
 
         private Player mainPlayer;
 
@@ -48,6 +51,8 @@ namespace _2D_Dark_souls
             this.scale = scale;
             this.hp = hp;
             attacks = new List<AttackBox>();
+
+            currentHealth = 0.4f;
         }
 
         // Enemy's bevægelseshastighed
@@ -85,6 +90,8 @@ namespace _2D_Dark_souls
             sprite = contentManager.Load<Texture2D>("EnemyGhostJimV2");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
+            enemyHealthBarGreedV2 = contentManager.Load<Texture2D>("EnemyHealthBarGreedV2");
+            enemyHealthBarOutlineGreed = contentManager.Load<Texture2D>("EnemyHealthBarOutlineGreed");
 
 
             sprites = new Texture2D[1];
@@ -144,6 +151,12 @@ namespace _2D_Dark_souls
             {
                 item.Draw(spriteBatch);
             }
+
+            spriteBatch.Draw(enemyHealthBarGreedV2, new Rectangle((int)position.X, (int)position.Y - 200, (int)currentHealth, scale),
+            new Rectangle((int)position.X, (int)position.Y -200, enemyHealthBarGreedV2.Width, enemyHealthBarGreedV2.Height), color);
+
+            //spriteBatch.Draw(enemyHealthBarGreedV2, new Vector2(position.X, position.Y - 200), Color.White);
+            spriteBatch.Draw(enemyHealthBarOutlineGreed, new Vector2(400, -200), new Rectangle((int)position.X, (int)position.Y, enemyHealthBarOutlineGreed.Height, enemyHealthBarGreedV2.Height), Color.White);
         }
 
         public List<AttackBox> GetList()
