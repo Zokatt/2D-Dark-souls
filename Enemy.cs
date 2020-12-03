@@ -192,7 +192,7 @@ namespace _2D_Dark_souls
                 {
                     Left = true;
                 }
-                else if (enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0 && Attacking == false)
+                else if (enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= -50 && Attacking == false)
                 {
                     Left = false;
                 }
@@ -205,7 +205,7 @@ namespace _2D_Dark_souls
             if (Attacking == true)
             {
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (animationTimer > 0.4f && cAnimation < 3)
+                if (animationTimer > 0.3f && cAnimation < 3)
                 {
                     cAnimation += 1;
                     animationTimer = 0;
