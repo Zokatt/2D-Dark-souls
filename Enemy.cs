@@ -307,12 +307,12 @@ namespace _2D_Dark_souls
                     deleteWhen = true;
                     if (Left == true && attacks.Count <=1 && ChargeAttack == false)
                     {
-                        position.X -= 5;
+                        position.X -= 15;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
                     }
                     else if (Left == false && attacks.Count <=1 && ChargeAttack == false)
                     {
-                        position.X += 5;
+                        position.X += 15;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X +300, position.Y + 100), 200, 2, dmg));
                     }
                 }
