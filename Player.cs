@@ -18,6 +18,8 @@ namespace _2D_Dark_souls
         private Texture2D attackSprite;
         private Texture2D spriteIdle;
         private Texture2D spriteJump;
+        private Texture2D DodgeRight;
+        private Texture2D DodgeLeft;
         private Vector2 gravity = new Vector2(0, 0);
         private Vector2 velocity = new Vector2(0, 0);
         private Texture2D[] animation;
@@ -64,6 +66,8 @@ namespace _2D_Dark_souls
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
+            DodgeRight = contentManager.Load<Texture2D>("RollRightSide");
+            DodgeLeft = contentManager.Load<Texture2D>("RollLeftSide");
             sprites = new Texture2D[3];
             sprites2 = new Texture2D[3];
             for (int i = 0; i < sprites.Length; i++)
@@ -102,13 +106,19 @@ namespace _2D_Dark_souls
             }
             if (state.IsKeyUp(Keys.Up))
             {
-                sprite = spriteIdle;
+                if (isDodging == false)
+                {
+                    sprite = spriteIdle;
+                }
                 buttonPress = false;
             }
             if (state.IsKeyDown(Keys.Right))
             {
                 position.X += 10;
-                Animation(gametime, sprites2);
+                if (isDodging == false)
+                {
+                    Animation(gametime, sprites2);
+                }
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
                     sprite = spriteJump;
@@ -118,7 +128,10 @@ namespace _2D_Dark_souls
             if (state.IsKeyDown(Keys.Left))
             {
                 position.X -= 10;
-                Animation(gametime, sprites);
+                if (isDodging == false)
+                {
+                    Animation(gametime, sprites);
+                }
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
                     sprite = spriteJump;
@@ -243,10 +256,12 @@ namespace _2D_Dark_souls
             {
                 if (direction == 1)
                 {
+                    sprite = DodgeLeft;
                     position.X -= 10;
                 }
                 else if (direction == 2)
                 {
+                    sprite = DodgeRight;
                     position.X += 10;
                 }
                 dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
