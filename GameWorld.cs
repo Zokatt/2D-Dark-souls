@@ -22,6 +22,7 @@ namespace _2D_Dark_souls
         public static List<Enemy> deleteObjects;
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
+        private Texture2D backgroundMountain;
 
         private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
@@ -43,6 +44,7 @@ namespace _2D_Dark_souls
             Camera = new List<Camera>();
             mainPlayer = new Player(new Vector2(0, 0));
             MainCamera = new Camera(mainPlayer);
+
 
             //First level________________________________________________________________________________________________________
             for (int i = 1; i < 10; i++)
@@ -105,6 +107,7 @@ namespace _2D_Dark_souls
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
+            backgroundMountain = Content.Load<Texture2D>("BackgroundMountainCloud");
 
             foreach (var item in gameObjectList)
             {
@@ -192,6 +195,8 @@ namespace _2D_Dark_souls
             GraphicsDevice.Clear(Color.DarkSlateGray);
 
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
+
+            _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X-(backgroundMountain.Width/2), (int)mainPlayer.pos.Y-(backgroundMountain.Height/2)+50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
 
             foreach (var item in gameObjectList)
             {
