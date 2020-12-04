@@ -32,7 +32,7 @@ namespace _2D_Dark_souls
 
         public float lastHP;
         private int scale;
-        private int dmg = 2;
+        public static int dmg = 2;
         private bool Attacking;
         private Texture2D attackSprite;
         private Texture2D chargeSprite;
@@ -76,6 +76,7 @@ namespace _2D_Dark_souls
             this.sprite = idle;
             attacks = new List<AttackBox>();
             dAttack = new List<AttackBox>();
+            dmg = 2;
         }
 
         // Enemy's bevægelseshastighed
@@ -166,17 +167,17 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            if (currentHP <= 20 && ChargeTimer >= 1.5f && chargeCounter ==1)
+            if (currentHP <= 20 && ChargeTimer >= 1.5f && chargeCounter == 1)
             {
                 ChargeTimer = 0;
             }
-            if (currentHP <=80 && ChargeTimer < 1.5f || currentHP <= 40 && ChargeTimer < 1.5f)
+            if (currentHP <= 80 && ChargeTimer < 1.5f || currentHP <= 40 && ChargeTimer < 1.5f)
             {
-                if (currentHP>= 41)
+                if (currentHP >= 41)
                 {
                     chargeCounter = 1;
                 }
-                else if (currentHP <=40)
+                else if (currentHP <= 40)
                 {
                     chargeCounter = 2;
                 }
@@ -192,11 +193,11 @@ namespace _2D_Dark_souls
                     {
                         this.position.X -= 15;
                     }
-                    else if (enemyAndPlayerDistance <=150)
+                    else if (enemyAndPlayerDistance <= 150)
                     {
                         deleteTimer = 0;
                         deleteWhen = true;
-                        if (attacks.Count <=1)
+                        if (attacks.Count <= 1)
                         {
                             attacks.Add(new AttackBox(chargeSprite, new Vector2(position.X - 50, position.Y), 250, 2, dmg));
                             ChargeAttack = false;
@@ -222,7 +223,6 @@ namespace _2D_Dark_souls
                         }
                     }
                 }
-                
             }
             if (deleteWhen == true)
             {
@@ -261,7 +261,6 @@ namespace _2D_Dark_souls
 
             if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
             {
-
                 AiMovement();
                 if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 && Attacking == false)
                 {
@@ -272,7 +271,7 @@ namespace _2D_Dark_souls
                     Left = false;
                 }
             }
-            if (enemyAndPlayerDistance <=300 && enemyAndPlayerDistance >=0 || enemyAndPlayerDistance >= -300 && enemyAndPlayerDistance <=0)
+            if (enemyAndPlayerDistance <= 300 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance >= -300 && enemyAndPlayerDistance <= 0)
             {
                 Attacking = true;
             }
@@ -305,15 +304,15 @@ namespace _2D_Dark_souls
                 {
                     deleteTimer = 0;
                     deleteWhen = true;
-                    if (Left == true && attacks.Count <=1 && ChargeAttack == false)
+                    if (Left == true && attacks.Count <= 1 && ChargeAttack == false)
                     {
                         position.X -= 5;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
                     }
-                    else if (Left == false && attacks.Count <=1 && ChargeAttack == false)
+                    else if (Left == false && attacks.Count <= 1 && ChargeAttack == false)
                     {
                         position.X += 5;
-                        attacks.Add(new AttackBox(attackSprite, new Vector2(position.X +300, position.Y + 100), 200, 2, dmg));
+                        attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 300, position.Y + 100), 200, 2, dmg));
                     }
                 }
             }
@@ -321,7 +320,7 @@ namespace _2D_Dark_souls
             {
                 sprite = idle;
             }
-            if (dAttack!= null)
+            if (dAttack != null)
             {
                 if (dAttack.Count > 0)
                 {
@@ -332,7 +331,6 @@ namespace _2D_Dark_souls
                     dAttack.Clear();
                 }
             }
-            
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -351,20 +349,20 @@ namespace _2D_Dark_souls
             }
 
             Rectangle healthRectangle = new Rectangle((int)position.X,
-                                         (int)position.Y-50,
+                                         (int)position.Y - 50,
                                          Collision.Width,
-                                         hpBar.Height/2);
+                                         hpBar.Height / 2);
 
             spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
 
             healthPercentage = ((float)currentHP / (float)maxHp);
 
-            visibleWidth = (float)(Collision.Width*2) * (float)healthPercentage;
+            visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
 
             healthRectangle = new Rectangle((int)position.X,
-                                           (int)position.Y-50,
-                                           (int)(visibleWidth/2),
-                                           hpBar.Height/2);
+                                           (int)position.Y - 50,
+                                           (int)(visibleWidth / 2),
+                                           hpBar.Height / 2);
 
             spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
 
@@ -381,6 +379,7 @@ namespace _2D_Dark_souls
         {
             return attacks;
         }
+
         public void DestroyItem(AttackBox item)
         {
             dAttack.Add(item);

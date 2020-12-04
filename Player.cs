@@ -11,7 +11,7 @@ namespace _2D_Dark_souls
 {
     public class Player : GameObject
     {
-        public int hp;
+        public int lastHp;
         private int speed;
         private SoundEffect hitEffect;
         private Texture2D collisionTexture;
@@ -47,10 +47,18 @@ namespace _2D_Dark_souls
         private float cooldownTime = 2;
         private bool walkOff;
         private int direction = 2;
+        private Texture2D hpBar;
+        private float maxHp;
+        private float healthPercentage;
+        private float visibleWidth;
+        private float currentHP;
+        private int offsett;
 
         public Player(Vector2 position)
         {
-            hp = 4;
+            this.lastHp = 10;
+            currentHP = this.lastHp;
+            maxHp = this.lastHp;
             fps = 5;
             position = this.position;
             attacks = new List<AttackBox>();
@@ -85,7 +93,7 @@ namespace _2D_Dark_souls
             currentHealth = health[4];
             spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             spriteJump = contentManager.Load<Texture2D>("JimmyJump");
-
+            hpBar = contentManager.Load<Texture2D>("HpBar");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
         }
 
@@ -160,7 +168,6 @@ namespace _2D_Dark_souls
             {
                 noHoldDown = false;
                 isDodging = true;
-                
             }
             else if (state.IsKeyUp(Keys.D))
             {
@@ -193,12 +200,11 @@ namespace _2D_Dark_souls
         {
             if (other is AttackBox && AttackBox.ID == 2 && timer > cooldownTime)
             {
-                
                 if (isDodging == false)
                 {
                     TakeDamage(other.pos.X);
                     this.color = Color.Red;
-                    Health(1);
+                    currentHP -= Enemy.dmg;
                 }
                 timer = 0;
             }
@@ -246,7 +252,6 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-          
             if (timer < cooldownTime + 1)
             {
                 this.color = Color.White;
@@ -265,7 +270,7 @@ namespace _2D_Dark_souls
                     position.X += 10;
                 }
                 dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (dodgeTimer >=0.3)
+                if (dodgeTimer >= 0.3)
                 {
                     dodgeTimer = 0;
                     isDodging = false;
@@ -327,7 +332,7 @@ namespace _2D_Dark_souls
             }
         }
 
-        public void Health(int enemydmg)
+        /*public void Health(int enemydmg)
         {
             hp -= enemydmg;
             if (hp == 4)
@@ -341,18 +346,37 @@ namespace _2D_Dark_souls
             else if (hp <= 0)
                 currentHealth = health[0];
         }
+        */
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             color = Color.White;
-            spriteBatch.Draw(currentHealth, new Vector2(position.X - 800, position.Y - 400), null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+
+            Rectangle healthRectangle = new Rectangle((int)position.X - 900,
+                                        (int)position.Y - 450,
+                                        Collision.Width,
+                                        hpBar.Height / 2);
+
+            spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
+
+            healthPercentage = ((float)currentHP / (float)maxHp);
+
+            visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
+
+            healthRectangle = new Rectangle((int)position.X - 900,
+                                           (int)position.Y - 450,
+                                           (int)(visibleWidth / 2),
+                                           hpBar.Height / 2);
+
+            spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
         }
 
         public void DestroyItem(AttackBox item)
         {
             dAttack.Add(item);
         }
+
         private void TakeDamage(float otherPosX)
         {
             bool Right = true;
