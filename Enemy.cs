@@ -63,13 +63,14 @@ namespace _2D_Dark_souls
         private float deleteTimer;
         private bool ChargeAttack;
         private float ChargeTimer;
+        private int chargeCounter;
 
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
         {
             this.position = position;
             this.scale = scale;
-            this.lastHP = 80;
+            this.lastHP = 100;
             currentHP = this.lastHP;
             maxHp = this.lastHP;
             this.sprite = idle;
@@ -165,8 +166,20 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            if (currentHP <=50 && ChargeTimer < 1.5f)
+            if (currentHP <= 20 && ChargeTimer >= 1.5f && chargeCounter ==1)
             {
+                ChargeTimer = 0;
+            }
+            if (currentHP <=80 && ChargeTimer < 1.5f || currentHP <= 40 && ChargeTimer < 1.5f)
+            {
+                if (currentHP>= 41)
+                {
+                    chargeCounter = 1;
+                }
+                else if (currentHP <=40)
+                {
+                    chargeCounter = 2;
+                }
                 this.color = Color.Gold;
                 ChargeAttack = true;
                 ChargeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
