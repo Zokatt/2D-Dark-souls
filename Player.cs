@@ -355,7 +355,7 @@ namespace _2D_Dark_souls
 
             Rectangle healthRectangle = new Rectangle((int)position.X - 900,
                                         (int)position.Y - 450,
-                                        Collision.Width,
+                                        Collision.Width *2,
                                         hpBar.Height / 2);
 
             spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
@@ -366,7 +366,7 @@ namespace _2D_Dark_souls
 
             healthRectangle = new Rectangle((int)position.X - 900,
                                            (int)position.Y - 450,
-                                           (int)(visibleWidth / 2),
+                                           (int)(visibleWidth / 2) *2,
                                            hpBar.Height / 2);
 
             spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
