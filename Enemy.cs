@@ -167,11 +167,11 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            if (currentHP <= 20 && ChargeTimer >= 1.5f && chargeCounter == 1)
+            if (currentHP <= 20 && ChargeTimer >= 1.0f && chargeCounter == 1)
             {
                 ChargeTimer = 0;
             }
-            if (currentHP <= 80 && ChargeTimer < 1.5f || currentHP <= 40 && ChargeTimer < 1.5f)
+            if (currentHP <= 80 && ChargeTimer < 1.0f || currentHP <= 40 && ChargeTimer < 1.0f)
             {
                 if (currentHP >= 41)
                 {
@@ -185,7 +185,7 @@ namespace _2D_Dark_souls
                 ChargeAttack = true;
                 ChargeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             }
-            if (ChargeTimer >= 1.5f && ChargeAttack == true)
+            if (ChargeTimer >= 1.0f && ChargeAttack == true)
             {
                 if (Left == true)
                 {
