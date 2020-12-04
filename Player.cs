@@ -13,6 +13,7 @@ namespace _2D_Dark_souls
     {
         public int hp;
         private int speed;
+        private SoundEffect hitEffect;
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
         private Texture2D spriteIdle;
@@ -44,7 +45,6 @@ namespace _2D_Dark_souls
         private float cooldownTime = 2;
         private bool walkOff;
         private int direction = 2;
-        private bool Right; //enemy hitting from right side = true, left side = false
 
         public Player(Vector2 position)
         {
@@ -63,6 +63,7 @@ namespace _2D_Dark_souls
             sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
+            hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
             sprites = new Texture2D[3];
             sprites2 = new Texture2D[3];
             for (int i = 0; i < sprites.Length; i++)
@@ -179,12 +180,10 @@ namespace _2D_Dark_souls
         {
             if (other is AttackBox && AttackBox.ID == 2 && timer > cooldownTime)
             {
-                if (other.pos <= )
-                {
-
-                }
+                
                 if (isDodging == false)
                 {
+                    TakeDamage(other.pos.X);
                     this.color = Color.Red;
                     Health(1);
                 }
@@ -338,6 +337,27 @@ namespace _2D_Dark_souls
         public void DestroyItem(AttackBox item)
         {
             dAttack.Add(item);
+        }
+        private void TakeDamage(float otherPosX)
+        {
+            bool Right = true;
+            hitEffect.Play();
+            if (otherPosX > this.pos.X)
+            {
+                Right = true;
+            }
+            if (otherPosX < this.pos.X)
+            {
+                Right = false;
+            }
+            if (Right == true)
+            {
+                this.position.X -= 40;
+            }
+            else if (Right == false)
+            {
+                this.position.X += 40;
+            }
         }
     }
 }
