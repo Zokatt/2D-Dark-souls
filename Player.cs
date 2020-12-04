@@ -44,6 +44,7 @@ namespace _2D_Dark_souls
         private float cooldownTime = 2;
         private bool walkOff;
         private int direction = 2;
+        private bool Right; //enemy hitting from right side = true, left side = false
 
         public Player(Vector2 position)
         {
@@ -178,9 +179,13 @@ namespace _2D_Dark_souls
         {
             if (other is AttackBox && AttackBox.ID == 2 && timer > cooldownTime)
             {
-                
+                if (other.pos <= )
+                {
+
+                }
                 if (isDodging == false)
                 {
+                    this.color = Color.Red;
                     Health(1);
                 }
                 timer = 0;
@@ -229,8 +234,10 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
+          
             if (timer < cooldownTime + 1)
             {
+                this.color = Color.White;
                 timer += (float)gametime.ElapsedGameTime.TotalSeconds;
             }
             if (isDodging == true)
