@@ -16,26 +16,30 @@ namespace _2D_Dark_souls
         protected Color color = Color.White;
         protected SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
+        protected bool exitCollision;
 
-        protected float speed;
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
+        public Vector2 pos
+        {
+            get { return this.position; }
+        }
 
         public virtual Rectangle Collision
         {
             get
             {
                 return new Rectangle(
-                   (int)position.X,
-                   (int)position.Y,
-                   (int)this.sprite.Width,
-                   (int)this.sprite.Height
+                       (int)position.X,
+                       (int)position.Y,
+                       (int)this.sprite.Width,
+                       (int)this.sprite.Height
                    );
             }
         }
 
- 
+        public abstract void LoadContent(ContentManager contentManager);
 
         //Abstrakt void med hvis funktion er at nedarve og anvende.
         public abstract void OnCollision(GameObject other);
@@ -47,28 +51,41 @@ namespace _2D_Dark_souls
             if (Collision.Intersects(other.Collision))
             {
                 //Gøre funktion OnCollison med den anden.
+                exitCollision = false;
                 OnCollision(other);
             }
+            if (!Collision.Intersects(other.Collision))
+            {
+                exitCollision = true;
+            }
         }
-
-        public abstract void LoadContent(ContentManager contentManager);
 
         public abstract void Update(GameTime gametime);
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 0.2f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
-        protected void Move(GameTime gameTime)
+
+
+        protected void Animation(GameTime gametime, Texture2D[] chosenSprites)
         {
-            //beregner deltaTime baseret på gameTime (???)
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //Adds time that has passed since last update
+            timeElapsed += (float)gametime.ElapsedGameTime.TotalSeconds;
+            //Calculate the current index
+            currentIndex = (int)(timeElapsed * fps);
 
-            position += ((velocity * speed) * deltaTime);
+            sprite = chosenSprites[currentIndex];
+
+            //Checks if we need to restart the animation
+            if (currentIndex >= sprites.Length - 1)
+            {
+                //Resets the animation
+                timeElapsed = 0;
+                currentIndex = 0;
+            }
         }
-
-
 
     }
 }
