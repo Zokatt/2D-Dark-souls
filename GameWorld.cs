@@ -107,7 +107,7 @@ namespace _2D_Dark_souls
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
-            backgroundMountain = Content.Load<Texture2D>("BackgroundMountainCloud");
+            backgroundMountain = Content.Load<Texture2D>("GreyWall");
 
             foreach (var item in gameObjectList)
             {
