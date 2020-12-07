@@ -30,20 +30,9 @@ namespace _2D_Dark_souls
         }
 
 
-
-
-        //gameObjectList.Add(new Enviroment("StoneGround", new Vector2(0, 200), 500));
-        //for (int i = 1; i< 10; i++)
-        //{
-        //    gameObjectList.Add(new Enviroment("StoneGround", new Vector2(-100, 285 + 85 * -i), 100));
-        //}
-
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>(chosenSprite);
-
-
-            
         }
 
         public override void OnCollision(GameObject other)
