@@ -42,7 +42,7 @@ namespace _2D_Dark_souls
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(500, 200), 500));
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
 
-            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(525, -115), 250));    //Floating ground
+            //GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(525, -115), 250));    //Floating ground
 
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
         }

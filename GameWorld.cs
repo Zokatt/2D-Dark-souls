@@ -13,6 +13,7 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
         public Player mainPlayer;
+        public Boss greedBoss;
         public Platform platformGenerator;
         public Camera MainCamera;
         private static List<GameObject> gameObjectList;
@@ -46,6 +47,7 @@ namespace _2D_Dark_souls
             gameObjectList = new List<GameObject>();
             
             mainPlayer = new Player(new Vector2(0, 0));
+            greedBoss = new Boss(new Vector2(1000, -750),100);
             Camera = new List<Camera>();
             MainCamera = new Camera(mainPlayer);
 
@@ -56,7 +58,7 @@ namespace _2D_Dark_souls
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
-            enemies.Add(new Enemy(new Vector2(1000, -110), 300, 3));
+            //enemies.Add(new Enemy(new Vector2(1000, -110), 300, 3));
             enemies.Add(new Enemy(new Vector2(3000, -800), 300, 3));
             base.Initialize();
         }
@@ -74,6 +76,7 @@ namespace _2D_Dark_souls
             }
 
             mainPlayer.LoadContent(this.Content);
+            greedBoss.LoadContent(this.Content);
 
             foreach (var item in enemies)
             {
@@ -100,6 +103,7 @@ namespace _2D_Dark_souls
             {
                 item.Update(gameTime);
                 mainPlayer.CheckCollision(item);
+                greedBoss.CheckCollision(item);
                 foreach (var enemy in enemies)
                 {
                     enemy.CheckCollision(item);
@@ -111,6 +115,9 @@ namespace _2D_Dark_souls
             {
                 item.Update(gameTime);
                 item.SetPlayer(mainPlayer.Collision.X);
+                greedBoss.Update(gameTime);
+                greedBoss.SetPlayer(mainPlayer.Collision.X);
+
                 foreach (var attackitem in mainPlayer.attacks)
                 {
                     item.CheckCollision(attackitem);
@@ -166,7 +173,9 @@ namespace _2D_Dark_souls
             }
 
             DrawCollisionBox(mainPlayer);
+            DrawCollisionBox(greedBoss);
             mainPlayer.Draw(this._spriteBatch);
+            greedBoss.Draw(this._spriteBatch);
 
             foreach (var item in mainPlayer.attacks)
             {
