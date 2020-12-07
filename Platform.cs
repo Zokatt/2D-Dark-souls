@@ -9,17 +9,14 @@ namespace _2D_Dark_souls
 {
     public class Platform
     {
-
         public Platform()
         {
-
         }
 
         //gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3000, -535), 350));
 
         public void Initialize()
         {
-
             Wall();
             //First level________________________________________________________________________________________________________
             FirstLevel();
@@ -28,12 +25,12 @@ namespace _2D_Dark_souls
             //Third level________________________________________________________________________________________________________
             ThirdLevel();
 
+            BossLevel();
         }
-
 
         private void Wall()
         {
-                GameWorld.AddToList(new Enviroment(new Vector2(-200, -450), 750));  
+            GameWorld.AddToList(new Enviroment(new Vector2(-200, -450), 750));
         }
 
         private void FirstLevel()
@@ -46,6 +43,7 @@ namespace _2D_Dark_souls
 
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
         }
+
         private void SecondLevel()
         {
             //Second level________________________________________________________________________________________________________
@@ -65,6 +63,7 @@ namespace _2D_Dark_souls
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(4750, -535), 350));
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(5100, -535), 350));
         }
+
         private void ThirdLevel()
         {
             //Third level________________________________________________________________________________________________________
@@ -85,6 +84,28 @@ namespace _2D_Dark_souls
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(8500, -1235), 400));
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(8900, -1235), 550));
             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(9450, -1235), 550));
+        }
+
+        private void BossLevel()
+        {
+            //Wall
+            GameWorld.AddToList(new Enviroment(new Vector2(10000, -750), 1000));
+            GameWorld.AddToList(new Enviroment(new Vector2(13800, -550), 750));
+            //Floating ground
+            /* GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(10500, -400), 350));
+             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(12000, -400), 350));
+             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(11200, -100), 350));
+             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(12000, -100), 350));
+             GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(12800, -100), 350));*/
+            //Ground
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(10000, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(10500, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(11000, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(11500, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(12000, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(12500, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(13000, 200), 500));
+            GameWorld.AddToList(new Enviroment("StoneGround", new Vector2(13500, 200), 500));
         }
     }
 }
