@@ -13,13 +13,16 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
         public Player mainPlayer;
+        public Platform platformGenerator;
         public Camera MainCamera;
-        private List<GameObject> gameObjectList;
+        private static List<GameObject> gameObjectList;
         private List<Camera> Camera;
-        public List<Enemy> enemies;
         private List<AttackBox> enemyAttacks;
         private SpriteFont EnemyTakesDmg;
+
+        public List<Enemy> enemies;
         public static List<Enemy> deleteObjects;
+
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
         private Texture2D backgroundMountain;
@@ -41,58 +44,14 @@ namespace _2D_Dark_souls
         {
             // TODO: Add your initialization logic here
             gameObjectList = new List<GameObject>();
-            Camera = new List<Camera>();
+            
             mainPlayer = new Player(new Vector2(0, 0));
+            Camera = new List<Camera>();
             MainCamera = new Camera(mainPlayer);
 
-
-            //First level________________________________________________________________________________________________________
-            for (int i = 1; i < 10; i++)
-            {
-                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(-100, 285 + 85 * -i), 100));
-            }
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(0, 200), 500));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(500, 200), 500));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1000, 200), 500));
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(525, -115), 250));    //Floating ground
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1500, 200), 500));
-            //Second level________________________________________________________________________________________________________
-            for (int i = 1; i < 8; i++)
-            {
-                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(1800 + (150 * i), 170 + 90 * -i), 150));
-            }
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3000, -535), 350));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3350, -535), 350));
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3450, -850), 350));    //Floating ground
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4100, -850), 350));    //Floating ground
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(3700, -535), 350));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4050, -535), 350));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4400, -535), 350));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(4750, -535), 350));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5100, -535), 350));
-            //Third level________________________________________________________________________________________________________
-            for (int i = 1; i < 8; i++)
-            {
-                gameObjectList.Add(new Enviroment("StoneGround", new Vector2(5300 + (150 * i), -535 + 90 * -i), 150));
-            }
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6500, -1235), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(6900, -1235), 400));
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7000, -1550), 350));   //Floating ground
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7750, -1550), 175));   //Floating ground
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8450, -1550), 350));   //Floating ground
-
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7300, -1235), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(7700, -1235), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8100, -1235), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8500, -1235), 400));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(8900, -1235), 550));
-            gameObjectList.Add(new Enviroment("StoneGround", new Vector2(9450, -1235), 550));
+            platformGenerator = new Platform();
+            platformGenerator.Initialize();
+            
 
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
@@ -126,6 +85,8 @@ namespace _2D_Dark_souls
 
             // Johnny
         }
+
+ 
 
         protected override void Update(GameTime gameTime)
         {
@@ -190,12 +151,12 @@ namespace _2D_Dark_souls
             deleteObjects.Add(go);
         }
 
+
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
-
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
-
             _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X-(backgroundMountain.Width/2), (int)mainPlayer.pos.Y-(backgroundMountain.Height/2)+50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
 
             foreach (var item in gameObjectList)
@@ -238,5 +199,13 @@ namespace _2D_Dark_souls
         {
             return (mainPlayer);
         }
+
+        public static void AddToList(Enviroment enviroment)
+        {
+            gameObjectList.Add(enviroment);
+        }
+
+
+
     }
 }
