@@ -143,8 +143,8 @@ namespace _2D_Dark_souls
                 if (isDodging == false)
                 {
                     Animation(gametime, sprites);
+                    sprite = spriteIdleLeft;
                 }
-                sprite = spriteIdleLeft;
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
                     sprite = spriteJump;
@@ -170,12 +170,12 @@ namespace _2D_Dark_souls
                 deleteWhen = true;
                 attackTimer = 0;
             }
-            if (state.IsKeyDown(Keys.E) && isDodging == false)
+            if (state.IsKeyDown(Keys.E) && isDodging == false && noHoldDown == true)
             {
                 noHoldDown = false;
                 isDodging = true;
             }
-            else if (state.IsKeyUp(Keys.D))
+            else if (state.IsKeyUp(Keys.E))
             {
                 noHoldDown = true;
             }
