@@ -215,6 +215,16 @@ namespace _2D_Dark_souls
                 }
                 timer = 0;
             }
+            if (other is AttackBox && AttackBox.ID == 3 && timer > cooldownTime)
+            {
+                if (isDodging == false)
+                {
+                    TakeDamage(other.pos.X);
+                    this.color = Color.Red;
+                    currentHP -= Boss.dmg;
+                }
+                timer = 0;
+            }
             if (other is Enemy && timer > cooldownTime)
             {
                 //Health(1);
