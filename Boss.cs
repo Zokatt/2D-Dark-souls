@@ -17,6 +17,7 @@ namespace _2D_Dark_souls
         private Texture2D tiredRigh;
         private Texture2D attackSprite;
         private SoundEffect hitEffect;
+        public bool activator = false; // this activates the boss
         private float hp;
         private float enemyAndPlayerDistance;
         private float playerPositionX;
@@ -130,87 +131,90 @@ namespace _2D_Dark_souls
         }
         public override void Update(GameTime gametime)
         {
-            enemyAndPlayerDistance = position.X - playerPositionX;
-            if (tknDamage == true)
+            if (activator == true)
             {
-                dmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (dmgTimer >=0.3f)
+                enemyAndPlayerDistance = position.X - playerPositionX;
+                if (tknDamage == true)
                 {
-                    color = Color.White;
-                    tknDamage = false;
-                    onlyTakeDamageOnce = 0;
-                }
-            }
-            if (phase == 4)
-            {
-                tiredTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (left == true)
-                {
-                    sprite = tiredLeft;
-                }
-                if (left == false)
-                {
-                    sprite = tiredRigh;
-                }
-                if (tiredTimer >= 2)
-                {
-                    phase = 1;
-                    aAnimation = 0;
-                }
-            }
-            if (phase == 1)
-            {
-                tiredTimer = 0;
-                MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                sprite = idle;
-            }
-            if (MainAttackTimer >= 2 && phase !=3)
-            {
-                phase = 2;
-                if (enemyAndPlayerDistance >=1-(sprite.Width / 2) && phase == 2)
-                {
-                    sprite = LSideRun;
-                    left = true;
-                    BossAI(gametime);
-                }
-                else if (enemyAndPlayerDistance <=0 - (sprite.Width/2) && phase == 2)
-                {
-                    sprite = RSideRun;
-                    left = false;
-                    BossAI(gametime);
-                }
-            }
-            if (MainAttackTimer >=2 && phase == 2)
-            {
-                BossAI(gametime);
-            }
-            if (phase == 3)
-            {
-                BossAI(gametime);
-                Animations(gametime);
-            }
-            if (deleteWhen == true)
-            {
-                deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            }
-            if (deleteTimer >= 0.5f) //how fast should the attack destroy itself
-            {
-                foreach (var item in attacks)
-                {
-                    DestroyItem(item);
-                }
-                deleteWhen = false;
-            }
-            // need to delete attacks
-            if (dAttacks != null)
-            {
-                if (dAttacks.Count > 0)
-                {
-                    foreach (var item in dAttacks)
+                    dmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    if (dmgTimer >= 0.3f)
                     {
-                        attacks.Remove(item);
+                        color = Color.White;
+                        tknDamage = false;
+                        onlyTakeDamageOnce = 0;
                     }
-                    dAttacks.Clear();
+                }
+                if (phase == 4)
+                {
+                    tiredTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    if (left == true)
+                    {
+                        sprite = tiredLeft;
+                    }
+                    if (left == false)
+                    {
+                        sprite = tiredRigh;
+                    }
+                    if (tiredTimer >= 2)
+                    {
+                        phase = 1;
+                        aAnimation = 0;
+                    }
+                }
+                if (phase == 1)
+                {
+                    tiredTimer = 0;
+                    MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    sprite = idle;
+                }
+                if (MainAttackTimer >= 2 && phase != 3)
+                {
+                    phase = 2;
+                    if (enemyAndPlayerDistance >= 1 - (sprite.Width / 2) && phase == 2)
+                    {
+                        sprite = LSideRun;
+                        left = true;
+                        BossAI(gametime);
+                    }
+                    else if (enemyAndPlayerDistance <= 0 - (sprite.Width / 2) && phase == 2)
+                    {
+                        sprite = RSideRun;
+                        left = false;
+                        BossAI(gametime);
+                    }
+                }
+                if (MainAttackTimer >= 2 && phase == 2)
+                {
+                    BossAI(gametime);
+                }
+                if (phase == 3)
+                {
+                    BossAI(gametime);
+                    Animations(gametime);
+                }
+                if (deleteWhen == true)
+                {
+                    deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                }
+                if (deleteTimer >= 0.5f) //how fast should the attack destroy itself
+                {
+                    foreach (var item in attacks)
+                    {
+                        DestroyItem(item);
+                    }
+                    deleteWhen = false;
+                }
+                // need to delete attacks
+                if (dAttacks != null)
+                {
+                    if (dAttacks.Count > 0)
+                    {
+                        foreach (var item in dAttacks)
+                        {
+                            attacks.Remove(item);
+                        }
+                        dAttacks.Clear();
+                    }
                 }
             }
 
