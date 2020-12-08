@@ -146,6 +146,11 @@ namespace _2D_Dark_souls
             }
             deleteObjects.Clear();
 
+            if (mainPlayer.pos.X >= 10440)
+            {
+                greedBoss.activator = true;
+            }
+
             base.Update(gameTime);
         }
 
