@@ -72,7 +72,6 @@ namespace _2D_Dark_souls
             KeyboardState state = Keyboard.GetState();
             health = new Texture2D[5];
             sprite = contentManager.Load<Texture2D>("CoolJimmy");
-            sprite = contentManager.Load<Texture2D>("CoolJimmy");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
@@ -94,9 +93,9 @@ namespace _2D_Dark_souls
             }
 
             currentHealth = health[4];
+            spriteJump = contentManager.Load<Texture2D>("JimmyJump");
             spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
             spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
-            spriteJump = contentManager.Load<Texture2D>("JimmyJump");
             hpBar = contentManager.Load<Texture2D>("HpBar");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
         }
@@ -107,6 +106,7 @@ namespace _2D_Dark_souls
 
             if (state.IsKeyDown(Keys.Up) && isGrounded == true && isJumping == false && buttonPress == false)
             {
+                sprite = spriteJump;
                 isJumping = true;
                 isGrounded = false;
                 buttonPress = true;
@@ -152,6 +152,7 @@ namespace _2D_Dark_souls
                 
                 direction = 1;
             }
+
 
             if (state.IsKeyDown(Keys.D) && canAttack == true && noHoldDown == true)
             {

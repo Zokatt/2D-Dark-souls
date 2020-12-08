@@ -48,7 +48,7 @@ namespace _2D_Dark_souls
             gameObjectList = new List<GameObject>();
             
             mainPlayer = new Player(new Vector2(0, 0));
-            greedBoss = new Boss(new Vector2(1000, -700),100);
+            greedBoss = new Boss(new Vector2(11000, -700),100);
             Camera = new List<Camera>();
             MainCamera = new Camera(mainPlayer);
 
