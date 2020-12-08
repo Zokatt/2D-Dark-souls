@@ -100,6 +100,114 @@ namespace _2D_Dark_souls
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
         }
 
+        public override void Update(GameTime gametime)
+        {
+            if (timer < cooldownTime + 1)
+            {
+                this.color = Color.White;
+                timer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            }
+            if (isDodging == true)
+            {
+                if (direction == 1)
+                {
+                    sprite = DodgeLeft;
+                    position.X -= 10;
+                }
+                else if (direction == 2)
+                {
+                    sprite = DodgeRight;
+                    position.X += 10;
+                }
+                dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                if (dodgeTimer >= 0.3)
+                {
+                    dodgeTimer = 0;
+                    isDodging = false;
+                }
+            }
+            HandleInput(gametime);
+            attackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            if (deleteWhen == true)
+            {
+                deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            }
+            if (deleteTimer >= 0.1f) //how fast should the attack destroy itself
+            {
+                foreach (var item in attacks)
+                {
+                    DestroyItem(item);
+                }
+                deleteWhen = false;
+            }
+            if (isJumping == true)
+            {
+                this.position.Y -= 9;
+                jumpTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            }
+            if (isJumping == false)
+            {
+                jumpTimer = 0;
+            }
+            if (isGrounded == false && isJumping == false || exitCollision == true)
+            {
+                if (gravity.Y <= 30)
+                {
+                    gravity.Y += 0.15f;
+                }
+                this.position.Y += gravity.Y;
+            }
+            else if (isGrounded == true)
+            {
+                gravity.Y = 0;
+            }
+
+            if (attackTimer >= 1)
+            {
+                canAttack = true;
+            }
+
+            //Attacks.AddRange(nAttacks);
+            if (dAttack.Count > 0)
+            {
+                foreach (var item in dAttack)
+                {
+                    attacks.Remove(item);
+                }
+                dAttack.Clear();
+            }
+            if (jumpTimer > 1f)
+            {
+                isJumping = false;
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            color = Color.White;
+
+            Rectangle healthRectangle = new Rectangle((int)position.X - 900,
+                                        (int)position.Y - 450,
+                                        Collision.Width * 2,
+                                        hpBar.Height / 2);
+
+            spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
+
+            healthPercentage = ((float)currentHP / (float)maxHp);
+
+            visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
+
+            healthRectangle = new Rectangle((int)position.X - 900,
+                                           (int)position.Y - 450,
+                                           (int)(visibleWidth / 2) * 2,
+                                           hpBar.Height / 2);
+
+            spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
+        }
+
+
+
         private void HandleInput(GameTime gametime)
         {
             KeyboardState state = Keyboard.GetState();
@@ -267,128 +375,6 @@ namespace _2D_Dark_souls
             _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
-        public override void Update(GameTime gametime)
-        {
-            if (timer < cooldownTime + 1)
-            {
-                this.color = Color.White;
-                timer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            }
-            if (isDodging == true)
-            {
-                if (direction == 1)
-                {
-                    sprite = DodgeLeft;
-                    position.X -= 10;
-                }
-                else if (direction == 2)
-                {
-                    sprite = DodgeRight;
-                    position.X += 10;
-                }
-                dodgeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (dodgeTimer >= 0.3)
-                {
-                    dodgeTimer = 0;
-                    isDodging = false;
-                }
-            }
-            HandleInput(gametime);
-            attackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            if (deleteWhen == true)
-            {
-                deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            }
-            if (deleteTimer >= 0.1f) //how fast should the attack destroy itself
-            {
-                foreach (var item in attacks)
-                {
-                    DestroyItem(item);
-                }
-                deleteWhen = false;
-            }
-            if (isJumping == true)
-            {
-                this.position.Y -= 9;
-                jumpTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            }
-            if (isJumping == false)
-            {
-                jumpTimer = 0;
-            }
-            if (isGrounded == false && isJumping == false || exitCollision == true)
-            {
-                if (gravity.Y <= 30)
-                {
-                    gravity.Y += 0.15f;
-                }
-                this.position.Y += gravity.Y;
-            }
-            else if (isGrounded == true)
-            {
-                gravity.Y = 0;
-            }
-
-            if (attackTimer >= 1)
-            {
-                canAttack = true;
-            }
-
-            //Attacks.AddRange(nAttacks);
-            if (dAttack.Count > 0)
-            {
-                foreach (var item in dAttack)
-                {
-                    attacks.Remove(item);
-                }
-                dAttack.Clear();
-            }
-            if (jumpTimer > 1f)
-            {
-                isJumping = false;
-            }
-        }
-
-        /*public void Health(int enemydmg)
-        {
-            hp -= enemydmg;
-            if (hp == 4)
-                currentHealth = health[4];
-            else if (hp == 3)
-                currentHealth = health[3];
-            else if (hp == 2)
-                currentHealth = health[2];
-            else if (hp == 1)
-                currentHealth = health[1];
-            else if (hp <= 0)
-                currentHealth = health[0];
-        }
-        */
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
-            color = Color.White;
-
-            Rectangle healthRectangle = new Rectangle((int)position.X - 900,
-                                        (int)position.Y - 450,
-                                        Collision.Width *2,
-                                        hpBar.Height / 2);
-
-            spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
-
-            healthPercentage = ((float)currentHP / (float)maxHp);
-
-            visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
-
-            healthRectangle = new Rectangle((int)position.X - 900,
-                                           (int)position.Y - 450,
-                                           (int)(visibleWidth / 2) *2,
-                                           hpBar.Height / 2);
-
-            spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
-        }
-
         public void DestroyItem(AttackBox item)
         {
             dAttack.Add(item);
@@ -415,5 +401,21 @@ namespace _2D_Dark_souls
                 this.position.X += 40;
             }
         }
+
+                /*public void Health(int enemydmg)
+        {
+            hp -= enemydmg;
+            if (hp == 4)
+                currentHealth = health[4];
+            else if (hp == 3)
+                currentHealth = health[3];
+            else if (hp == 2)
+                currentHealth = health[2];
+            else if (hp == 1)
+                currentHealth = health[1];
+            else if (hp <= 0)
+                currentHealth = health[0];
+        }
+        */
     }
 }

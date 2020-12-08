@@ -42,6 +42,15 @@ namespace _2D_Dark_souls
 
         public abstract void LoadContent(ContentManager contentManager);
 
+        public abstract void Update(GameTime gametime);
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        }
+
+
+
         //Abstrakt void med hvis funktion er at nedarve og anvende.
         public abstract void OnCollision(GameObject other);
 
@@ -60,15 +69,6 @@ namespace _2D_Dark_souls
                 exitCollision = true;
             }
         }
-
-        public abstract void Update(GameTime gametime);
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-        }
-
-
 
         protected void Animation(GameTime gametime, Texture2D[] chosenSprites)
         {
