@@ -70,7 +70,7 @@ namespace _2D_Dark_souls
         {
             KeyboardState state = Keyboard.GetState();
             health = new Texture2D[5];
-            sprite = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            sprite = contentManager.Load<Texture2D>("CoolJimmy");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
@@ -91,7 +91,7 @@ namespace _2D_Dark_souls
                 sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveRight");
             }
             currentHealth = health[4];
-            spriteIdle = contentManager.Load<Texture2D>("0JimmyMoveLeft");
+            spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
             spriteJump = contentManager.Load<Texture2D>("JimmyJump");
             hpBar = contentManager.Load<Texture2D>("HpBar");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
