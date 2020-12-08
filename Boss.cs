@@ -20,8 +20,9 @@ namespace _2D_Dark_souls
         private Texture2D[] sprites2;
         private float MainAttackTimer;
         private float animationTimer;
+        private float tiredTimer;
         private int aAnimation;
-        private float scale;
+        private float scale = 1;
         private bool attacking;
         private bool idleCheck = true;
         private float smashTimer;
@@ -64,16 +65,18 @@ namespace _2D_Dark_souls
         }
         public override void OnCollision(GameObject other)
         {
-           
+            if (other is Player && MainAttackTimer >= 2)
+            {
+                attacking = true;
+            }
         }
         public void BossAI(GameTime gameTime)
         {
-            Animation(gameTime,sprites);
-            if (left == true && aAnimation !=2)
+            if (left == true)
             {
                 this.position.X -= 10;
             }
-            else if (left == false && aAnimation !=2)
+            else if (left == false)
             {
                 this.position.X += 10;
             }
@@ -85,59 +88,34 @@ namespace _2D_Dark_souls
         }
         public override void Update(GameTime gametime)
         {
-
             enemyAndPlayerDistance = position.X - playerPositionX;
-            if (enemyAndPlayerDistance > 0 && attacking == false)
-            {
-                left = true;
-            }
-            else if (enemyAndPlayerDistance < 0  && attacking == false)
-            {
-                left = false;
-            }
             
-            if (idleCheck == true)
+
+            if (idleCheck == true && MainAttackTimer <= 2)
             {
+                offsetX = 50;
                 MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-            }
-            if (MainAttackTimer <= 2)
-            {
-                if (left == true)
-                {
-                    scale = 2.5f;
-                    sprite = tiredLeft;
-                }
-                else if (left == false)
-                {
-                    scale = 2.5f;
-                    sprite = tiredRigh;
-                }
-            }
-            if (MainAttackTimer <= 4 && MainAttackTimer >= 2)
-            {
-                tired = false;
-                scale = 2.5f;
                 sprite = idle;
             }
-            
-            if (MainAttackTimer>=4 )
+            if (MainAttackTimer >= 2)
             {
                 idleCheck = false;
-                if (enemyAndPlayerDistance >200 && attacking == false)
+                if (enemyAndPlayerDistance >=1-(sprite.Width / 2) && attacking == false)
                 {
-                    scale = 1.4f;
                     sprite = LSideRun;
+                    left = true;
                     BossAI(gametime);
                 }
-                if (enemyAndPlayerDistance <= 200)
+                else if (enemyAndPlayerDistance <=0 - (sprite.Width/2) && attacking == false)
                 {
-                    attacking = true;
-                    scale = 1.4f;
                     BossAI(gametime);
-                    Animations(gametime);
+                    sprite = RSideRun;
+                    left = false;
                 }
-                
             }
+              
+            
+           
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -145,10 +123,10 @@ namespace _2D_Dark_souls
         }
         private void Animations(GameTime gametime)
         {
-            if (attacking == true && tired == false)
+            if (attacking == true )
             {
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (animationTimer > 0.3f && aAnimation < 2 && attacking)
+                if (animationTimer > 0.3f && aAnimation < 2)
                 {
                     aAnimation += 1;
                     animationTimer = 0;
@@ -164,10 +142,7 @@ namespace _2D_Dark_souls
             }
             if (aAnimation >= sprites.Length)
             {
-                MainAttackTimer = 0;
-                tired = true;
-                idleCheck = true;
-                attacking = false;
+                
             }
             if (aAnimation < sprites.Length && attacking == true)
             {

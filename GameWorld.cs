@@ -47,7 +47,7 @@ namespace _2D_Dark_souls
             gameObjectList = new List<GameObject>();
             
             mainPlayer = new Player(new Vector2(0, 0));
-            greedBoss = new Boss(new Vector2(1000, -750),100);
+            greedBoss = new Boss(new Vector2(1000, -700),100);
             Camera = new List<Camera>();
             MainCamera = new Camera(mainPlayer);
 
@@ -99,6 +99,10 @@ namespace _2D_Dark_souls
             // TODO: Add your update logic here
 
             mainPlayer.Update(gameTime);
+            greedBoss.Update(gameTime);
+            greedBoss.SetPlayer(mainPlayer.Collision.X);
+            greedBoss.CheckCollision(mainPlayer);
+            mainPlayer.CheckCollision(greedBoss);
             foreach (var item in gameObjectList)
             {
                 item.Update(gameTime);
@@ -115,8 +119,6 @@ namespace _2D_Dark_souls
             {
                 item.Update(gameTime);
                 item.SetPlayer(mainPlayer.Collision.X);
-                greedBoss.Update(gameTime);
-                greedBoss.SetPlayer(mainPlayer.Collision.X);
 
                 foreach (var attackitem in mainPlayer.attacks)
                 {
