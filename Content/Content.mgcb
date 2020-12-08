@@ -301,7 +301,7 @@
 /processorParam:TextureFormat=Color
 /build:CoolJimmy.png
 
-#begin CoolJimmy.png
+#begin CoolJimmyLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -311,7 +311,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:CoolJimmy.png
+/build:CoolJimmyLeft.png
 
 #begin EnemyAttackEffect.png
 /importer:TextureImporter

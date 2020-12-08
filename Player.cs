@@ -17,6 +17,7 @@ namespace _2D_Dark_souls
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
         private Texture2D spriteIdle;
+        private Texture2D spriteIdleLeft;
         private Texture2D spriteJump;
         private Texture2D DodgeRight;
         private Texture2D DodgeLeft;
@@ -71,6 +72,7 @@ namespace _2D_Dark_souls
             KeyboardState state = Keyboard.GetState();
             health = new Texture2D[5];
             sprite = contentManager.Load<Texture2D>("CoolJimmy");
+            sprite = contentManager.Load<Texture2D>("CoolJimmy");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
@@ -82,16 +84,18 @@ namespace _2D_Dark_souls
             {
                 sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
             }
-            for (int i = 0; i < health.Length; i++)
-            {
-                health[i] = contentManager.Load<Texture2D>(i + "Health");
-            }
             for (int i = 0; i < sprites.Length; i++)
             {
                 sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveRight");
             }
+            for (int i = 0; i < health.Length; i++)
+            {
+                health[i] = contentManager.Load<Texture2D>(i + "Health");
+            }
+
             currentHealth = health[4];
             spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
+            spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
             spriteJump = contentManager.Load<Texture2D>("JimmyJump");
             hpBar = contentManager.Load<Texture2D>("HpBar");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
@@ -140,10 +144,12 @@ namespace _2D_Dark_souls
                 {
                     Animation(gametime, sprites);
                 }
+                sprite = spriteIdleLeft;
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
                     sprite = spriteJump;
                 }
+                
                 direction = 1;
             }
 
