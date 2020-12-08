@@ -113,7 +113,7 @@ namespace _2D_Dark_souls
                     enemy.CheckCollision(item);
                 }
             }
-
+            
             MainCamera.Update(gameTime);
             foreach (var item in enemies)
             {
@@ -123,6 +123,7 @@ namespace _2D_Dark_souls
                 foreach (var attackitem in mainPlayer.attacks)
                 {
                     item.CheckCollision(attackitem);
+                    greedBoss.CheckCollision(attackitem);
                 }
                 item.CheckCollision(mainPlayer);
                 mainPlayer.CheckCollision(item);
@@ -131,6 +132,11 @@ namespace _2D_Dark_souls
                 {
                     mainPlayer.CheckCollision(attacks);
                 }
+            }
+            enemyAttacks = greedBoss.GetList();
+            foreach (var attacks in enemyAttacks)
+            {
+                mainPlayer.CheckCollision(attacks);
             }
             foreach (Enemy go in deleteObjects)
             {
@@ -177,7 +183,6 @@ namespace _2D_Dark_souls
             DrawCollisionBox(mainPlayer);
             DrawCollisionBox(greedBoss);
             mainPlayer.Draw(this._spriteBatch);
-            greedBoss.Draw(this._spriteBatch);
 
             foreach (var item in mainPlayer.attacks)
             {
@@ -195,6 +200,14 @@ namespace _2D_Dark_souls
                     boxes.Draw(this._spriteBatch);
                     DrawCollisionBox(boxes);
                 }
+            }
+
+            greedBoss.Draw(this._spriteBatch);
+            drawBoxes = greedBoss.GetList();
+            foreach (var item in drawBoxes)
+            {
+                item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
             }
 
             //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);

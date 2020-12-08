@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,6 +15,8 @@ namespace _2D_Dark_souls
         private Texture2D RSideRun;
         private Texture2D tiredLeft;
         private Texture2D tiredRigh;
+        private Texture2D attackSprite;
+        private SoundEffect hitEffect;
         private float hp;
         private float enemyAndPlayerDistance;
         private float playerPositionX;
@@ -29,11 +32,21 @@ namespace _2D_Dark_souls
         private bool left;
         private bool tired;
         private bool grounded;
+        private int phase = 1;
+        public static List<AttackBox> attacks;
+        private List<AttackBox> dAttacks;
+        private float deleteTimer;
+        private bool deleteWhen;
+        private float dmgTimer;
+        private bool tknDamage;
+        private int onlyTakeDamageOnce;
+        public static int dmg = 100;
         public Boss(Vector2 position, int hp)
         {
             this.position = position;
             this.hp = hp;
-            
+            attacks = new List<AttackBox>();
+            dAttacks = new List<AttackBox>();
         }
         public override void LoadContent(ContentManager contentManager)
         {
@@ -52,6 +65,8 @@ namespace _2D_Dark_souls
             RSideRun = contentManager.Load<Texture2D>("Sin1GreedRSide");
             tiredLeft = contentManager.Load<Texture2D>("GreedLeftTired");
             tiredRigh = contentManager.Load<Texture2D>("GreedRightTired");
+            attackSprite = contentManager.Load<Texture2D>("BossMainAttackBox");
+            hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
 
             sprite = idle;
         }
@@ -65,20 +80,47 @@ namespace _2D_Dark_souls
         }
         public override void OnCollision(GameObject other)
         {
-            if (other is Player && MainAttackTimer >= 2)
+            if (other is Player && MainAttackTimer >= 2 && phase == 2)
             {
-                attacking = true;
+                phase = 3;
+            }
+            if (other is AttackBox)
+            {
+                this.color = Color.Red;
+            }
+            if (other is AttackBox && AttackBox.ID == 1 && onlyTakeDamageOnce == 0)
+            {
+                this.color = Color.Red;
+                hitEffect.Play();
+                tknDamage = true;
+                dmgTimer = 0;
+                onlyTakeDamageOnce = 1;
             }
         }
         public void BossAI(GameTime gameTime)
         {
             if (left == true)
             {
-                this.position.X -= 10;
+                if (phase == 2)
+                {
+                    this.position.X -= 10;
+                }
+                if (phase == 3)
+                {
+                    this.position.X -= 5;
+                }
+                
             }
             else if (left == false)
             {
-                this.position.X += 10;
+                if (phase == 2)
+                {
+                    this.position.X += 10;
+                }
+                if (phase == 3)
+                {
+                    this.position.X += 5;
+                }
             }
             
         }
@@ -89,62 +131,135 @@ namespace _2D_Dark_souls
         public override void Update(GameTime gametime)
         {
             enemyAndPlayerDistance = position.X - playerPositionX;
-            
-
-            if (idleCheck == true && MainAttackTimer <= 2)
+            if (tknDamage == true)
             {
-                offsetX = 50;
+                dmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                if (dmgTimer >=0.3f)
+                {
+                    color = Color.White;
+                    tknDamage = false;
+                    onlyTakeDamageOnce = 0;
+                }
+            }
+            if (phase == 4)
+            {
+                tiredTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                if (left == true)
+                {
+                    sprite = tiredLeft;
+                }
+                if (left == false)
+                {
+                    sprite = tiredRigh;
+                }
+                if (tiredTimer >= 2)
+                {
+                    phase = 1;
+                    aAnimation = 0;
+                }
+            }
+            if (phase == 1)
+            {
+                tiredTimer = 0;
                 MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                 sprite = idle;
             }
-            if (MainAttackTimer >= 2)
+            if (MainAttackTimer >= 2 && phase !=3)
             {
-                idleCheck = false;
-                if (enemyAndPlayerDistance >=1-(sprite.Width / 2) && attacking == false)
+                phase = 2;
+                if (enemyAndPlayerDistance >=1-(sprite.Width / 2) && phase == 2)
                 {
                     sprite = LSideRun;
                     left = true;
                     BossAI(gametime);
                 }
-                else if (enemyAndPlayerDistance <=0 - (sprite.Width/2) && attacking == false)
+                else if (enemyAndPlayerDistance <=0 - (sprite.Width/2) && phase == 2)
                 {
-                    BossAI(gametime);
                     sprite = RSideRun;
                     left = false;
+                    BossAI(gametime);
                 }
             }
-              
-            
-           
+            if (MainAttackTimer >=2 && phase == 2)
+            {
+                BossAI(gametime);
+            }
+            if (phase == 3)
+            {
+                BossAI(gametime);
+                Animations(gametime);
+            }
+            if (deleteWhen == true)
+            {
+                deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+            }
+            if (deleteTimer >= 0.5f) //how fast should the attack destroy itself
+            {
+                foreach (var item in attacks)
+                {
+                    DestroyItem(item);
+                }
+                deleteWhen = false;
+            }
+            // need to delete attacks
+            if (dAttacks != null)
+            {
+                if (dAttacks.Count > 0)
+                {
+                    foreach (var item in dAttacks)
+                    {
+                        attacks.Remove(item);
+                    }
+                    dAttacks.Clear();
+                }
+            }
+
+
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f); ;
+            base.Draw(spriteBatch);
         }
         private void Animations(GameTime gametime)
         {
-            if (attacking == true )
+            if (phase == 3 )
             {
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (animationTimer > 0.3f && aAnimation < 2)
+                if (animationTimer > 0.2f && aAnimation <= 1)
                 {
                     aAnimation += 1;
                     animationTimer = 0;
                 }
             }
-            if (aAnimation == 2)
+            if (aAnimation == 2 && phase == 3)
             {
+                deleteTimer = 0;
+                deleteWhen = true;
+                if (left == true && attacks.Count <= 1)
+                {
+                    position.X -= 15;
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X -400, position.Y+750), 800, 3, dmg));
+                }
+                else if (left == false && attacks.Count <= 1)
+                {
+                    position.X += 15;
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 500, position.Y+750), 800, 3, dmg));
+                }
+
                 smashTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (smashTimer >= 1f)
+                if (smashTimer >= 0.4f)
                 {
                     aAnimation += 1;
+                    animationTimer = 0;
+                    smashTimer = 0;
                 }
             }
-            if (aAnimation >= sprites.Length)
+            if (aAnimation >= sprites.Length ||aAnimation >= sprites2.Length)
             {
-                
+                phase = 4;
+                MainAttackTimer = 0;
             }
-            if (aAnimation < sprites.Length && attacking == true)
+            if (aAnimation < sprites.Length && phase == 3 || aAnimation < sprites2.Length && phase == 3)
             {
                 if (left == true)
                 {
@@ -155,6 +270,15 @@ namespace _2D_Dark_souls
                     sprite = sprites2[aAnimation];
                 }
             }
+        }
+        public List<AttackBox> GetList()
+        {
+            return attacks;
+        }
+
+        public void DestroyItem(AttackBox item)
+        {
+            dAttacks.Add(item);
         }
     }
 }
