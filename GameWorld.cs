@@ -27,6 +27,7 @@ namespace _2D_Dark_souls
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
         private Texture2D backgroundMountain;
+        private Texture2D backgroundBoss;
 
         private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
@@ -69,6 +70,7 @@ namespace _2D_Dark_souls
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
             backgroundMountain = Content.Load<Texture2D>("GreyWall");
+            backgroundBoss = Content.Load<Texture2D>("BackgroundMountainCloud");
 
             foreach (var item in gameObjectList)
             {
@@ -172,7 +174,14 @@ namespace _2D_Dark_souls
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
-            _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X-(backgroundMountain.Width/2), (int)mainPlayer.pos.Y-(backgroundMountain.Height/2)+50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            if (mainPlayer.pos.X <= 10020)
+            {
+                _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            }
+            else if (mainPlayer.pos.X >= 10020)
+            {
+                _spriteBatch.Draw(backgroundBoss, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            }
 
             foreach (var item in gameObjectList)
             {
