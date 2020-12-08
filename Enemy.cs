@@ -150,6 +150,7 @@ namespace _2D_Dark_souls
             {
                 GameWorld.Destroy(this);
             }
+
             if (other is Enviroment)
             {
                 if (other.pos.Y > position.Y)

@@ -21,6 +21,7 @@ namespace _2D_Dark_souls
         private float hp;
         private float enemyAndPlayerDistance;
         private float playerPositionX;
+        private float playerPositionY;
         private Texture2D[] sprites2;
         private float MainAttackTimer;
         private float animationTimer;
@@ -42,13 +43,27 @@ namespace _2D_Dark_souls
         private bool tknDamage;
         private int onlyTakeDamageOnce;
         public static int dmg = 100;
+        private SpriteFont enemyName;
+
+        public float lastHP;
+        private Texture2D hpBar;
+        private float currentHP;
+        private float maxHp;
+        private float healthPercentage;
+        private float visibleWidth;
+
         public Boss(Vector2 position, int hp)
         {
             this.position = position;
             this.hp = hp;
             attacks = new List<AttackBox>();
             dAttacks = new List<AttackBox>();
+            this.lastHP = 100;
+            currentHP = this.lastHP;
+            maxHp = this.lastHP;
+            dmg = 2;
         }
+
         public override void LoadContent(ContentManager contentManager)
         {
             sprites = new Texture2D[3];
@@ -59,8 +74,10 @@ namespace _2D_Dark_souls
             }
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites2[i] = contentManager.Load<Texture2D>("Sin1GreedRSideAnimation" +( i + 1));
+                sprites2[i] = contentManager.Load<Texture2D>("Sin1GreedRSideAnimation" + (i + 1));
             }
+            enemyName = contentManager.Load<SpriteFont>("Score");
+            hpBar = contentManager.Load<Texture2D>("HpBar");
             idle = contentManager.Load<Texture2D>("Sin1Greed");
             LSideRun = contentManager.Load<Texture2D>("Sin1GreedLside");
             RSideRun = contentManager.Load<Texture2D>("Sin1GreedRSide");
@@ -71,14 +88,16 @@ namespace _2D_Dark_souls
 
             sprite = idle;
         }
+
         public override Rectangle Collision
         {
             get
             {
                 return new Rectangle(
-                    (int)position.X, (int)position.Y, (int)(sprite.Height*scale),(int)(sprite.Width*scale));
+                    (int)position.X, (int)position.Y, (int)(sprite.Height * scale), (int)(sprite.Width * scale));
             }
         }
+
         public override void OnCollision(GameObject other)
         {
             if (other is Player && MainAttackTimer >= 2 && phase == 2)
@@ -96,8 +115,10 @@ namespace _2D_Dark_souls
                 tknDamage = true;
                 dmgTimer = 0;
                 onlyTakeDamageOnce = 1;
+                currentHP -= Player.dmg;
             }
         }
+
         public void BossAI(GameTime gameTime)
         {
             if (left == true)
@@ -110,7 +131,6 @@ namespace _2D_Dark_souls
                 {
                     this.position.X -= 5;
                 }
-                
             }
             else if (left == false)
             {
@@ -123,12 +143,14 @@ namespace _2D_Dark_souls
                     this.position.X += 5;
                 }
             }
-            
         }
-        public void SetPlayer(int playerX)
+
+        public void SetPlayer(int playerX, int playerY)
         {
             this.playerPositionX = playerX;
+            this.playerPositionY = playerY;
         }
+
         public override void Update(GameTime gametime)
         {
             if (activator == true)
@@ -217,16 +239,40 @@ namespace _2D_Dark_souls
                     }
                 }
             }
-
-
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            if (currentHP > 1)
+            {
+                base.Draw(spriteBatch);
+                if (activator)
+                {
+                    Rectangle healthRectangle = new Rectangle((int)playerPositionX - 450,
+                                     (int)playerPositionY + 450,
+                                     Collision.Width,
+                                     hpBar.Height / 2);
+
+                    spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
+                    spriteBatch.DrawString(enemyName, "Greed", new Vector2(healthRectangle.X + (healthRectangle.Width / 2), healthRectangle.Y - healthRectangle.Height), Color.Wheat);
+
+                    healthPercentage = ((float)currentHP / (float)maxHp);
+
+                    visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
+
+                    healthRectangle = new Rectangle((int)playerPositionX - 450,
+                                                   (int)playerPositionY + 450,
+                                                   (int)(visibleWidth / 2),
+                                                   hpBar.Height / 2);
+
+                    spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
+                }
+            }
         }
+
         private void Animations(GameTime gametime)
         {
-            if (phase == 3 )
+            if (phase == 3)
             {
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                 if (animationTimer > 0.2f && aAnimation <= 1)
@@ -242,12 +288,12 @@ namespace _2D_Dark_souls
                 if (left == true && attacks.Count <= 1)
                 {
                     position.X -= 15;
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X -400, position.Y+750), 800, 3, dmg));
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X - 400, position.Y + 750), 800, 3, dmg));
                 }
                 else if (left == false && attacks.Count <= 1)
                 {
                     position.X += 15;
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 500, position.Y+750), 800, 3, dmg));
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 500, position.Y + 750), 800, 3, dmg));
                 }
 
                 smashTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
@@ -258,7 +304,7 @@ namespace _2D_Dark_souls
                     smashTimer = 0;
                 }
             }
-            if (aAnimation >= sprites.Length ||aAnimation >= sprites2.Length)
+            if (aAnimation >= sprites.Length || aAnimation >= sprites2.Length)
             {
                 phase = 4;
                 MainAttackTimer = 0;
@@ -275,6 +321,7 @@ namespace _2D_Dark_souls
                 }
             }
         }
+
         public List<AttackBox> GetList()
         {
             return attacks;

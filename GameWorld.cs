@@ -13,14 +13,13 @@ namespace _2D_Dark_souls
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
         public Player mainPlayer;
-        public Boss greedBoss;
         public Platform platformGenerator;
         public Camera MainCamera;
         private static List<GameObject> gameObjectList;
         private List<Camera> Camera;
         private List<AttackBox> enemyAttacks;
         private SpriteFont EnemyTakesDmg;
-
+        public Boss greedBoss;
         public List<Enemy> enemies;
         public static List<Enemy> deleteObjects;
 
@@ -45,20 +44,17 @@ namespace _2D_Dark_souls
         {
             // TODO: Add your initialization logic here
             gameObjectList = new List<GameObject>();
-            
             mainPlayer = new Player(new Vector2(0, 0));
-            greedBoss = new Boss(new Vector2(11000, -700),100);
             Camera = new List<Camera>();
             MainCamera = new Camera(mainPlayer);
-
+            greedBoss = new Boss(new Vector2(11000, -700), 100);
             platformGenerator = new Platform();
             platformGenerator.Initialize();
-            
 
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
-            //enemies.Add(new Enemy(new Vector2(1000, -110), 300, 3));
+            enemies.Add(new Enemy(new Vector2(1000, -110), 300, 3));
             enemies.Add(new Enemy(new Vector2(3000, -800), 300, 3));
             base.Initialize();
         }
@@ -89,8 +85,6 @@ namespace _2D_Dark_souls
             // Johnny
         }
 
- 
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -100,7 +94,7 @@ namespace _2D_Dark_souls
 
             mainPlayer.Update(gameTime);
             greedBoss.Update(gameTime);
-            greedBoss.SetPlayer(mainPlayer.Collision.X);
+            greedBoss.SetPlayer(mainPlayer.Collision.X, mainPlayer.Collision.Y);
             greedBoss.CheckCollision(mainPlayer);
             mainPlayer.CheckCollision(greedBoss);
             foreach (var item in gameObjectList)
@@ -113,13 +107,12 @@ namespace _2D_Dark_souls
                     enemy.CheckCollision(item);
                 }
             }
-            
+
             MainCamera.Update(gameTime);
             foreach (var item in enemies)
             {
                 item.Update(gameTime);
                 item.SetPlayer(mainPlayer.Collision.X);
-
                 foreach (var attackitem in mainPlayer.attacks)
                 {
                     item.CheckCollision(attackitem);
@@ -171,13 +164,11 @@ namespace _2D_Dark_souls
             deleteObjects.Add(go);
         }
 
-
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
-            _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X-(backgroundMountain.Width/2), (int)mainPlayer.pos.Y-(backgroundMountain.Height/2)+50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
 
             foreach (var item in gameObjectList)
             {
@@ -186,10 +177,18 @@ namespace _2D_Dark_souls
             }
 
             DrawCollisionBox(mainPlayer);
-            DrawCollisionBox(greedBoss);
             mainPlayer.Draw(this._spriteBatch);
+            DrawCollisionBox(greedBoss);
 
             foreach (var item in mainPlayer.attacks)
+            {
+                item.Draw(this._spriteBatch);
+                DrawCollisionBox(item);
+            }
+
+            greedBoss.Draw(this._spriteBatch);
+            drawBoxes = greedBoss.GetList();
+            foreach (var item in drawBoxes)
             {
                 item.Draw(this._spriteBatch);
                 DrawCollisionBox(item);
@@ -205,14 +204,6 @@ namespace _2D_Dark_souls
                     boxes.Draw(this._spriteBatch);
                     DrawCollisionBox(boxes);
                 }
-            }
-
-            greedBoss.Draw(this._spriteBatch);
-            drawBoxes = greedBoss.GetList();
-            foreach (var item in drawBoxes)
-            {
-                item.Draw(this._spriteBatch);
-                DrawCollisionBox(item);
             }
 
             //_spriteBatch.DrawString(EnemyTakesDmg, "Enemy HP: " + enemies[0].hp, new Vector2(800, -500), Color.Black);
@@ -233,8 +224,5 @@ namespace _2D_Dark_souls
         {
             gameObjectList.Add(enviroment);
         }
-
-
-
     }
 }
