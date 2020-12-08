@@ -65,15 +65,6 @@ namespace _2D_Dark_souls
         private float ChargeTimer;
         private int chargeCounter;
 
-        public override Rectangle Collision
-        {
-            get
-            {
-                return new Rectangle(
-                    (int)position.X, (int)position.Y, scale, scale);
-            }
-        }
-
         // Giver en position og scalering af enemy
         public Enemy(Vector2 position, int scale, int hp)
         {
@@ -88,6 +79,27 @@ namespace _2D_Dark_souls
             dmg = 2;
         }
 
+        // Enemy's bevægelseshastighed
+        public void AiMovement()
+        {
+            if (Left == true && Attacking == false && ChargeAttack == false)
+            {
+                position.X -= 2;
+            }
+            if (Left == false && Attacking == false && ChargeAttack == false)
+            {
+                position.X += 2;
+            }
+        }
+
+        public override Rectangle Collision
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)position.X, (int)position.Y, scale, scale);
+            }
+        }
 
         public override void LoadContent(ContentManager contentManager)
         {
@@ -111,6 +123,46 @@ namespace _2D_Dark_souls
             {
                 HammerAttack[i] = contentManager.Load<Texture2D>(i + "HammerAttackJim");
             }
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            if (other is Player)
+            {
+            }
+            if (other is AttackBox && timer > cooldownTime && AttackBox.ID == 1)
+            {
+                this.color = Color.Red;
+                if (other.pos.X > this.pos.X)
+                {
+                    this.position.X -= 50;
+                }
+                else if (other.pos.X < this.pos.X)
+                {
+                    this.position.X += 50;
+                }
+                hitEffect.Play();
+                currentHP -= Player.dmg;
+                timer = 0;
+            }
+
+            if (lastHP <= 0)
+            {
+                GameWorld.Destroy(this);
+            }
+            if (other is Enviroment)
+            {
+                if (other.pos.Y > position.Y)
+                {
+                    position.Y = other.Collision.Top - Collision.Height;
+                }
+                velocity.Y = 0;
+            }
+        }
+
+        public void SetPlayer(int playerX)
+        {
+            this.playerPositionX = playerX;
         }
 
         public override void Update(GameTime gametime)
@@ -321,60 +373,6 @@ namespace _2D_Dark_souls
             {
                 item.Draw(spriteBatch);
             }
-        }
-
-
-        public override void OnCollision(GameObject other)
-        {
-            if (other is Player)
-            {
-            }
-            if (other is AttackBox && timer > cooldownTime && AttackBox.ID == 1)
-            {
-                this.color = Color.Red;
-                if (other.pos.X > this.pos.X)
-                {
-                    this.position.X -= 50;
-                }
-                else if (other.pos.X < this.pos.X)
-                {
-                    this.position.X += 50;
-                }
-                hitEffect.Play();
-                currentHP -= Player.dmg;
-                timer = 0;
-            }
-
-            if (lastHP <= 0)
-            {
-                GameWorld.Destroy(this);
-            }
-            if (other is Enviroment)
-            {
-                if (other.pos.Y > position.Y)
-                {
-                    position.Y = other.Collision.Top - Collision.Height;
-                }
-                velocity.Y = 0;
-            }
-        }
-
-        // Enemy's bevægelseshastighed
-        public void AiMovement()
-        {
-            if (Left == true && Attacking == false && ChargeAttack == false)
-            {
-                position.X -= 2;
-            }
-            if (Left == false && Attacking == false && ChargeAttack == false)
-            {
-                position.X += 2;
-            }
-        }
-
-        public void SetPlayer(int playerX)
-        {
-            this.playerPositionX = playerX;
         }
 
         public List<AttackBox> GetList()
