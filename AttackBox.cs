@@ -19,19 +19,6 @@ namespace _2D_Dark_souls
         }
         public int damage;
 
-        public override Rectangle Collision
-        {
-            get
-            {
-                return new Rectangle(
-                       (int)position.X,
-                       (int)position.Y,
-                       (int)this._spriteWidth,
-                       (int)this.sprite.Height
-                   );
-            }
-        }
-
         public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch,int idNumber, int damage)
         {
             _spriteWidth = stretch;
@@ -46,8 +33,25 @@ namespace _2D_Dark_souls
             //sprite = contentManager.Load<Texture2D>(chosenSprite);
         }
 
+        public override void OnCollision(GameObject other)
+        {
+        }
+
         public override void Update(GameTime gametime)
         {
+        }
+
+        public override Rectangle Collision
+        {
+            get
+            {
+                return new Rectangle(
+                       (int)position.X,
+                       (int)position.Y,
+                       (int)this._spriteWidth,
+                       (int)this.sprite.Height
+                   );
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -55,10 +59,6 @@ namespace _2D_Dark_souls
             spriteBatch.Draw(sprite,
                 new Rectangle((int)position.X, (int)position.Y, _spriteWidth, sprite.Height),
                 new Rectangle(1, 1, sprite.Width, sprite.Height), color);
-        }
-
-        public override void OnCollision(GameObject other)
-        {
         }
     }
 }

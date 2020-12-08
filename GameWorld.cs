@@ -27,7 +27,6 @@ namespace _2D_Dark_souls
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
         private Texture2D backgroundMountain;
-        private Texture2D backgroundBoss;
 
         private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
@@ -48,7 +47,7 @@ namespace _2D_Dark_souls
             gameObjectList = new List<GameObject>();
             
             mainPlayer = new Player(new Vector2(0, 0));
-            greedBoss = new Boss(new Vector2(11600, -700),100);
+            greedBoss = new Boss(new Vector2(11000, -700),100);
             Camera = new List<Camera>();
             MainCamera = new Camera(mainPlayer);
 
@@ -70,7 +69,6 @@ namespace _2D_Dark_souls
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
             backgroundMountain = Content.Load<Texture2D>("GreyWall");
-            backgroundBoss = Content.Load<Texture2D>("BackgroundMountainCloud");
 
             foreach (var item in gameObjectList)
             {
@@ -154,18 +152,32 @@ namespace _2D_Dark_souls
             base.Update(gameTime);
         }
 
+        private void DrawCollisionBox(GameObject go)
+        {
+            //Der laves en streg med tykkelsen 1 for hver side af Collision.
+            Rectangle topLine = new Rectangle(go.Collision.X, go.Collision.Y, go.Collision.Width, 1);
+            Rectangle bottomLine = new Rectangle(go.Collision.X, go.Collision.Y + go.Collision.Height, go.Collision.Width, 1);
+            Rectangle rightLine = new Rectangle(go.Collision.X + go.Collision.Width, go.Collision.Y, 1, go.Collision.Height);
+            Rectangle leftLine = new Rectangle(go.Collision.X, go.Collision.Y, 1, go.Collision.Height);
+            //Der tegnes en streg med tykkelsen 1 for hver side af Collision med collsionTexture med farven rød.
+            _spriteBatch.Draw(collisionTexture, topLine, Color.Red);
+            _spriteBatch.Draw(collisionTexture, bottomLine, Color.Red);
+            _spriteBatch.Draw(collisionTexture, rightLine, Color.Red);
+            _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
+        }
+
+        public static void Destroy(Enemy go)
+        {
+            deleteObjects.Add(go);
+        }
+
+
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
-            if (mainPlayer.pos.X <= 10020)
-            {
-                _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
-            }
-            else if (mainPlayer.pos.X >= 10020)
-            {
-                _spriteBatch.Draw(backgroundBoss, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
-            }
+            _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X-(backgroundMountain.Width/2), (int)mainPlayer.pos.Y-(backgroundMountain.Height/2)+50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
 
             foreach (var item in gameObjectList)
             {
@@ -212,36 +224,10 @@ namespace _2D_Dark_souls
             base.Draw(gameTime);
         }
 
-
-
-
-
-        private void DrawCollisionBox(GameObject go)
-        {
-            //Der laves en streg med tykkelsen 1 for hver side af Collision.
-            Rectangle topLine = new Rectangle(go.Collision.X, go.Collision.Y, go.Collision.Width, 1);
-            Rectangle bottomLine = new Rectangle(go.Collision.X, go.Collision.Y + go.Collision.Height, go.Collision.Width, 1);
-            Rectangle rightLine = new Rectangle(go.Collision.X + go.Collision.Width, go.Collision.Y, 1, go.Collision.Height);
-            Rectangle leftLine = new Rectangle(go.Collision.X, go.Collision.Y, 1, go.Collision.Height);
-            //Der tegnes en streg med tykkelsen 1 for hver side af Collision med collsionTexture med farven rød.
-            _spriteBatch.Draw(collisionTexture, topLine, Color.Red);
-            _spriteBatch.Draw(collisionTexture, bottomLine, Color.Red);
-            _spriteBatch.Draw(collisionTexture, rightLine, Color.Red);
-            _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
-        }
-
-
-        public static void Destroy(Enemy go)
-        {
-            deleteObjects.Add(go);
-        }
-
-
         public Player GetPlayer()
         {
             return (mainPlayer);
         }
-
 
         public static void AddToList(Enviroment enviroment)
         {
