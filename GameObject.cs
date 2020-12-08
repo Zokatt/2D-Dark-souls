@@ -17,7 +17,8 @@ namespace _2D_Dark_souls
         protected SpriteBatch _spriteBatch;
         private GraphicsDeviceManager _graphics;
         protected bool exitCollision;
-
+        protected int offsetX;
+        protected int offsetY;
         protected float fps;
         private float timeElapsed;
         private int currentIndex;
@@ -31,10 +32,10 @@ namespace _2D_Dark_souls
             get
             {
                 return new Rectangle(
-                       (int)position.X,
+                       (int)position.X+offsetX,
                        (int)position.Y,
-                       (int)this.sprite.Width,
-                       (int)this.sprite.Height
+                       (int)sprite.Width,
+                       (int)sprite.Height + offsetY
                    );
             }
         }
