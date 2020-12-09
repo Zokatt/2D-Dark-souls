@@ -220,13 +220,13 @@ namespace _2D_Dark_souls
                     phase = 2;
                     if (enemyAndPlayerDistance >= 1 - (sprite.Width / 2) && phase == 2)
                     {
-                        sprite = LSideRun;
+                        sprite = sprites[0];
                         left = true;
                         BossAI(gametime);
                     }
                     else if (enemyAndPlayerDistance <= 0 - (sprite.Width / 2) && phase == 2)
                     {
-                        sprite = RSideRun;
+                        sprite = sprites2[0];
                         left = false;
                         BossAI(gametime);
                     }
