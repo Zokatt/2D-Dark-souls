@@ -200,7 +200,7 @@ namespace _2D_Dark_souls
                         deleteWhen = true;
                         if (attacks.Count <= 1)
                         {
-                            attacks.Add(new AttackBox(chargeSprite, new Vector2(position.X - 50, position.Y), 250, 2, dmg));
+                            attacks.Add(new AttackBox(chargeSprite, new Vector2(position.X -150, position.Y), 250, 2, dmg));
                             ChargeAttack = false;
                             this.color = Color.White;
                         }

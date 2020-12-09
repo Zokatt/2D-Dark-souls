@@ -52,7 +52,7 @@ namespace _2D_Dark_souls
         private float maxHp;
         private float healthPercentage;
         private float visibleWidth;
-        private float currentHP;
+        public float currentHP;
         private int offsett;
 
         public Player(Vector2 position)
@@ -111,6 +111,7 @@ namespace _2D_Dark_souls
                 isGrounded = false;
                 buttonPress = true;
                 gravity.Y = 0;
+                
             }
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
@@ -366,26 +367,30 @@ namespace _2D_Dark_souls
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
-            color = Color.White;
+            if (currentHP > 1)
+            {
+                base.Draw(spriteBatch);
+                color = Color.White;
 
-            Rectangle healthRectangle = new Rectangle((int)position.X - 900,
-                                        (int)position.Y - 450,
-                                        Collision.Width * 2,
-                                        hpBar.Height / 2);
+                Rectangle healthRectangle = new Rectangle((int)position.X - 900,
+                                            (int)position.Y - 450,
+                                            Collision.Width * 2,
+                                            hpBar.Height / 2);
 
-            spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
+                spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
 
-            healthPercentage = ((float)currentHP / (float)maxHp);
+                healthPercentage = ((float)currentHP / (float)maxHp);
 
-            visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
+                visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
 
-            healthRectangle = new Rectangle((int)position.X - 900,
-                                           (int)position.Y - 450,
-                                           (int)(visibleWidth / 2) * 2,
-                                           hpBar.Height / 2);
+                healthRectangle = new Rectangle((int)position.X - 900,
+                                               (int)position.Y - 450,
+                                               (int)(visibleWidth / 2) * 2,
+                                               hpBar.Height / 2);
 
-            spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
+                spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
+            }
+            
         }
 
         public void DestroyItem(AttackBox item)

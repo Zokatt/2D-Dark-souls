@@ -95,6 +95,10 @@ namespace _2D_Dark_souls
 
             // TODO: Add your update logic here
 
+            if (mainPlayer.currentHP <=1)
+            {
+                Exit();
+            }
             mainPlayer.Update(gameTime);
             greedBoss.Update(gameTime);
             greedBoss.SetPlayer(mainPlayer.Collision.X, mainPlayer.Collision.Y);
@@ -226,6 +230,10 @@ namespace _2D_Dark_souls
         public static void AddToList(Enviroment enviroment)
         {
             gameObjectList.Add(enviroment);
+        }
+        public void exitGame()
+        {
+            this.Exit();
         }
     }
 }

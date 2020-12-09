@@ -58,7 +58,7 @@ namespace _2D_Dark_souls
             this.hp = hp;
             attacks = new List<AttackBox>();
             dAttacks = new List<AttackBox>();
-            this.lastHP = 100;
+            this.lastHP = 500;
             currentHP = this.lastHP;
             maxHp = this.lastHP;
             dmg = 2;
@@ -161,7 +161,14 @@ namespace _2D_Dark_souls
                     dmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                     if (dmgTimer >= 0.3f)
                     {
-                        color = Color.White;
+                        if (healthPercentage >=0.3f)
+                        {
+                            color = Color.White;
+                        }
+                        else if (healthPercentage <=0.3f)
+                        {
+                            color = Color.Gold;
+                        }
                         tknDamage = false;
                         onlyTakeDamageOnce = 0;
                     }
@@ -177,16 +184,35 @@ namespace _2D_Dark_souls
                     {
                         sprite = tiredRigh;
                     }
-                    if (tiredTimer >= 2)
+                    if (healthPercentage >=0.3f)
                     {
-                        phase = 1;
-                        aAnimation = 0;
+                        if (tiredTimer >= 2)
+                        {
+                            phase = 1;
+                            aAnimation = 0;
+                        }
+                    }
+                    else if (healthPercentage <=0.3f)
+                    {
+                        if (tiredTimer >= 1)
+                        {
+                            phase = 1;
+                            aAnimation = 0;
+                        }
                     }
                 }
                 if (phase == 1)
                 {
                     tiredTimer = 0;
-                    MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    if (healthPercentage >= 0.3f)
+                    {
+                        MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
+                    }
+                    else if (healthPercentage <=0.3f)
+                    {
+                        MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds * 2;
+                    }
+                    
                     sprite = idle;
                 }
                 if (MainAttackTimer >= 2 && phase != 3)
