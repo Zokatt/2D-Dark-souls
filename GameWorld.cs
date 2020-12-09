@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace _2D_Dark_souls
 {
@@ -26,6 +27,7 @@ namespace _2D_Dark_souls
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
         private Texture2D backgroundMountain;
+        private Song song;
 
         private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
@@ -64,6 +66,9 @@ namespace _2D_Dark_souls
 
         protected override void LoadContent()
         {
+            song = Content.Load<Song>("Bloodborne");
+            MediaPlayer.Play(song);
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             collisionTexture = Content.Load<Texture2D>("Pixel");

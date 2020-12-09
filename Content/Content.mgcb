@@ -265,6 +265,12 @@
 /processorParam:TextureFormat=Color
 /build:BackgroundStraightRandomLines.png
 
+#begin Bloodborne.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Bloodborne.mp3
+
 #begin BossMainAttackBox.png
 /importer:TextureImporter
 /processor:TextureProcessor
