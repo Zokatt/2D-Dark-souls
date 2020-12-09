@@ -50,10 +50,13 @@ namespace _2D_Dark_souls
             greedBoss = new Boss(new Vector2(11000, -700), 100);
             platformGenerator = new Platform();
             platformGenerator.Initialize();
-
+            
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
+            enemies.Add(new Enemy(new Vector2(5460, -775), 300, 3));
+            enemies.Add(new Enemy(new Vector2(9400, -1385), 300, 3));
+            enemies.Add(new Enemy(new Vector2(7530, -1385), 300, 3));
             enemies.Add(new Enemy(new Vector2(1000, -110), 300, 3));
             enemies.Add(new Enemy(new Vector2(3000, -800), 300, 3));
             base.Initialize();
