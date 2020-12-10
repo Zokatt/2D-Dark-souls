@@ -61,7 +61,7 @@ namespace _2D_Dark_souls
             this.lastHP = 1000;
             currentHP = this.lastHP;
             maxHp = this.lastHP;
-            dmg = 2;
+            dmg = 3;
         }
 
         public override void LoadContent(ContentManager contentManager)
