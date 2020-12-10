@@ -54,7 +54,7 @@ namespace _2D_Dark_souls
         private int level = 1;
         public float xp = 0;
         private SpriteFont playerLevel;
-
+        private SoundEffect LevelUpSound;
         private Texture2D staminaBar;
         private float maxStamina;
         private float staminaPercentage;
@@ -85,6 +85,7 @@ namespace _2D_Dark_souls
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
             DodgeRight = contentManager.Load<Texture2D>("RollRightSide");
             DodgeLeft = contentManager.Load<Texture2D>("RollLeftSide");
+            LevelUpSound = contentManager.Load<SoundEffect>("LevelUp");
             sprites = new Texture2D[3];
             sprites2 = new Texture2D[3];
             for (int i = 0; i < sprites.Length; i++)
@@ -278,8 +279,9 @@ namespace _2D_Dark_souls
             {
                 currentStamina += 0.15f;
             }
-            if (xp >= 15)
+            if (xp >= 10)
             {
+                LevelUpSound.Play();
                 level += 1;
                 dmg *= level;
                 xp = 0;

@@ -415,6 +415,12 @@
 /processorParam:TextureFormat=Color
 /build:JimmyJump.png
 
+#begin LevelUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LevelUp.wav
+
 #begin Pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
