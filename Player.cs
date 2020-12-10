@@ -69,7 +69,7 @@ namespace _2D_Dark_souls
             maxHp = this.lastHp;
             currentStamina = 100;
             maxStamina = 100;
-            fps = 5;
+            fps = 7;
             position = this.position;
             attacks = new List<AttackBox>();
             nAttacks = new List<AttackBox>();
@@ -86,15 +86,15 @@ namespace _2D_Dark_souls
             DodgeRight = contentManager.Load<Texture2D>("RollRightSide");
             DodgeLeft = contentManager.Load<Texture2D>("RollLeftSide");
             LevelUpSound = contentManager.Load<SoundEffect>("LevelUp");
-            sprites = new Texture2D[3];
-            sprites2 = new Texture2D[3];
+            sprites = new Texture2D[8];
+            sprites2 = new Texture2D[8];
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveLeft");
+                sprites[i] = contentManager.Load<Texture2D>(i + 1 + "Walk");
             }
             for (int i = 0; i < sprites.Length; i++)
             {
-                sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveRight");
+                sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "WalkLeft");
             }
             spriteJump = contentManager.Load<Texture2D>("JimmyJump");
             spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
@@ -149,7 +149,6 @@ namespace _2D_Dark_souls
                 if (isDodging == false)
                 {
                     Animation(gametime, sprites);
-                    sprite = spriteIdleLeft;
                 }
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
