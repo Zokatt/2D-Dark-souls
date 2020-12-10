@@ -58,7 +58,7 @@ namespace _2D_Dark_souls
             this.hp = hp;
             attacks = new List<AttackBox>();
             dAttacks = new List<AttackBox>();
-            this.lastHP = 500;
+            this.lastHP = 1000;
             currentHP = this.lastHP;
             maxHp = this.lastHP;
             dmg = 2;
