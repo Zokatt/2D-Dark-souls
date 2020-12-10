@@ -277,7 +277,7 @@ namespace _2D_Dark_souls
         {
             if (currentStamina<=100)
             {
-                currentStamina += 0.15f;
+                currentStamina += 0.1f;
             }
             if (xp >= 15)
             {
