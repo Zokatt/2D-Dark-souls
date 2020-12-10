@@ -54,13 +54,21 @@ namespace _2D_Dark_souls
         private int level = 1;
         public float xp = 0;
         private SpriteFont playerLevel;
-        
+
+        private Texture2D staminaBar;
+        private float maxStamina;
+        private float staminaPercentage;
+        private float visibleStaminaWidth;
+        public float currentStamina;
+
 
         public Player(Vector2 position)
         {
             this.lastHp = 10;
             currentHP = this.lastHp;
             maxHp = this.lastHp;
+            currentStamina = 100;
+            maxStamina = 100;
             fps = 5;
             position = this.position;
             attacks = new List<AttackBox>();
@@ -91,6 +99,7 @@ namespace _2D_Dark_souls
             spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
             spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
             hpBar = contentManager.Load<Texture2D>("HpBar");
+            staminaBar = contentManager.Load<Texture2D>("HpBar");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
             playerLevel = contentManager.Load<SpriteFont>("Score");
         }
@@ -166,8 +175,9 @@ namespace _2D_Dark_souls
                 deleteWhen = true;
                 attackTimer = 0;
             }
-            if (state.IsKeyDown(Keys.E) && isDodging == false && noHoldDown == true)
+            if (state.IsKeyDown(Keys.E) && isDodging == false && noHoldDown == true && currentStamina >=30)
             {
+                currentStamina -= 20;
                 noHoldDown = false;
                 isDodging = true;
             }
@@ -264,6 +274,10 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
+            if (currentStamina<=100)
+            {
+                currentStamina += 0.15f;
+            }
             if (xp >= 15)
             {
                 level += 1;
@@ -350,21 +364,6 @@ namespace _2D_Dark_souls
             }
         }
 
-        /*public void Health(int enemydmg)
-        {
-            hp -= enemydmg;
-            if (hp == 4)
-                currentHealth = health[4];
-            else if (hp == 3)
-                currentHealth = health[3];
-            else if (hp == 2)
-                currentHealth = health[2];
-            else if (hp == 1)
-                currentHealth = health[1];
-            else if (hp <= 0)
-                currentHealth = health[0];
-        }
-        */
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -391,6 +390,24 @@ namespace _2D_Dark_souls
 
                 spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
                 spriteBatch.DrawString(playerLevel, "Level: " + level, new Vector2(healthRectangle.X + (healthRectangle.Width / 2), healthRectangle.Y - healthRectangle.Height), Color.Wheat);
+
+                Rectangle staminaRectangle = new Rectangle((int)position.X - 900,
+                                           (int)position.Y - 350,
+                                           (int)(Collision.Width * 1.5f),
+                                           staminaBar.Height / 2);
+
+                spriteBatch.Draw(staminaBar, staminaRectangle, Color.Black);
+
+                staminaPercentage = ((float)currentStamina / (float)maxStamina);
+
+                visibleStaminaWidth = (float)(Collision.Width * 2) * (float)staminaPercentage;
+
+                staminaRectangle = new Rectangle((int)position.X - 900,
+                                               (int)position.Y - 350,
+                                               (int)(visibleStaminaWidth / 2.5f) * 2,
+                                               staminaBar.Height / 2);
+
+                spriteBatch.Draw(staminaBar, staminaRectangle, Color.DarkGreen);
             }
 
         }
