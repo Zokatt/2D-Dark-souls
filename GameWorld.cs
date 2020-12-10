@@ -13,7 +13,7 @@ namespace _2D_Dark_souls
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D collisionTexture;
-        public Player mainPlayer;
+        public static Player mainPlayer;
         public Platform platformGenerator;
         public Camera MainCamera;
         private static List<GameObject> gameObjectList;
@@ -109,6 +109,10 @@ namespace _2D_Dark_souls
             greedBoss.SetPlayer(mainPlayer.Collision.X, mainPlayer.Collision.Y);
             greedBoss.CheckCollision(mainPlayer);
             mainPlayer.CheckCollision(greedBoss);
+            foreach (var attackitem in mainPlayer.attacks)
+            {
+                greedBoss.CheckCollision(attackitem);
+            }
             foreach (var item in gameObjectList)
             {
                 item.Update(gameTime);
@@ -128,7 +132,6 @@ namespace _2D_Dark_souls
                 foreach (var attackitem in mainPlayer.attacks)
                 {
                     item.CheckCollision(attackitem);
-                    greedBoss.CheckCollision(attackitem);
                 }
                 item.CheckCollision(mainPlayer);
                 mainPlayer.CheckCollision(item);
@@ -171,8 +174,9 @@ namespace _2D_Dark_souls
             _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
-        public static void Destroy(Enemy go)
+        public void Destroy(Enemy go,int xpToPlayer)
         {
+            mainPlayer.gainXP(xpToPlayer);
             deleteObjects.Add(go);
         }
 

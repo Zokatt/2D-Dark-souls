@@ -148,7 +148,7 @@ namespace _2D_Dark_souls
 
             if (lastHP <= 0)
             {
-                GameWorld.Destroy(this);
+                GameWorld.Destroy(this,5);
             }
 
             if (other is Enviroment)

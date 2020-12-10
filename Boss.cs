@@ -212,7 +212,7 @@ namespace _2D_Dark_souls
                     {
                         MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds * 2;
                     }
-                    
+
                     sprite = idle;
                 }
                 if (MainAttackTimer >= 2 && phase != 3)

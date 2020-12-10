@@ -42,8 +42,6 @@ namespace _2D_Dark_souls
         private bool deleteWhen;
         public SoundEffect attackSound;
         private float deleteTimer;
-        public Texture2D[] health;
-        public Texture2D currentHealth;
         private float timer = 0.0f;
         private float cooldownTime = 2;
         private bool walkOff;
@@ -53,7 +51,10 @@ namespace _2D_Dark_souls
         private float healthPercentage;
         private float visibleWidth;
         public float currentHP;
-        private int offsett;
+        private int level = 1;
+        public float xp = 0;
+        private SpriteFont playerLevel;
+        
 
         public Player(Vector2 position)
         {
@@ -70,7 +71,6 @@ namespace _2D_Dark_souls
         public override void LoadContent(ContentManager contentManager)
         {
             KeyboardState state = Keyboard.GetState();
-            health = new Texture2D[5];
             sprite = contentManager.Load<Texture2D>("CoolJimmy");
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
@@ -87,17 +87,12 @@ namespace _2D_Dark_souls
             {
                 sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "JimmyMoveRight");
             }
-            for (int i = 0; i < health.Length; i++)
-            {
-                health[i] = contentManager.Load<Texture2D>(i + "Health");
-            }
-
-            currentHealth = health[4];
             spriteJump = contentManager.Load<Texture2D>("JimmyJump");
             spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
             spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
             hpBar = contentManager.Load<Texture2D>("HpBar");
             attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
+            playerLevel = contentManager.Load<SpriteFont>("Score");
         }
 
         private void HandleInput(GameTime gametime)
@@ -111,7 +106,7 @@ namespace _2D_Dark_souls
                 isGrounded = false;
                 buttonPress = true;
                 gravity.Y = 0;
-                
+
             }
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
@@ -269,6 +264,12 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
+            if (xp >= 15)
+            {
+                level += 1;
+                dmg *= level;
+                xp = 0;
+            }
             if (timer < cooldownTime + 1)
             {
                 this.color = Color.White;
@@ -389,8 +390,9 @@ namespace _2D_Dark_souls
                                                hpBar.Height / 2);
 
                 spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
+                spriteBatch.DrawString(playerLevel, "Level: " + level, new Vector2(healthRectangle.X + (healthRectangle.Width / 2), healthRectangle.Y - healthRectangle.Height), Color.Wheat);
             }
-            
+
         }
 
         public void DestroyItem(AttackBox item)
@@ -418,6 +420,10 @@ namespace _2D_Dark_souls
             {
                 this.position.X += 40;
             }
+        }
+        public void gainXP(int howMuch)
+        {
+            xp += howMuch;
         }
     }
 }
