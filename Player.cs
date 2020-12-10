@@ -279,7 +279,7 @@ namespace _2D_Dark_souls
             {
                 currentStamina += 0.15f;
             }
-            if (xp >= 10)
+            if (xp >= 15)
             {
                 LevelUpSound.Play();
                 level += 1;
