@@ -141,7 +141,7 @@ namespace _2D_Dark_souls
                 position.X += 10;
                 if (isDodging == false)
                 {
-                    Animation(gametime, sprites2);
+                    Animation(gametime, sprites);
                 }
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
@@ -154,7 +154,7 @@ namespace _2D_Dark_souls
                 position.X -= 10;
                 if (isDodging == false)
                 {
-                    Animation(gametime, sprites);
+                    Animation(gametime, sprites2);
                 }
                 if (state.IsKeyDown(Keys.Up) && isGrounded == false)
                 {
