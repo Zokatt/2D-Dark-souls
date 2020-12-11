@@ -12,7 +12,6 @@ namespace _2D_Dark_souls
     public class Player : GameObject
     {
         public int lastHp;
-        private int speed;
         private SoundEffect hitEffect;
         private Texture2D collisionTexture;
         private Texture2D attackSprite;
@@ -22,8 +21,6 @@ namespace _2D_Dark_souls
         private Texture2D DodgeRight;
         private Texture2D DodgeLeft;
         private Vector2 gravity = new Vector2(0, 0);
-        private Vector2 velocity = new Vector2(0, 0);
-        private Texture2D[] animation;
         private Texture2D[] sprites2;
         public bool isDodging;
         public bool isGrounded = false;
@@ -32,7 +29,6 @@ namespace _2D_Dark_souls
         private float dodgeTimer;
         private float jumpTimer;
         public static int dmg = 10;
-        private bool idle;
         public List<AttackBox> attacks;
         public List<AttackBox> nAttacks;
         public List<AttackBox> dAttack;
