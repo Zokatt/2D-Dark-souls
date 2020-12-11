@@ -21,10 +21,12 @@ namespace _2D_Dark_souls
         private Texture2D spriteJump;
         private Texture2D DodgeRight;
         private Texture2D DodgeLeft;
-        private Vector2 gravity = new Vector2(0, 0);
-        private Vector2 velocity = new Vector2(0, 0);
+        private Texture2D staminaBar;
+        private Texture2D hpBar;
         private Texture2D[] animation;
         private Texture2D[] sprites2;
+        private Vector2 gravity = new Vector2(0, 0);
+        private Vector2 velocity = new Vector2(0, 0);
         public bool isDodging;
         public bool isGrounded = false;
         private bool buttonPress = false;
@@ -46,7 +48,6 @@ namespace _2D_Dark_souls
         private float cooldownTime = 2;
         private bool walkOff;
         private int direction = 2;
-        private Texture2D hpBar;
         private float maxHp;
         private float healthPercentage;
         private float visibleWidth;
@@ -55,7 +56,6 @@ namespace _2D_Dark_souls
         public float xp = 0;
         private SpriteFont playerLevel;
         private SoundEffect LevelUpSound;
-        private Texture2D staminaBar;
         private float maxStamina;
         private float staminaPercentage;
         private float visibleStaminaWidth;
@@ -80,12 +80,17 @@ namespace _2D_Dark_souls
         {
             KeyboardState state = Keyboard.GetState();
             sprite = contentManager.Load<Texture2D>("CoolJimmy");
+            spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
+            spriteJump = contentManager.Load<Texture2D>("JimmyJump");
+
             collisionTexture = contentManager.Load<Texture2D>("Pixel");
+
             attackSprite = contentManager.Load<Texture2D>("AttackEffects");
-            hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
             DodgeRight = contentManager.Load<Texture2D>("RollRightSide");
             DodgeLeft = contentManager.Load<Texture2D>("RollLeftSide");
-            LevelUpSound = contentManager.Load<SoundEffect>("LevelUp");
+
+            
+
             sprites = new Texture2D[8];
             sprites2 = new Texture2D[8];
             for (int i = 0; i < sprites.Length; i++)
@@ -96,13 +101,16 @@ namespace _2D_Dark_souls
             {
                 sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "WalkLeft");
             }
-            spriteJump = contentManager.Load<Texture2D>("JimmyJump");
-            spriteIdle = contentManager.Load<Texture2D>("CoolJimmy");
-            spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
+
+            
+            
+            //spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
             hpBar = contentManager.Load<Texture2D>("HpBar");
             staminaBar = contentManager.Load<Texture2D>("HpBar");
-            attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
             playerLevel = contentManager.Load<SpriteFont>("Score");
+            attackSound = contentManager.Load<SoundEffect>("PlayerAttack");
+            LevelUpSound = contentManager.Load<SoundEffect>("LevelUp");
+            hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
         }
 
         private void HandleInput(GameTime gametime)
