@@ -161,11 +161,11 @@ namespace _2D_Dark_souls
                     dmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                     if (dmgTimer >= 0.3f)
                     {
-                        if (healthPercentage >=0.3f)
+                        if (healthPercentage >= 0.3f)
                         {
                             color = Color.White;
                         }
-                        else if (healthPercentage <=0.3f)
+                        else if (healthPercentage <= 0.3f)
                         {
                             color = Color.Gold;
                         }
@@ -184,7 +184,7 @@ namespace _2D_Dark_souls
                     {
                         sprite = tiredRigh;
                     }
-                    if (healthPercentage >=0.3f)
+                    if (healthPercentage >= 0.3f)
                     {
                         if (tiredTimer >= 2)
                         {
@@ -192,7 +192,7 @@ namespace _2D_Dark_souls
                             aAnimation = 0;
                         }
                     }
-                    else if (healthPercentage <=0.3f)
+                    else if (healthPercentage <= 0.3f)
                     {
                         if (tiredTimer >= 1)
                         {
@@ -208,7 +208,7 @@ namespace _2D_Dark_souls
                     {
                         MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                     }
-                    else if (healthPercentage <=0.3f)
+                    else if (healthPercentage <= 0.3f)
                     {
                         MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds * 2;
                     }
