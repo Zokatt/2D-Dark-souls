@@ -13,6 +13,7 @@ namespace _2D_Dark_souls
         private int _spriteWidth;
         private int _spriteHeight;
 
+        //Construtor for floor
         public Enviroment(string sprite, Vector2 position, int stretch)
         {
             this._spriteWidth = stretch;
@@ -21,6 +22,7 @@ namespace _2D_Dark_souls
             _spriteHeight = 100;
         }
 
+        //Construtor for wall
         public Enviroment(Vector2 position, int hight)
         {
             this.position = position;
@@ -35,13 +37,17 @@ namespace _2D_Dark_souls
             sprite = contentManager.Load<Texture2D>(chosenSprite);
         }
 
-        public override void OnCollision(GameObject other)
-        {
-        }
-
         public override void Update(GameTime gametime)
         {
         }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(sprite,
+                new Rectangle((int)position.X, (int)position.Y, _spriteWidth, _spriteHeight),
+                new Rectangle(1, 1, sprite.Width, sprite.Height), color);
+        }
+
 
         public override Rectangle Collision
         {
@@ -56,11 +62,9 @@ namespace _2D_Dark_souls
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void OnCollision(GameObject other)
         {
-            spriteBatch.Draw(sprite,
-                new Rectangle((int)position.X, (int)position.Y, _spriteWidth, _spriteHeight),
-                new Rectangle(1, 1, sprite.Width, sprite.Height), color);
         }
+
     }
 }

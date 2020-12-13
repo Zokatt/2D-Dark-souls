@@ -27,7 +27,6 @@ namespace _2D_Dark_souls
         private float animationTimer;
         private float tiredTimer;
         private int aAnimation;
-        private float scale = 1;
         private bool attacking;
         private bool idleCheck = true;
         private float smashTimer;
@@ -58,7 +57,7 @@ namespace _2D_Dark_souls
             this.hp = hp;
             attacks = new List<AttackBox>();
             dAttacks = new List<AttackBox>();
-            this.lastHP = 1000;
+            this.lastHP = 1500;
             currentHP = this.lastHP;
             maxHp = this.lastHP;
             dmg = 3;
@@ -94,7 +93,7 @@ namespace _2D_Dark_souls
             get
             {
                 return new Rectangle(
-                    (int)position.X, (int)position.Y, (int)(sprite.Height * scale), (int)(sprite.Width * scale));
+                    (int)position.X, (int)position.Y, (int)(sprite.Height * 1), (int)(sprite.Width * 1));
             }
         }
 
