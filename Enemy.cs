@@ -92,6 +92,7 @@ namespace _2D_Dark_souls
             }
         }
 
+        //Enemy collsionbox sam kan ændres på når man instantiere enemy.
         public override Rectangle Collision
         {
             get
@@ -148,7 +149,7 @@ namespace _2D_Dark_souls
 
             if (lastHP <= 0)
             {
-                GameWorld.Destroy(this,5);
+                GameWorld.Destroy(this, 5);
             }
 
             if (other is Enviroment)
@@ -200,7 +201,7 @@ namespace _2D_Dark_souls
                         deleteWhen = true;
                         if (attacks.Count <= 1)
                         {
-                            attacks.Add(new AttackBox(chargeSprite, new Vector2(position.X -150, position.Y), 250, 2, dmg));
+                            attacks.Add(new AttackBox(chargeSprite, new Vector2(position.X - 150, position.Y), 250, 2, dmg));
                             ChargeAttack = false;
                             this.color = Color.White;
                         }
@@ -340,6 +341,7 @@ namespace _2D_Dark_souls
 
                 new Rectangle(1, 1, sprite.Width, sprite.Height), color);
 
+            //Der tegnes tekst.
             if (takenDmg == true)
             {
                 spriteBatch.DrawString(enemyTakesDmg, Player.dmg.ToString() + "", position + offset, Color.White);
@@ -348,7 +350,7 @@ namespace _2D_Dark_souls
             {
                 spriteBatch.DrawString(enemyTakesDmg, "", position + offset, Color.White);
             }
-
+            //Der tegnes en healthbar's baggrund.
             Rectangle healthRectangle = new Rectangle((int)position.X,
                                          (int)position.Y - 50,
                                          Collision.Width,
@@ -359,7 +361,7 @@ namespace _2D_Dark_souls
             healthPercentage = ((float)currentHP / (float)maxHp);
 
             visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
-
+            //Der tegnes en healthbar's forgrund.
             healthRectangle = new Rectangle((int)position.X,
                                            (int)position.Y - 50,
                                            (int)(visibleWidth / 2),

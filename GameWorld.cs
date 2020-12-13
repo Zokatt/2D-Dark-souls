@@ -52,7 +52,7 @@ namespace _2D_Dark_souls
             greedBoss = new Boss(new Vector2(11000, -700), 100);
             platformGenerator = new Platform();
             platformGenerator.Initialize();
-            
+
             deleteObjects = new List<Enemy>();
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
@@ -67,6 +67,7 @@ namespace _2D_Dark_souls
         protected override void LoadContent()
         {
             song = Content.Load<Song>("Bloodborne");
+            //Spilles en sang
             MediaPlayer.Play(song);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -86,11 +87,9 @@ namespace _2D_Dark_souls
             {
                 item.LoadContent(this.Content);
             }
-
+            //Font
             EnemyTakesDmg = Content.Load<SpriteFont>("Score");
             // TODO: use this.Content to load your game content here
-
-            // Johnny
         }
 
         protected override void Update(GameTime gameTime)
@@ -100,10 +99,11 @@ namespace _2D_Dark_souls
 
             // TODO: Add your update logic here
 
-            if (mainPlayer.currentHP <=1)
+            if (mainPlayer.currentHP <= 1)
             {
                 Exit();
             }
+            //Der køres funktion Update og CheackCollision i klassen enemy, boss og player
             mainPlayer.Update(gameTime);
             greedBoss.Update(gameTime);
             greedBoss.SetPlayer(mainPlayer.Collision.X, mainPlayer.Collision.Y);
@@ -146,10 +146,12 @@ namespace _2D_Dark_souls
             {
                 mainPlayer.CheckCollision(attacks);
             }
+            //Et forloop bliver kørt af listen deleteObjcets, som fjerner Enemys fra en anden liste.
             foreach (Enemy go in deleteObjects)
             {
                 enemies.Remove(go);
             }
+            //Listen rydes.
             deleteObjects.Clear();
 
             if (mainPlayer.pos.X >= 10440)
@@ -165,7 +167,7 @@ namespace _2D_Dark_souls
             GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
             _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
-
+            //Collsion boxs bliver tegnet sammen med figuren.
             foreach (var item in gameObjectList)
             {
                 item.Draw(this._spriteBatch);
@@ -225,13 +227,12 @@ namespace _2D_Dark_souls
             _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
-        public void Destroy(Enemy go,int xpToPlayer)
+        //Funktion som adder Enemes til en liste for at fjerne dem fra spillet samt giver xp til spilleren
+        public void Destroy(Enemy go, int xpToPlayer)
         {
             mainPlayer.gainXP(xpToPlayer);
             deleteObjects.Add(go);
         }
-
-
 
         public Player GetPlayer()
         {
@@ -242,6 +243,7 @@ namespace _2D_Dark_souls
         {
             gameObjectList.Add(enviroment);
         }
+
         public void exitGame()
         {
             this.Exit();

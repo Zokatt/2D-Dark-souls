@@ -59,7 +59,6 @@ namespace _2D_Dark_souls
         private float visibleStaminaWidth;
         public float currentStamina;
 
-
         public Player(Vector2 position)
         {
             this.lastHp = 10;
@@ -87,8 +86,6 @@ namespace _2D_Dark_souls
             DodgeRight = contentManager.Load<Texture2D>("RollRightSide");
             DodgeLeft = contentManager.Load<Texture2D>("RollLeftSide");
 
-            
-
             sprites = new Texture2D[8];
             sprites2 = new Texture2D[8];
             for (int i = 0; i < sprites.Length; i++)
@@ -100,8 +97,6 @@ namespace _2D_Dark_souls
                 sprites2[i] = contentManager.Load<Texture2D>(i + 1 + "WalkLeft");
             }
 
-            
-            
             //spriteIdleLeft = contentManager.Load<Texture2D>("CoolJimmyLeft");
             hpBar = contentManager.Load<Texture2D>("HpBar");
             staminaBar = contentManager.Load<Texture2D>("HpBar");
@@ -122,7 +117,6 @@ namespace _2D_Dark_souls
                 isGrounded = false;
                 buttonPress = true;
                 gravity.Y = 0;
-
             }
             if (state.IsKeyUp(Keys.Up) && isGrounded == false && jumpTimer >= 0.2f)
             {
@@ -181,7 +175,7 @@ namespace _2D_Dark_souls
                 deleteWhen = true;
                 attackTimer = 0;
             }
-            if (state.IsKeyDown(Keys.E) && isDodging == false && noHoldDown == true && currentStamina >=30)
+            if (state.IsKeyDown(Keys.E) && isDodging == false && noHoldDown == true && currentStamina >= 30)
             {
                 currentStamina -= 20;
                 noHoldDown = false;
@@ -280,7 +274,7 @@ namespace _2D_Dark_souls
 
         public override void Update(GameTime gametime)
         {
-            if (currentStamina<=100)
+            if (currentStamina <= 100)
             {
                 currentStamina += 0.1f;
             }
@@ -371,33 +365,33 @@ namespace _2D_Dark_souls
             }
         }
 
-
         public override void Draw(SpriteBatch spriteBatch)
         {
+            //Der tegnet bossen hvis der har over 1 liv.
             if (currentHP > 1)
             {
                 base.Draw(spriteBatch);
                 color = Color.White;
-
+                //Der tegnes en healthbar's baggrund.
                 Rectangle healthRectangle = new Rectangle((int)position.X - 900,
                                             (int)position.Y - 450,
                                             Collision.Width * 2,
                                             hpBar.Height / 2);
 
                 spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
-
                 healthPercentage = ((float)currentHP / (float)maxHp);
 
                 visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
-
+                //Der tegnes en healthbar's forgrund.
                 healthRectangle = new Rectangle((int)position.X - 900,
                                                (int)position.Y - 450,
                                                (int)(visibleWidth / 2) * 2,
                                                hpBar.Height / 2);
 
                 spriteBatch.Draw(hpBar, healthRectangle, Color.Red);
+                //Der tegnes tekst
                 spriteBatch.DrawString(playerLevel, "Level: " + level, new Vector2(healthRectangle.X + (healthRectangle.Width / 2), healthRectangle.Y - healthRectangle.Height), Color.Wheat);
-
+                //Der tegnes en healthbar's baggrund.
                 Rectangle staminaRectangle = new Rectangle((int)position.X - 900,
                                            (int)position.Y - 350,
                                            (int)(Collision.Width * 1.5f),
@@ -408,7 +402,7 @@ namespace _2D_Dark_souls
                 staminaPercentage = ((float)currentStamina / (float)maxStamina);
 
                 visibleStaminaWidth = (float)(Collision.Width * 2) * (float)staminaPercentage;
-
+                //Der tegnes en healthbar's forgrund.
                 staminaRectangle = new Rectangle((int)position.X - 900,
                                                (int)position.Y - 350,
                                                (int)(visibleStaminaWidth / 2.5f) * 2,
@@ -416,7 +410,6 @@ namespace _2D_Dark_souls
 
                 spriteBatch.Draw(staminaBar, staminaRectangle, Color.DarkGreen);
             }
-
         }
 
         public void DestroyItem(AttackBox item)
@@ -445,6 +438,7 @@ namespace _2D_Dark_souls
                 this.position.X += 40;
             }
         }
+
         public void gainXP(int howMuch)
         {
             xp += howMuch;

@@ -23,18 +23,18 @@ namespace _2D_Dark_souls
         private float timeElapsed;
         private int currentIndex;
 
-
         public Vector2 pos
         {
             get { return this.position; }
         }
 
+        //Collsionboks
         public virtual Rectangle Collision
         {
             get
             {
                 return new Rectangle(
-                       (int)position.X+offsetX,
+                       (int)position.X + offsetX,
                        (int)position.Y,
                        (int)sprite.Width,
                        (int)sprite.Height + offsetY
@@ -50,8 +50,6 @@ namespace _2D_Dark_souls
         {
             spriteBatch.Draw(sprite, position, null, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
-
-
 
         //Abstrakt void med hvis funktion er at nedarve og anvende.
         public abstract void OnCollision(GameObject other);
@@ -89,6 +87,5 @@ namespace _2D_Dark_souls
                 currentIndex = 0;
             }
         }
-
     }
 }

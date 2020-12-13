@@ -11,15 +11,18 @@ namespace _2D_Dark_souls
     {
         //private string chosenSprite;
         private int _spriteWidth;
+
         public static int ID; //use this to determine who spawned this, 1 for player, 2 for enemy
+
         public int setID
         {
             get { return ID; }
             set { ID = value; }
         }
+
         public int damage;
 
-        public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch,int idNumber, int damage)
+        public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch, int idNumber, int damage)
         {
             _spriteWidth = stretch;
             sprite = chosenSprite;
@@ -41,6 +44,7 @@ namespace _2D_Dark_souls
         {
         }
 
+        //Collisionboks bliver overskrevet.
         public override Rectangle Collision
         {
             get

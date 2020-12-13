@@ -43,6 +43,7 @@ namespace _2D_Dark_souls
         private int onlyTakeDamageOnce;
         public static int dmg = 100;
         private SpriteFont enemyName;
+        private float scale = 1;
 
         public float lastHP;
         private Texture2D hpBar;
@@ -51,6 +52,7 @@ namespace _2D_Dark_souls
         private float healthPercentage;
         private float visibleWidth;
 
+        //Construkter for boss
         public Boss(Vector2 position, int hp)
         {
             this.position = position;
@@ -84,19 +86,21 @@ namespace _2D_Dark_souls
             tiredRigh = contentManager.Load<Texture2D>("GreedRightTired");
             attackSprite = contentManager.Load<Texture2D>("BossMainAttackBox");
             hitEffect = contentManager.Load<SoundEffect>("PlayerGotHit");
-
             sprite = idle;
         }
 
+        //Collision boks bliver overskrevet
         public override Rectangle Collision
         {
             get
             {
                 return new Rectangle(
-                    (int)position.X, (int)position.Y, (int)(sprite.Height * 1), (int)(sprite.Width * 1));
+                    (int)position.X, (int)position.Y, (int)(sprite.Height * scale), (int)(sprite.Width * scale));
             }
         }
 
+        //Funktionen OnCollision bliver overskrevet.
+        //Funktionen bliver brugt når der sker en kollision med en anden gameobject.
         public override void OnCollision(GameObject other)
         {
             if (other is Player && MainAttackTimer >= 2 && phase == 2)
@@ -268,23 +272,27 @@ namespace _2D_Dark_souls
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            //Der tegnet bossen hvis der har over 1 liv.
+
             if (currentHP > 1)
             {
                 base.Draw(spriteBatch);
                 if (activator)
                 {
+                    //Der tegnes en healthbar's baggrund.
                     Rectangle healthRectangle = new Rectangle((int)playerPositionX - 450,
                                      (int)playerPositionY + 450,
                                      Collision.Width,
                                      hpBar.Height / 2);
 
                     spriteBatch.Draw(hpBar, healthRectangle, Color.Black);
+                    //Der tegnes tekst.
                     spriteBatch.DrawString(enemyName, "Greed", new Vector2(healthRectangle.X + (healthRectangle.Width / 2), healthRectangle.Y - healthRectangle.Height), Color.Wheat);
 
                     healthPercentage = ((float)currentHP / (float)maxHp);
 
                     visibleWidth = (float)(Collision.Width * 2) * (float)healthPercentage;
-
+                    //Der tegnes en healthbar's forgrund.
                     healthRectangle = new Rectangle((int)playerPositionX - 450,
                                                    (int)playerPositionY + 450,
                                                    (int)(visibleWidth / 2),

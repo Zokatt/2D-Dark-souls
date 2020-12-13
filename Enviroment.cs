@@ -31,7 +31,6 @@ namespace _2D_Dark_souls
             chosenSprite = "StoneGround";
         }
 
-
         public override void LoadContent(ContentManager contentManager)
         {
             sprite = contentManager.Load<Texture2D>(chosenSprite);
@@ -48,7 +47,7 @@ namespace _2D_Dark_souls
                 new Rectangle(1, 1, sprite.Width, sprite.Height), color);
         }
 
-
+        //Collionbox bliver overskrevet.
         public override Rectangle Collision
         {
             get
@@ -65,6 +64,5 @@ namespace _2D_Dark_souls
         public override void OnCollision(GameObject other)
         {
         }
-
     }
 }
