@@ -27,6 +27,7 @@ namespace _2D_Dark_souls
         public static SoundEffect attackSound;
         public static SoundEffect playerGotHit;
         private Texture2D backgroundMountain;
+        private Texture2D backgroundMountainCloud;
         private Song song;
 
         private List<AttackBox> drawBoxes;
@@ -74,6 +75,7 @@ namespace _2D_Dark_souls
 
             collisionTexture = Content.Load<Texture2D>("Pixel");
             backgroundMountain = Content.Load<Texture2D>("GreyWall");
+            backgroundMountainCloud = Content.Load<Texture2D>("BackgroundMountainCloud");
 
             foreach (var item in gameObjectList)
             {
@@ -166,7 +168,16 @@ namespace _2D_Dark_souls
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
-            _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            if (greedBoss.activator == false)
+            {
+
+                _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            }
+            if (greedBoss.activator == true)
+            {
+
+                _spriteBatch.Draw(backgroundMountainCloud, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
+            }
             //Collsion boxs bliver tegnet sammen med figuren.
             foreach (var item in gameObjectList)
             {
