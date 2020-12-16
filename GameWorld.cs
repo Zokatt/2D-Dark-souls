@@ -73,8 +73,11 @@ namespace _2D_Dark_souls
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Tilføjer sprite for collisionboxen
             collisionTexture = Content.Load<Texture2D>("Pixel");
+            //Tilføjer sprite for baggrunden
             backgroundMountain = Content.Load<Texture2D>("GreyWall");
+            //Tilføjer sprite for nr. 2 baggrund, som skifter ved bossen
             backgroundMountainCloud = Content.Load<Texture2D>("BackgroundMountainCloud");
 
             foreach (var item in gameObjectList)
