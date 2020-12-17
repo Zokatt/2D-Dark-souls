@@ -20,14 +20,14 @@ namespace _2D_Dark_souls
             set { ID = value; }
         }
 
-        public int damage;
+        public int damage; //hvor meget skade denne attackbox gør
 
-        public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch, int idNumber, int damage)
+        public AttackBox(Texture2D chosenSprite, Vector2 position, int stretch, int idNumber, int damage)//construktoren for attaxkboxen
         {
-            _spriteWidth = stretch;
+            _spriteWidth = stretch; //hvis man selv vil bestemme hvor bred attack boxen skal være
             sprite = chosenSprite;
             this.position = position;
-            this.setID = idNumber;
+            this.setID = idNumber; //dette er hvem der laver boxen
             this.damage = damage;
         }
 
@@ -58,7 +58,7 @@ namespace _2D_Dark_souls
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)//draw for attack boxen, den brede og vidé er spritens, så kan man eventuelt lave en tom sprite, og selv bestemme hvor stor den være
         {
             spriteBatch.Draw(sprite,
                 new Rectangle((int)position.X, (int)position.Y, _spriteWidth, sprite.Height),

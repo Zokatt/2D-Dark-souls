@@ -92,7 +92,7 @@ namespace _2D_Dark_souls
             }
         }
 
-        //Enemy collsionbox sam kan ændres på når man instantiere enemy.
+        //Enemy collsionbox som kan ændres på når man instantiere enemy.
         public override Rectangle Collision
         {
             get
@@ -126,12 +126,12 @@ namespace _2D_Dark_souls
             }
         }
 
-        public override void OnCollision(GameObject other)
+        public override void OnCollision(GameObject other)//ting der sker når enemy kolidere med andre ting
         {
             if (other is Player)
             {
             }
-            if (other is AttackBox && timer > cooldownTime && AttackBox.ID == 1)
+            if (other is AttackBox && timer > cooldownTime && AttackBox.ID == 1) //hvis enemy bliver ramt med en attack som har den id spillerens angreb vil have
             {
                 this.color = Color.Red;
                 if (other.pos.X > this.pos.X)
@@ -144,62 +144,62 @@ namespace _2D_Dark_souls
                 }
                 hitEffect.Play();
                 currentHP -= Player.dmg;
-                timer = 0;
+                timer = 0; //timer til at sætte farven tilbage til normal
             }
 
-            if (lastHP <= 0)
+            if (lastHP <= 0) //for at fjerne enemy hvis den har 0 eller mindre liv, og på samme tid give spilleren 5 xp
             {
                 GameWorld.Destroy(this, 5);
             }
 
-            if (other is Enviroment)
+            if (other is Enviroment) //sådan at enemy kan stå oven på en platform
             {
                 if (other.pos.Y > position.Y)
                 {
                     position.Y = other.Collision.Top - Collision.Height;
                 }
-                velocity.Y = 0;
+                velocity.Y = 0; 
             }
         }
 
-        public void SetPlayer(int playerX)
+        public void SetPlayer(int playerX) //sætter playerens x position
         {
             this.playerPositionX = playerX;
         }
 
         public override void Update(GameTime gametime)
         {
-            if (currentHP <= 20 && ChargeTimer >= 1.0f && chargeCounter == 1)
+            if (currentHP <= 40 && ChargeTimer >= 1.0f && chargeCounter == 1) //sådan at enemy kan charge igen, kune hvis den har gjort det 1 gang
             {
                 ChargeTimer = 0;
             }
-            if (currentHP <= 80 && ChargeTimer < 1.0f || currentHP <= 40 && ChargeTimer < 1.0f)
+            if (currentHP <= 80 && ChargeTimer < 1.0f || currentHP <= 40 && ChargeTimer < 1.0f) //charge angreb for enemy
             {
                 if (currentHP >= 41)
                 {
-                    chargeCounter = 1;
+                    chargeCounter = 1; //for at enemy ikke bliver ved med at charge spilleren
                 }
                 else if (currentHP <= 40)
                 {
-                    chargeCounter = 2;
+                    chargeCounter = 2; 
                 }
-                this.color = Color.Gold;
+                this.color = Color.Gold; //feedback til spilleren at enemy er igang med at charge
                 ChargeAttack = true;
                 ChargeTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             }
-            if (ChargeTimer >= 1.0f && ChargeAttack == true)
+            if (ChargeTimer >= 1.0f && ChargeAttack == true) //charge angrebet
             {
-                if (Left == true)
+                if (Left == true) //attackboxen skal spawne et sted alt efter hvilken side spilleren er på
                 {
                     if (enemyAndPlayerDistance >= 150)
                     {
-                        this.position.X -= 15;
+                        this.position.X -= 15; //gå imod spilleren hvis enemy er lang nok væk
                     }
-                    else if (enemyAndPlayerDistance <= 150)
+                    else if (enemyAndPlayerDistance <= 150) //hvis enemy er tæt nok på så lav en attaxk box
                     {
                         deleteTimer = 0;
-                        deleteWhen = true;
-                        if (attacks.Count <= 1)
+                        deleteWhen = true; // for at fjerne attaxkboxen 
+                        if (attacks.Count <= 0) //kun lav en attackbox
                         {
                             attacks.Add(new AttackBox(chargeSprite, new Vector2(position.X - 150, position.Y), 250, 2, dmg));
                             ChargeAttack = false;
@@ -207,7 +207,7 @@ namespace _2D_Dark_souls
                         }
                     }
                 }
-                if (Left == false)
+                if (Left == false) //samme som til venstre, bare omvendt
                 {
                     if (enemyAndPlayerDistance <= -150)
                     {
@@ -226,7 +226,7 @@ namespace _2D_Dark_souls
                     }
                 }
             }
-            if (deleteWhen == true)
+            if (deleteWhen == true) //timeren til a slette attackboxen
             {
                 deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
             }
@@ -238,7 +238,7 @@ namespace _2D_Dark_souls
                 }
                 deleteWhen = false;
             }
-            if (currentHP != lastHP)
+            if (currentHP != lastHP) //opdatere livet hvis en enemy tager skade
             {
                 takenDmgTimer = gametime.TotalGameTime.TotalSeconds;
                 takenDmg = true;
@@ -247,23 +247,23 @@ namespace _2D_Dark_souls
 
             if (takenDmg && gametime.TotalGameTime.TotalSeconds > takenDmgTimer + 0.5f)
             {
-                this.color = Color.White;
+                this.color = Color.White; //enemy farve tilbage til normal efter de har taget skade
                 takenDmg = false;
             }
 
             if (timer < cooldownTime + 1)
                 timer += (float)gametime.ElapsedGameTime.TotalSeconds;
 
-            if (exitCollision == true)
+            if (exitCollision == true) //hvis enemy går ud over en kant, så skal den falde ned
             {
                 this.velocity.Y += 0.1f;
             }
             this.position.Y += velocity.Y;
-            enemyAndPlayerDistance = position.X - playerPositionX;
+            enemyAndPlayerDistance = position.X - playerPositionX; //afstanden mellem spilleren og enemy
 
             if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance > -500 && enemyAndPlayerDistance <= 0)
             {
-                AiMovement();
+                AiMovement(); //hvis spilleren er tæt nok på enemy, og lang nok væk. så skal movement køre, og en side skal vælges
                 if (enemyAndPlayerDistance <= 500 && enemyAndPlayerDistance >= 0 && Attacking == false)
                 {
                     Left = true;
@@ -275,43 +275,43 @@ namespace _2D_Dark_souls
             }
             if (enemyAndPlayerDistance <= 300 && enemyAndPlayerDistance >= 0 || enemyAndPlayerDistance >= -300 && enemyAndPlayerDistance <= 0)
             {
-                Attacking = true;
+                Attacking = true; //hvis spilleren er tæt nok på, så skal enemy angribe
             }
 
-            if (Attacking == true && ChargeAttack == false)
+            if (Attacking == true && ChargeAttack == false) //hvis enemy ikke allerede er igeng med at charge så skal enemy angribe
             {
-                animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (animationTimer > 0.3f && cAnimation < 3)
+                animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds; 
+                if (animationTimer > 0.3f && cAnimation < 3) //skifter animation hver 0.3 sekunder
                 {
                     cAnimation += 1;
                     animationTimer = 0;
                 }
-                else if (animationTimer > 0.15f && cAnimation >= 3)
+                else if (animationTimer > 0.15f && cAnimation >= 3) //dette er når hammeren er på vej ned, hvilke skal gå hurtigere, så vi køre animationerne hurtigere
                 {
                     cAnimation += 1;
                     animationTimer = 0;
                 }
 
-                if (cAnimation > HammerAttack.Length)
+                if (cAnimation > HammerAttack.Length) //når den har kørt alle animationerne igennem skal den stoppe med at angribe
                 {
                     Attacking = false;
                     cAnimation = 0;
                 }
-                if (cAnimation < HammerAttack.Length)
+                if (cAnimation < HammerAttack.Length) //her sættes spriten
                 {
                     sprite = HammerAttack[cAnimation];
                 }
 
-                if (cAnimation == 4)
+                if (cAnimation == 4) //sidste sprite i animationen for at angribe, så her laves attackboxen
                 {
                     deleteTimer = 0;
-                    deleteWhen = true;
-                    if (Left == true && attacks.Count <= 1 && ChargeAttack == false)
+                    deleteWhen = true; //for at fjerne angrebet
+                    if (Left == true && attacks.Count <= 0 && ChargeAttack == false) //lav angrebet alt efter hvilket side spilleren er på, og kun lav 1
                     {
-                        position.X -= 15;
+                        position.X -= 15; //enmy bevæger sig selv når de angriber
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + -200, position.Y + 100), 200, 2, dmg));
                     }
-                    else if (Left == false && attacks.Count <= 1 && ChargeAttack == false)
+                    else if (Left == false && attacks.Count <= 0 && ChargeAttack == false)
                     {
                         position.X += 15;
                         attacks.Add(new AttackBox(attackSprite, new Vector2(position.X + 300, position.Y + 100), 200, 2, dmg));
@@ -320,11 +320,11 @@ namespace _2D_Dark_souls
             }
             else
             {
-                sprite = idle;
+                sprite = idle; //idle spriten
             }
-            if (dAttack != null)
+            if (dAttack != null) //for ikke at få en null error
             {
-                if (dAttack.Count > 0)
+                if (dAttack.Count > 0) //hvis der er nogle angreb i listen så fjern dem fra spillet
                 {
                     foreach (var item in dAttack)
                     {
@@ -380,12 +380,12 @@ namespace _2D_Dark_souls
 
         public List<AttackBox> GetList()
         {
-            return attacks;
+            return attacks; //for at få fat i enemy angreb
         }
 
         public void DestroyItem(AttackBox item)
         {
-            dAttack.Add(item);
+            dAttack.Add(item); //for at fjerne angrebene
         }
     }
 }

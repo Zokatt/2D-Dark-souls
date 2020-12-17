@@ -33,28 +33,28 @@ namespace _2D_Dark_souls
         private List<AttackBox> drawBoxes;
         public static Rectangle screenBounds = new Rectangle(0, 0, 1600, 900);
 
-        public GameWorld()
+        public GameWorld()//construktoren for gameworld
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            _graphics.PreferredBackBufferWidth = screenBounds.Width;
-            _graphics.PreferredBackBufferHeight = screenBounds.Height;
+            _graphics.PreferredBackBufferWidth = screenBounds.Width; //skærmens bredde
+            _graphics.PreferredBackBufferHeight = screenBounds.Height; //skærmens højde
         }
 
-        protected override void Initialize()
+        protected override void Initialize() //det førse der sker når spillets åbnes
         {
             // TODO: Add your initialization logic here
-            gameObjectList = new List<GameObject>();
-            mainPlayer = new Player(new Vector2(0, 0));
+            gameObjectList = new List<GameObject>(); //lisen med alle gameobjects, undtagen spilleren og bossen
+            mainPlayer = new Player(new Vector2(0, 0)); //spilleren
             Camera = new List<Camera>();
-            MainCamera = new Camera(mainPlayer);
-            greedBoss = new Boss(new Vector2(11000, -700), 100);
+            MainCamera = new Camera(mainPlayer); //cameraet, men spilleren som midtpunkt
+            greedBoss = new Boss(new Vector2(11000, -700), 100); //bossen
             platformGenerator = new Platform();
-            platformGenerator.Initialize();
+            platformGenerator.Initialize(); //dette generare hele levelet
 
-            deleteObjects = new List<Enemy>();
+            deleteObjects = new List<Enemy>(); //dette er til for at fjerne en enemy hvis de dør
             //Tilføjet en liste med enemies
             enemies = new List<Enemy>();
             enemies.Add(new Enemy(new Vector2(5460, -775), 300, 3));
@@ -65,21 +65,21 @@ namespace _2D_Dark_souls
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent()//load alt content her
         {
-            song = Content.Load<Song>("Bloodborne");
+            song = Content.Load<Song>("Bloodborne"); //baggrunds sangen
             //Spilles en sang
             MediaPlayer.Play(song);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            collisionTexture = Content.Load<Texture2D>("Pixel");
-            backgroundMountain = Content.Load<Texture2D>("GreyWall");
-            backgroundMountainCloud = Content.Load<Texture2D>("BackgroundMountainCloud");
+            collisionTexture = Content.Load<Texture2D>("Pixel"); //en 1x1 pixel til at tegne collisionboxen med
+            backgroundMountain = Content.Load<Texture2D>("GreyWall"); //baggrunden
+            backgroundMountainCloud = Content.Load<Texture2D>("BackgroundMountainCloud");//baggrunden for boss rummet
 
             foreach (var item in gameObjectList)
             {
-                item.LoadContent(this.Content);
+                item.LoadContent(this.Content); //load content for alt gameobjects i listen
             }
 
             mainPlayer.LoadContent(this.Content);
@@ -90,7 +90,7 @@ namespace _2D_Dark_souls
                 item.LoadContent(this.Content);
             }
             //Font
-            EnemyTakesDmg = Content.Load<SpriteFont>("Score");
+            EnemyTakesDmg = Content.Load<SpriteFont>("Score"); //dette er sådan spilleren kan se hvor meget skade de gør
             // TODO: use this.Content to load your game content here
         }
 
@@ -101,21 +101,21 @@ namespace _2D_Dark_souls
 
             // TODO: Add your update logic here
 
-            if (mainPlayer.currentHP <= 1)
+            if (mainPlayer.currentHP <= 1) //hvis spilleren dør så luk spillet
             {
                 Exit();
             }
             //Der køres funktion Update og CheackCollision i klassen enemy, boss og player
             mainPlayer.Update(gameTime);
             greedBoss.Update(gameTime);
-            greedBoss.SetPlayer(mainPlayer.Collision.X, mainPlayer.Collision.Y);
-            greedBoss.CheckCollision(mainPlayer);
+            greedBoss.SetPlayer(mainPlayer.Collision.X, mainPlayer.Collision.Y); //sådan at bossen ved spilleren position
+            greedBoss.CheckCollision(mainPlayer); //bossen checker om den kolidere med spilleren
             mainPlayer.CheckCollision(greedBoss);
             foreach (var attackitem in mainPlayer.attacks)
             {
-                greedBoss.CheckCollision(attackitem);
+                greedBoss.CheckCollision(attackitem); //check collision for spillerens angreb, om de rammer bossen
             }
-            foreach (var item in gameObjectList)
+            foreach (var item in gameObjectList)//checker om de forskellige ting gameobjekter kolidere med en platform
             {
                 item.Update(gameTime);
                 mainPlayer.CheckCollision(item);
@@ -127,26 +127,26 @@ namespace _2D_Dark_souls
             }
 
             MainCamera.Update(gameTime);
-            foreach (var item in enemies)
+            foreach (var item in enemies)//dette opdater og checker collision for alle enemies
             {
                 item.Update(gameTime);
-                item.SetPlayer(mainPlayer.Collision.X);
+                item.SetPlayer(mainPlayer.Collision.X); //sætter spillerens position for alle enemies så de ved hvor spilleren er
                 foreach (var attackitem in mainPlayer.attacks)
                 {
-                    item.CheckCollision(attackitem);
+                    item.CheckCollision(attackitem); // checker collision for alle enemies på spillerens angreb
                 }
                 item.CheckCollision(mainPlayer);
-                mainPlayer.CheckCollision(item);
-                enemyAttacks = item.GetList();
+                mainPlayer.CheckCollision(item); //spilleren og enemies checker collision for hinanden
+                enemyAttacks = item.GetList(); //får fat på alle enemy angreb
                 foreach (var attacks in enemyAttacks)
                 {
-                    mainPlayer.CheckCollision(attacks);
+                    mainPlayer.CheckCollision(attacks); //checker collision for enemy angreb på spilleren
                 }
             }
-            enemyAttacks = greedBoss.GetList();
+            enemyAttacks = greedBoss.GetList(); //får fat på bossens angreb
             foreach (var attacks in enemyAttacks)
             {
-                mainPlayer.CheckCollision(attacks);
+                mainPlayer.CheckCollision(attacks);  //checker collision for bossens angreb på spilleren
             }
             //Et forloop bliver kørt af listen deleteObjcets, som fjerner Enemys fra en anden liste.
             foreach (Enemy go in deleteObjects)
@@ -156,7 +156,7 @@ namespace _2D_Dark_souls
             //Listen rydes.
             deleteObjects.Clear();
 
-            if (mainPlayer.pos.X >= 10440)
+            if (mainPlayer.pos.X >= 10440) //aktiver bossens hvis spilleren er langt nok til højre
             {
                 greedBoss.activator = true;
             }
@@ -167,8 +167,8 @@ namespace _2D_Dark_souls
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
-            _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix);
-            if (greedBoss.activator == false)
+            _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix); //spritebatchen begynder med cameraet som centrum
+            if (greedBoss.activator == false) //hvis ikke bossen er aktiveren skal den tegene en anden baggrund
             {
 
                 _spriteBatch.Draw(backgroundMountain, new Rectangle((int)mainPlayer.pos.X - (backgroundMountain.Width / 2), (int)mainPlayer.pos.Y - (backgroundMountain.Height / 2) + 50, backgroundMountain.Width, backgroundMountain.Height), Color.White);
@@ -224,7 +224,7 @@ namespace _2D_Dark_souls
             base.Draw(gameTime);
         }
 
-        private void DrawCollisionBox(GameObject go)
+        private void DrawCollisionBox(GameObject go)//for at tegne collision boxen
         {
             //Der laves en streg med tykkelsen 1 for hver side af Collision.
             Rectangle topLine = new Rectangle(go.Collision.X, go.Collision.Y, go.Collision.Width, 1);
@@ -247,15 +247,15 @@ namespace _2D_Dark_souls
 
         public Player GetPlayer()
         {
-            return (mainPlayer);
+            return (mainPlayer); //hvis man vil have fat i spilleren
         }
 
         public static void AddToList(Enviroment enviroment)
         {
-            gameObjectList.Add(enviroment);
+            gameObjectList.Add(enviroment); //dette adder en flatform til gameobjects, i stedet for at manuelt skrive det hver gang
         }
 
-        public void exitGame()
+        public void exitGame() //lukker spillet
         {
             this.Exit();
         }

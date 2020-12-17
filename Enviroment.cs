@@ -14,7 +14,7 @@ namespace _2D_Dark_souls
         private int _spriteHeight;
 
         //Construtor for floor
-        public Enviroment(string sprite, Vector2 position, int stretch)
+        public Enviroment(string sprite, Vector2 position, int stretch) //construktoren hvor man selv kan vælge sprite
         {
             this._spriteWidth = stretch;
             this.chosenSprite = sprite;
@@ -23,7 +23,7 @@ namespace _2D_Dark_souls
         }
 
         //Construtor for wall
-        public Enviroment(Vector2 position, int hight)
+        public Enviroment(Vector2 position, int hight) //construktoren for en stoneground platform
         {
             this.position = position;
             this._spriteHeight = hight;

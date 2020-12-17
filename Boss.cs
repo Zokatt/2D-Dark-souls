@@ -103,28 +103,28 @@ namespace _2D_Dark_souls
         //Funktionen bliver brugt når der sker en kollision med en anden gameobject.
         public override void OnCollision(GameObject other)
         {
-            if (other is Player && MainAttackTimer >= 2 && phase == 2)
+            if (other is Player && MainAttackTimer >= 2 && phase == 2) //hvis bossen er igen med at charge spilleren så skift til at angribe
             {
                 phase = 3;
             }
-            if (other is AttackBox)
+            if (other is AttackBox) //dette blev brugt til debugging
             {
                 this.color = Color.Red;
             }
-            if (other is AttackBox && AttackBox.ID == 1 && onlyTakeDamageOnce == 0)
+            if (other is AttackBox && AttackBox.ID == 1 && onlyTakeDamageOnce == 0) //kun tage skade hvis attack boxen er fra spilleren(ID==1),sådan at den ikke skader sig selv
             {
                 this.color = Color.Red;
                 hitEffect.Play();
-                tknDamage = true;
+                tknDamage = true; //dette til at sæt farven tilbage til normal
                 dmgTimer = 0;
-                onlyTakeDamageOnce = 1;
+                onlyTakeDamageOnce = 1; //sådan at bossen ikke bliver ramt flere gange af spilleren, eftersom at attack boxen ikke bliver fjernes med det samme
                 currentHP -= Player.dmg;
             }
         }
 
-        public void BossAI(GameTime gameTime)
+        public void BossAI(GameTime gameTime) //Boss movement
         {
-            if (left == true)
+            if (left == true)//hvis den skal til venstre
             {
                 if (phase == 2)
                 {
@@ -148,18 +148,18 @@ namespace _2D_Dark_souls
             }
         }
 
-        public void SetPlayer(int playerX, int playerY)
+        public void SetPlayer(int playerX, int playerY)//dette er for at få fat på spillerens positioner, kald den i gameworld
         {
             this.playerPositionX = playerX;
             this.playerPositionY = playerY;
         }
 
-        public override void Update(GameTime gametime)
+        public override void Update(GameTime gametime)//update for boss
         {
-            if (activator == true)
+            if (activator == true) //bossen skal kun aktivares hvis spilleren er tæt nok på, sæt den til true i gameworld
             {
-                enemyAndPlayerDistance = position.X - playerPositionX;
-                if (tknDamage == true)
+                enemyAndPlayerDistance = position.X - playerPositionX; //dette er hvor langt spilleren er væk fra bossem
+                if (tknDamage == true)//dette bruges til at skifte farven tilbage til normal når bossen har taget damage
                 {
                     dmgTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                     if (dmgTimer >= 0.3f)
@@ -176,10 +176,10 @@ namespace _2D_Dark_souls
                         onlyTakeDamageOnce = 0;
                     }
                 }
-                if (phase == 4)
+                if (phase == 4) //dette er efer bossen her slået, så den er bliver, sådan at spilleren har mulighed forat slå bossen
                 {
                     tiredTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                    if (left == true)
+                    if (left == true) //den skal vælge sprite alt efer hvilken retning bossen løb i
                     {
                         sprite = tiredLeft;
                     }
@@ -187,15 +187,15 @@ namespace _2D_Dark_souls
                     {
                         sprite = tiredRigh;
                     }
-                    if (healthPercentage >= 0.3f)
+                    if (healthPercentage >= 0.3f) 
                     {
                         if (tiredTimer >= 2)
                         {
-                            phase = 1;
-                            aAnimation = 0;
+                            phase = 1; //gå tilbage til phase 1
+                            aAnimation = 0; //reset attack Animations
                         }
                     }
-                    else if (healthPercentage <= 0.3f)
+                    else if (healthPercentage <= 0.3f) //hvis bossen kommer under 30% liv, så bliver den mere aggresiv, altså mindre tiredTimer
                     {
                         if (tiredTimer >= 1)
                         {
@@ -204,46 +204,46 @@ namespace _2D_Dark_souls
                         }
                     }
                 }
-                if (phase == 1)
+                if (phase == 1) //dette er phase 1,  her står han bare stille
                 {
-                    tiredTimer = 0;
+                    tiredTimer = 0; //resetter tired timeren sådan at næste gang han går ilbage til phase 4 så er timeren på 0 far starten af igen
                     if (healthPercentage >= 0.3f)
                     {
                         MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                     }
-                    else if (healthPercentage <= 0.3f)
+                    else if (healthPercentage <= 0.3f) //hvis bossen er under 30% liv bliver den mere aggresiv, så mindre idle time
                     {
                         MainAttackTimer += (float)gametime.ElapsedGameTime.TotalSeconds * 2;
                     }
 
                     sprite = idle;
                 }
-                if (MainAttackTimer >= 2 && phase != 3)
+                if (MainAttackTimer >= 2 && phase != 3)//dette er phasen hvor bossen går efter spilleren
                 {
                     phase = 2;
-                    if (enemyAndPlayerDistance >= 1 - (sprite.Width / 2) && phase == 2)
+                    if (enemyAndPlayerDistance >= 1 - (sprite.Width / 2) && phase == 2)//hvis spilleren er til venstre
                     {
-                        sprite = sprites[0];
+                        sprite = sprites[0]; //spriten for at løbe til venstre
                         left = true;
                         BossAI(gametime);
                     }
-                    else if (enemyAndPlayerDistance <= 0 - (sprite.Width / 2) && phase == 2)
+                    else if (enemyAndPlayerDistance <= 0 - (sprite.Width / 2) && phase == 2) //hvis spilleren er til højre
                     {
-                        sprite = sprites2[0];
+                        sprite = sprites2[0];//spriten for at løbe til højre
                         left = false;
                         BossAI(gametime);
                     }
                 }
-                if (MainAttackTimer >= 2 && phase == 2)
+                if (MainAttackTimer >= 2 && phase == 2) 
                 {
                     BossAI(gametime);
                 }
-                if (phase == 3)
+                if (phase == 3) //dette er phase 3, bossen angriber nu spilleren, så derfor køres animationer og BossAI på samme tid
                 {
                     BossAI(gametime);
                     Animations(gametime);
                 }
-                if (deleteWhen == true)
+                if (deleteWhen == true)//til at fjerne attack boxen
                 {
                     deleteTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
                 }
@@ -270,10 +270,10 @@ namespace _2D_Dark_souls
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch) // draw fucktionen til bossen
         {
-            //Der tegnet bossen hvis der har over 1 liv.
-
+            //Der tegnet bossen hvis den har over 1 liv.
+           
             if (currentHP > 1)
             {
                 base.Draw(spriteBatch);
@@ -303,25 +303,25 @@ namespace _2D_Dark_souls
             }
         }
 
-        private void Animations(GameTime gametime)
+        private void Animations(GameTime gametime) // dette er animations til bossen,vil gerne have lidt mere kontrol over det så lavede en ny
         {
             if (phase == 3)
             {
                 animationTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (animationTimer > 0.2f && aAnimation <= 1)
+                if (animationTimer > 0.2f && aAnimation <= 1)//dete køre igennem animationerne
                 {
                     aAnimation += 1;
                     animationTimer = 0;
                 }
             }
-            if (aAnimation == 2 && phase == 3)
+            if (aAnimation == 2 && phase == 3)//dette er når bossen skal slå, aanimation 2 er den sidste animation i listen
             {
                 deleteTimer = 0;
-                deleteWhen = true;
-                if (left == true && attacks.Count <= 1)
+                deleteWhen = true;//for at slette attack boxen
+                if (left == true && attacks.Count <= 1) //den skal kune lave en attack box hvis der er mindre end 1, dette er til sådan at den ikke bliver ved med at lave attack boxe oven i hinanden, og for at det ikke skal lagge spillet
                 {
-                    position.X -= 15;
-                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X - 400, position.Y + 750), 800, 3, dmg));
+                    position.X -= 15; //bossen bevæger sig en lille smule når den slår
+                    attacks.Add(new AttackBox(attackSprite, new Vector2(position.X - 400, position.Y + 750), 800, 3, dmg));//laver attack boxen
                 }
                 else if (left == false && attacks.Count <= 1)
                 {
@@ -330,19 +330,19 @@ namespace _2D_Dark_souls
                 }
 
                 smashTimer += (float)gametime.ElapsedGameTime.TotalSeconds;
-                if (smashTimer >= 0.4f)
+                if (smashTimer >= 0.4f) //dette er sådan spilleren rent faktisk kan se den sidse animation, ellers hvil den bare med det samme gå videre il næste phase og det vil se akavet ud
                 {
                     aAnimation += 1;
                     animationTimer = 0;
                     smashTimer = 0;
                 }
             }
-            if (aAnimation >= sprites.Length || aAnimation >= sprites2.Length)
+            if (aAnimation >= sprites.Length || aAnimation >= sprites2.Length) //dette er først og fremmest her for ikke at få en exception, men også en god måde at gå videre til næste phase
             {
-                phase = 4;
-                MainAttackTimer = 0;
+                phase = 4; //phase 4 er hvor bossen er træt
+                MainAttackTimer = 0; //der er ikke nogen phase der bruger denne timer lige nu, så det er et godt tidspunkt at resette den på
             }
-            if (aAnimation < sprites.Length && phase == 3 || aAnimation < sprites2.Length && phase == 3)
+            if (aAnimation < sprites.Length && phase == 3 || aAnimation < sprites2.Length && phase == 3)//her sættes spriten
             {
                 if (left == true)
                 {
@@ -355,14 +355,14 @@ namespace _2D_Dark_souls
             }
         }
 
-        public List<AttackBox> GetList()
+        public List<AttackBox> GetList()//for at få fat på bossens angreb i gameworld
         {
             return attacks;
         }
 
-        public void DestroyItem(AttackBox item)
+        public void DestroyItem(AttackBox item)//dette er for at fjerne bossens angreb
         {
-            dAttacks.Add(item);
+            dAttacks.Add(item); //hvis norget bliver added til dAttacks, bliver det fjernet
         }
     }
 }
