@@ -167,7 +167,7 @@ namespace _2D_Dark_souls
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        protected override void Draw(GameTime gameTime) //her tegnes alt
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin(transformMatrix: MainCamera.TransformMatrix); //spritebatchen begynder med cameraet som centrum
@@ -241,7 +241,7 @@ namespace _2D_Dark_souls
             _spriteBatch.Draw(collisionTexture, leftLine, Color.Red);
         }
 
-        //Funktion som adder Enemes til en liste for at fjerne dem fra spillet samt giver xp til spilleren
+        //metode som adder Enemes til en liste for at fjerne dem fra spillet samt giver xp til spilleren
         public void Destroy(Enemy go, int xpToPlayer)
         {
             mainPlayer.gainXP(xpToPlayer);
